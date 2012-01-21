@@ -1,0 +1,18 @@
+Name:                hs-logo
+Version:             0.1
+License:             GPL
+Author:              Deepak Jois
+Maintainer:          deepak.jois@gmail.com
+Build-Type:          Simple
+Synopsis:            Logo interpreter written in Haskell
+
+Category:            Parser
+Cabal-Version:       >=1.6
+Data-Files:          README.md
+
+
+Executable           Logo
+  Ghc-Options:       -Wall
+  Hs-Source-Dirs:    .
+  Main-Is:           Logo.hs
+  Build-Depends:     base >=3 && < 5
