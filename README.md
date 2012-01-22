@@ -1,1 +1,1 @@
-Logo interpreter written in Haskell
+Logo interpreter written in Haskell, specialized for turtle graphics. Still very much a WIP.
