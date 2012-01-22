@@ -25,19 +25,12 @@ import Text.Parsec.Prim
 --                            | procedure-call
 --                            | '(' Expression ')'
 
-data LogoTokens = LogoTokens [LogoToken]
-
-instance (Monad m) => Stream LogoTokens m LogoToken where
-    uncons (LogoTokens [])      = return Nothing
-    uncons (LogoTokens (x:xs))  = return $ Just (x, LogoTokens xs)
 
 evaluate :: [LogoToken] -> IO ()
 evaluate tokens = do
-  case runParser expression () "(stream)" (LogoTokens tokens) of
+  case runParser expression () "(stream)" tokens of
     Right _ -> putStrLn "Error!"
     Left _  -> putStrLn "Done.."
 
-expression :: Parsec LogoTokens st ()
+expression :: Parsec [LogoToken] st ()
 expression = undefined
-
-
