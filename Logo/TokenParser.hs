@@ -1,6 +1,6 @@
-{-# LANGUAGE TypeSynonymInstances #-}
 module Logo.TokenParser where
 
+import Data.Char
 import Numeric
 import Control.Applicative
 
@@ -11,7 +11,9 @@ tokenize :: String -> Either ParseError [LogoToken]
 tokenize input = parse logo "(unknown)" input
 
 logo :: Parser [LogoToken]
-logo = sepBy atom (skipMany1 space)
+logo = do
+  skipMany space
+  sepEndBy1 atom (skipMany1 space)
 
 atom :: Parser LogoToken
 atom =  do
@@ -37,6 +39,7 @@ varLiteral = do
   v <- many alphaNum
   return $ VarLiteral (s:v)
 
+-- FIXME this is just lame! Use a *real* number parser. Also fix the unary minus problem
 numLiteral :: Parser LogoToken
 numLiteral = do
   s <- many1 (digit <|> char '.')
@@ -64,6 +67,5 @@ list :: Parser LogoToken
 list = do
   char '['
   atoms <- logo
-  spaces
   char ']'
   return $  List atoms
