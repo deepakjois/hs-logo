@@ -38,55 +38,37 @@ satisfy f =
             (\pos c _cs ->  pos)
             (\c -> if f c then Just c else Nothing)
 
-logotoken x = satisfy (==x)
+logoToken :: LogoToken -> Parsec [LogoToken] st LogoToken
+logoToken x = satisfy (==x)
+
+anyLogoToken :: Parsec [LogoToken] st LogoToken
+anyLogoToken = satisfy (const True)
 
 expression :: Parsec [LogoToken] st [String]
 expression = many1 relationalExpression
 
 relationalExpression :: Parsec [LogoToken] st String
-relationalExpression = do
-  lhs <- additiveExpression
-  parseRhs(lhs) <|> return lhs
- where
-   parseRhs lhs = do
-     opL <- choice $ map (logotoken . OperLiteral) ["<", ">", "=", "<=", ">=", "<>"]
-     let OperLiteral op  = opL
-     rhs <- additiveExpression
-     return $ eval op lhs rhs
-    where
-      eval op lhs rhs = lhs ++ op ++ rhs
+relationalExpression = parseWithOperators ["<", ">", "=", "<=", ">=", "<>"] additiveExpression
 
 additiveExpression :: Parsec [LogoToken] st String
-additiveExpression = do
-  lhs <- multiplicativeExpression
-  parseRhs(lhs) <|> return lhs
- where
-   parseRhs lhs = do
-     opL <- choice $ map (logotoken . OperLiteral) ["+", "-"]
-     let OperLiteral op = opL
-     rhs <- multiplicativeExpression
-     return $ eval op lhs rhs
-    where
-      eval op lhs rhs = lhs ++ op ++ rhs
+additiveExpression = parseWithOperators ["+", "-"] multiplicativeExpression
 
-
-multiplicativeExpression = do
-  lhs <- finalExpression
-  parseRhs(lhs) <|> return lhs
- where
-   parseRhs lhs = do
-     opL <- choice $ map (logotoken . OperLiteral) ["*", "/", "%"]
-     let OperLiteral op = opL
-     rhs <- finalExpression
-     return $ eval op lhs rhs
-    where
-      eval op lhs rhs = lhs ++ op ++ rhs
+multiplicativeExpression :: Parsec [LogoToken] st String
+multiplicativeExpression = parseWithOperators ["*", "/", "%"] finalExpression
 
 finalExpression = do
-  token <- satisfy (const True)
+  token <- anyLogoToken
   case token of
     NumLiteral n -> return $ show n
     StrLiteral s -> return s
     VarLiteral v -> return $ "var" ++ v
     Identifier s -> return  "<function dispatch>"
     _            -> return "TBD"
+
+parseWithOperators operators parser = do
+  lhs <- parser
+  option lhs $ do
+    op <- choice $ map (logoToken . OperLiteral) operators
+    rhs <- parser
+    return $ eval op lhs rhs
+   where eval o l r = "(" ++ (show l) ++ ")" ++ (show o) ++ "(" ++ (show r) ++ ")"
