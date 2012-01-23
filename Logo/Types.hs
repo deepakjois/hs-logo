@@ -7,8 +7,7 @@ data LogoToken = Identifier String -- ^ Identifier
                | NumLiteral Double -- ^ Number
                | OperLiteral String  -- ^ Operator
                | List [LogoToken] -- ^ Input definition/variable reference
-
-               deriving Show
+               deriving (Show, Eq)
 
 
 
