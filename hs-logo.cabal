@@ -1,6 +1,7 @@
 Name:                hs-logo
 Version:             0.1
-License:             GPL
+License:             BSD3
+License-File:        LICENSE
 Author:              Deepak Jois
 Maintainer:          deepak.jois@gmail.com
 Build-Type:          Simple
