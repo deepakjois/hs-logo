@@ -43,31 +43,31 @@ evaluate tokens = do
     Right s -> s
     Left e  -> error (show e)
 
-satisfy ::  (LogoToken -> Bool) -> Parsec [LogoToken] LogoContext LogoToken
+satisfy ::  (LogoToken -> Bool) -> LogoEvaluator LogoToken
 satisfy f =
   tokenPrim (\c -> show [c])
             (\pos c _cs ->  pos)
             (\c -> if f c then Just c else Nothing)
 
-logoToken :: LogoToken -> Parsec [LogoToken] LogoContext LogoToken
+logoToken :: LogoToken -> LogoEvaluator LogoToken
 logoToken x = satisfy (==x)
 
-anyLogoToken :: Parsec [LogoToken] LogoContext LogoToken
+anyLogoToken :: LogoEvaluator LogoToken
 anyLogoToken = satisfy (const True)
 
-expression :: Parsec [LogoToken] LogoContext ([String], LogoContext)
+expression :: LogoEvaluator ([String], LogoContext)
 expression = do
   tokens <- many1 relationalExpression
   state  <- getState
   return (tokens, state)
 
-relationalExpression :: Parsec [LogoToken] LogoContext String
+relationalExpression :: LogoEvaluator String
 relationalExpression = parseWithOperators ["<", ">", "=", "<=", ">=", "<>"] additiveExpression
 
-additiveExpression :: Parsec [LogoToken] LogoContext String
+additiveExpression :: LogoEvaluator String
 additiveExpression = parseWithOperators ["+", "-"] multiplicativeExpression
 
-multiplicativeExpression :: Parsec [LogoToken] LogoContext String
+multiplicativeExpression :: LogoEvaluator String
 multiplicativeExpression = parseWithOperators ["*", "/", "%"] finalExpression
 
 finalExpression = do
@@ -79,7 +79,7 @@ finalExpression = do
     Identifier s -> dispatchFn s
     _            -> return "TBD"
 
-parseWithOperators :: [String] -> Parsec [LogoToken] LogoContext String  -> Parsec [LogoToken] LogoContext String
+parseWithOperators :: [String] -> LogoEvaluator String  -> LogoEvaluator String
 parseWithOperators operators parser = do
   lhs <- parser
   option lhs $ do
@@ -88,7 +88,7 @@ parseWithOperators operators parser = do
     return $ eval op lhs rhs
    where eval o l r = "(" ++ (show l) ++ ")" ++ (show o) ++ "(" ++ (show r) ++ ")"
 
-dispatchFn :: String -> Parsec [LogoToken] LogoContext String
+dispatchFn :: String -> LogoEvaluator String
 dispatchFn fn = do
   -- get function definition
   ctx <- getState
@@ -97,12 +97,9 @@ dispatchFn fn = do
         Just x -> x
         _      -> error ("Function undefined: " ++ fn)
   -- find arity
-  let a = arity f
+  let (LogoFunctionDef a func) =  f
   -- get number of tokens
+  -- FIXME evaludate the token before getting a list of expressions
   arguments <- replicateM a anyLogoToken
   -- call function and update context
-  case runFn f of
-    B func -> do putState $ func arguments ctx
-                 return "<builtin dispatch>"
-    D func -> do func arguments
-                 return "<function dispatch>"
+  func arguments

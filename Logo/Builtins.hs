@@ -5,8 +5,8 @@ import Logo.Turtle
 
 import qualified Data.Map as M
 
-fd :: [LogoToken] -> LogoContext -> LogoContext
-fd ((NumLiteral d):[]) (LogoContext t f) = LogoContext (forward d t) f
+fd :: [LogoToken] -> LogoEvaluator String
+fd ((NumLiteral d):[]) = undefined  -- (LogoContext t f) = unLogoContext (forward d t) f
 
 builtins = M.fromList
-  [("fd", LogoFunctionDef 1 (B fd))]
+  [("fd", LogoFunctionDef 1 fd)]

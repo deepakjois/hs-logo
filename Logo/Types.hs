@@ -12,9 +12,9 @@ data LogoToken = Identifier String -- ^ Identifier
                | List [LogoToken] -- ^ Input definition/variable reference
                deriving (Show, Eq)
 
-data LogoFunction
-  = B ([LogoToken] -> LogoContext -> LogoContext) -- Builtin
-  | D ([LogoToken] -> Parsec [LogoToken] LogoContext String) -- Defined
+
+type LogoEvaluator a = Parsec [LogoToken] LogoContext a
+type LogoFunction = [LogoToken] -> LogoEvaluator String -- FIXME change definition from string to token
 
 data LogoFunctionDef = LogoFunctionDef
   { arity :: Int -- ^ Number of arguments
