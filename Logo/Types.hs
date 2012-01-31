@@ -14,7 +14,7 @@ data LogoToken = Identifier String -- ^ Identifier
 
 
 type LogoEvaluator a = Parsec [LogoToken] LogoContext a
-type LogoFunction = [LogoToken] -> LogoEvaluator String -- FIXME change definition from string to token
+type LogoFunction = [LogoToken] -> LogoEvaluator LogoToken
 
 data LogoFunctionDef = LogoFunctionDef
   { arity :: Int -- ^ Number of arguments

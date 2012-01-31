@@ -35,7 +35,7 @@ import Diagrams.Prelude
 --                            | '(' Expression ')'
 
 
-evaluate :: [LogoToken] -> ([String], LogoContext)
+evaluate :: [LogoToken] -> ([LogoToken], LogoContext)
 evaluate tokens = do
   let t = Turtle True 0 (Path [(P (0,0), Trail [] False)])
       ctx = LogoContext t builtins
@@ -55,40 +55,51 @@ logoToken x = satisfy (==x)
 anyLogoToken :: LogoEvaluator LogoToken
 anyLogoToken = satisfy (const True)
 
-expression :: LogoEvaluator ([String], LogoContext)
+expression :: LogoEvaluator ([LogoToken], LogoContext)
 expression = do
   tokens <- many1 relationalExpression
   state  <- getState
   return (tokens, state)
 
-relationalExpression :: LogoEvaluator String
+relationalExpression :: LogoEvaluator LogoToken
 relationalExpression = parseWithOperators ["<", ">", "=", "<=", ">=", "<>"] additiveExpression
 
-additiveExpression :: LogoEvaluator String
+additiveExpression :: LogoEvaluator LogoToken
 additiveExpression = parseWithOperators ["+", "-"] multiplicativeExpression
 
-multiplicativeExpression :: LogoEvaluator String
+multiplicativeExpression :: LogoEvaluator LogoToken
 multiplicativeExpression = parseWithOperators ["*", "/", "%"] finalExpression
 
+finalExpression :: LogoEvaluator LogoToken
 finalExpression = do
   token <- anyLogoToken
   case token of
-    NumLiteral n -> return $ show n
-    StrLiteral s -> return s
-    VarLiteral v -> return $ "var" ++ v
     Identifier s -> dispatchFn s
-    _            -> return "TBD"
+    _            -> return token
 
-parseWithOperators :: [String] -> LogoEvaluator String  -> LogoEvaluator String
+parseWithOperators :: [String] -> LogoEvaluator LogoToken  -> LogoEvaluator LogoToken
 parseWithOperators operators parser = do
   lhs <- parser
   option lhs $ do
     op <- choice $ map (logoToken . OperLiteral) operators
     rhs <- parser
     return $ eval op lhs rhs
-   where eval o l r = "(" ++ (show l) ++ ")" ++ (show o) ++ "(" ++ (show r) ++ ")"
 
-dispatchFn :: String -> LogoEvaluator String
+eval :: LogoToken -> LogoToken -> LogoToken -> LogoToken
+
+-- Arithmetic
+eval (OperLiteral "+") (NumLiteral l) (NumLiteral r) = NumLiteral (l + r)
+eval (OperLiteral "-") (NumLiteral l) (NumLiteral r) = NumLiteral (l - r)
+eval (OperLiteral "*") (NumLiteral l) (NumLiteral r) = NumLiteral (l * r)
+eval (OperLiteral "/") (NumLiteral l) (NumLiteral r) = NumLiteral (l / r)
+
+-- Logical
+eval (OperLiteral "<")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l < r then "TRUE" else "FALSE")
+eval (OperLiteral ">")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l > r then "TRUE" else "FALSE")
+eval (OperLiteral "=")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l == r then "TRUE" else "FALSE")
+eval (OperLiteral "<>") (NumLiteral l) (NumLiteral r) = StrLiteral (if l /= r then "TRUE" else "FALSE")
+
+dispatchFn :: String -> LogoEvaluator LogoToken
 dispatchFn fn = do
   -- get function definition
   ctx <- getState
