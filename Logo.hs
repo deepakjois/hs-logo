@@ -12,7 +12,7 @@ main = defaultMain (stroke logo # lw 0.2)
  where
    fromRight (Right x) = x
    getLogoPath t@(Turtle _ _ p) =  p
-   res = evaluate $ fromRight $ tokenize "fd 100"
+   res = evaluate $ fromRight $ tokenize "fd 100 rt 144 fd 100 rt 144 fd 100 rt 144 fd 100 rt 144 fd 100 rt 144"
    logo = case res of
             (_,LogoContext t _) -> getLogoPath t
 
