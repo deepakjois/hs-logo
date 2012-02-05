@@ -29,6 +29,7 @@ data Turtle = Turtle
 data LogoContext = LogoContext
   { turtle :: Turtle -- ^ Turtle graphics context
   , functions :: Map String LogoFunctionDef -- ^ Functions that can be called, mapped by the identifier
+  , vars :: Map String LogoToken -- ^ Symbol table mapping the name of a var to a value
   }
 
 instance Show LogoContext where

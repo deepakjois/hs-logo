@@ -38,8 +38,11 @@ evaluateWithContext tokens ctx = do
     Left e  -> error (show e)
 
 evaluateList :: LogoToken ->  LogoEvaluator LogoToken
-evaluateList (LogoList l) = do
-  (t,s) <- evaluateWithContext l <$> getState
+evaluateList (LogoList l) = evaluateTokens l
+
+evaluateTokens :: [LogoToken] -> LogoEvaluator LogoToken
+evaluateTokens tokens = do
+  (t,s) <- evaluateWithContext tokens <$> getState
   putState s
   return $ LogoList t
 
@@ -75,6 +78,7 @@ finalExpression = do
   token <- anyLogoToken
   case token of
     Identifier s   -> dispatchFn s
+    VarLiteral v   -> lookupVar v
     _              -> return token
 
 parseWithOperators :: [String] -> LogoEvaluator LogoToken  -> LogoEvaluator LogoToken
@@ -99,6 +103,14 @@ eval (OperLiteral ">")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l > r the
 eval (OperLiteral "=")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l == r then "TRUE" else "FALSE")
 eval (OperLiteral "<>") (NumLiteral l) (NumLiteral r) = StrLiteral (if l /= r then "TRUE" else "FALSE")
 
+
+lookupVar :: String -> LogoEvaluator LogoToken
+lookupVar v = do
+ var <- (M.lookup v . vars) <$> getState
+ case var of
+   Just t -> return t
+   _      -> error $ "variable " ++ v ++ " not in scope"
+
 dispatchFn :: String -> LogoEvaluator LogoToken
 dispatchFn fn = do
   -- get function definition
@@ -111,6 +123,6 @@ dispatchFn fn = do
   let (LogoFunctionDef a func) =  f
   -- get number of tokens
   -- FIXME evaludate the token before getting a list of expressions
-  arguments <- replicateM a anyLogoToken
+  arguments <- replicateM a relationalExpression
   -- call function and update context
   func arguments
