@@ -68,4 +68,4 @@ list = do
   char '['
   atoms <- logo
   char ']'
-  return $  List atoms
+  return $  LogoList atoms

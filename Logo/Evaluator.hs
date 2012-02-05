@@ -1,17 +1,14 @@
 module Logo.Evaluator where
 
 import Logo.Types
-import Logo.Builtins (builtins)
 
 import qualified Data.Map as M
 
-
 import Control.Monad (replicateM)
+import Control.Applicative ((<$>))
 
 import Text.Parsec.Prim
 import Text.Parsec.Combinator
-
-import Diagrams.Prelude
 
 
 -- ----------------------------------------------------------------------
@@ -34,14 +31,17 @@ import Diagrams.Prelude
 --                            | procedure-call
 --                            | '(' Expression ')'
 
-
-evaluate :: [LogoToken] -> ([LogoToken], LogoContext)
-evaluate tokens = do
-  let t = Turtle True 0 (Path [(P (0,0), Trail [] False)])
-      ctx = LogoContext t builtins
+evaluateWithContext :: [LogoToken] -> LogoContext -> ([LogoToken], LogoContext)
+evaluateWithContext tokens ctx = do
   case runParser expression ctx "(stream)" tokens of
     Right s -> s
     Left e  -> error (show e)
+
+evaluateList :: LogoToken ->  LogoEvaluator LogoToken
+evaluateList (LogoList l) = do
+  (t,s) <- evaluateWithContext l <$> getState
+  putState s
+  return $ LogoList t
 
 satisfy ::  (LogoToken -> Bool) -> LogoEvaluator LogoToken
 satisfy f =
@@ -74,8 +74,8 @@ finalExpression :: LogoEvaluator LogoToken
 finalExpression = do
   token <- anyLogoToken
   case token of
-    Identifier s -> dispatchFn s
-    _            -> return token
+    Identifier s   -> dispatchFn s
+    _              -> return token
 
 parseWithOperators :: [String] -> LogoEvaluator LogoToken  -> LogoEvaluator LogoToken
 parseWithOperators operators parser = do
