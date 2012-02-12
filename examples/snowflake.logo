@@ -1,0 +1,14 @@
+to side :size :level
+ifelse :level = 0
+  [ fd :size ]
+  [ side :size / 3 :level - 1
+    lt 60
+    side :size / 3 :level - 1
+    rt 120
+    side :size / 3 :level - 1
+    lt 60
+    side :size / 3 :level - 1
+  ]
+end
+lt 30
+repeat 3 [side 250 4 rt 120]
