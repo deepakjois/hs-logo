@@ -33,4 +33,4 @@ data LogoContext = LogoContext
   }
 
 instance Show LogoContext where
-  show x = "<context>"
+  show _ = "<context>"

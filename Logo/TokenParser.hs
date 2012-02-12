@@ -1,7 +1,5 @@
 module Logo.TokenParser where
 
-import Data.Char
-import Numeric
 import Control.Applicative
 
 import Text.ParserCombinators.Parsec hiding ((<|>), many)

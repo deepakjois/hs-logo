@@ -52,6 +52,7 @@ to [] = do
   isVarLiteral _              = False
 
   fromVar (VarLiteral s)      = s
+  fromVar _                   = undefined
 
   addFunction name fn (LogoContext t f v) = LogoContext t (M.insert name fn f) v
 
