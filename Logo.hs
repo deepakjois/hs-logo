@@ -47,7 +47,7 @@ renderLogo :: String -> String -> IO ()
 renderLogo s o = do
   tokens <- readSource s
   let path = evaluateSourceTokens tokens
-  withArgs ["-o", o] $ defaultMain (stroke path # lw 0.4)
+  withArgs ["-o", o] $ defaultMain (stroke path # lw 0.4 # centerXY # pad 1.1)
 
 readSource :: FilePath -> IO [LogoToken]
 readSource f = do
