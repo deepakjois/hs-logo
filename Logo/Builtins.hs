@@ -11,13 +11,19 @@ import Control.Applicative ((<$>))
 import Text.Parsec.Prim (getState, putState, modifyState, many)
 import Text.Parsec.Combinator (manyTill)
 
-fd, rt, lt, repeat_, to, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
+fd, bk, rt, lt, repeat_, to, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
 
 fd (NumLiteral d : []) = do
   updateTurtleState (forward d)
   return $ StrLiteral ""
 
 fd _ = error "Invalid arguments to fd"
+
+bk (NumLiteral d : []) = do
+  updateTurtleState (backward d)
+  return $ StrLiteral ""
+
+bk _ = error "Invalid arguments to fd"
 
 rt (NumLiteral a : []) = do
   updateTurtleState (right a)
@@ -30,8 +36,6 @@ lt (NumLiteral a : []) = do
   return $ StrLiteral ""
 
 lt _ = error "Invalid arguments to lt"
-
--- TODO add bk and lt
 
 repeat_ (NumLiteral n : (t@(LogoList _) : []))
   | n == 0    = return $ StrLiteral ""
@@ -83,6 +87,7 @@ updateTurtleState f = do
 builtins :: M.Map String LogoFunctionDef
 builtins = M.fromList
   [ ("fd",     LogoFunctionDef 1 fd)
+  , ("bk",     LogoFunctionDef 1 bk)
   , ("rt",     LogoFunctionDef 1 rt)
   , ("lt",     LogoFunctionDef 1 lt)
   , ("repeat", LogoFunctionDef 2 repeat_)
