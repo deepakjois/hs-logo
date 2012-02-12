@@ -32,7 +32,7 @@ logoOpts prog = LogoOpts
         &= typFile
         &= args
   }
-  &= summary "hs-logo Logo Interpreter"
+  &= summary "hs-logo Logo Interpreter v0.1"
   &= program prog
 
 main :: IO ()

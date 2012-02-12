@@ -12,7 +12,7 @@ Cabal-Version:       >=1.6
 Data-Files:          README.md
 
 
-Executable           Logo
+Executable           hs-logo
   Ghc-Options:       -Wall -fno-warn-unused-do-bind
   Hs-Source-Dirs:    .
   Main-Is:           Logo.hs
