@@ -7,9 +7,8 @@ import qualified Data.Map as M
 import Control.Monad (replicateM)
 import Control.Applicative ((<$>))
 
-import Text.Parsec.Prim
-import Text.Parsec.Combinator
-
+import Text.Parsec.Prim (runParser, tokenPrim, getState, putState)
+import Text.Parsec.Combinator (many1, option, choice)
 
 -- ----------------------------------------------------------------------
 
@@ -32,13 +31,14 @@ import Text.Parsec.Combinator
 --                            | '(' Expression ')'
 
 evaluateWithContext :: [LogoToken] -> LogoContext -> ([LogoToken], LogoContext)
-evaluateWithContext tokens ctx = do
+evaluateWithContext tokens ctx =
   case runParser expression ctx "(stream)" tokens of
     Right s -> s
     Left e  -> error (show e)
 
 evaluateList :: LogoToken ->  LogoEvaluator LogoToken
 evaluateList (LogoList l) = evaluateTokens l
+evaluateList _            = undefined
 
 evaluateTokens :: [LogoToken] -> LogoEvaluator LogoToken
 evaluateTokens tokens = do
@@ -49,7 +49,7 @@ evaluateTokens tokens = do
 satisfy ::  (LogoToken -> Bool) -> LogoEvaluator LogoToken
 satisfy f =
   tokenPrim (\c -> show [c])
-            (\pos c _cs ->  pos)
+            (\pos _ _ ->  pos)
             (\c -> if f c then Just c else Nothing)
 
 logoToken :: LogoToken -> LogoEvaluator LogoToken
@@ -103,6 +103,8 @@ eval (OperLiteral ">")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l > r the
 eval (OperLiteral "=")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l == r then "TRUE" else "FALSE")
 eval (OperLiteral "<>") (NumLiteral l) (NumLiteral r) = StrLiteral (if l /= r then "TRUE" else "FALSE")
 
+-- Undefined
+eval op a b  = error $ "Evaluation undefined for " ++ show [op, a, b]
 
 lookupVar :: String -> LogoEvaluator LogoToken
 lookupVar v = do

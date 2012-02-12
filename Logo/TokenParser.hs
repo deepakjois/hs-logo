@@ -1,12 +1,16 @@
 module Logo.TokenParser where
 
-import Control.Applicative
-
-import Text.ParserCombinators.Parsec hiding ((<|>), many)
 import Logo.Types
 
+import Control.Applicative ((<|>), (<$>), many)
+
+import Text.ParserCombinators.Parsec (
+  digit, char, letter, alphaNum, string, space,
+  parse, many1, skipMany, skipMany1, sepEndBy1, noneOf,
+  ParseError, Parser)
+
 tokenize :: String -> Either ParseError [LogoToken]
-tokenize input = parse logo "(unknown)" input
+tokenize = parse logo "(unknown)"
 
 logo :: Parser [LogoToken]
 logo = do
@@ -14,9 +18,7 @@ logo = do
   sepEndBy1 atom (skipMany1 space)
 
 atom :: Parser LogoToken
-atom =  do
-  a <- identifier <|> stringLiteral <|> varLiteral <|> list <|> numLiteral <|> operLiteral <|> list
-  return a
+atom =  identifier <|> stringLiteral <|> varLiteral <|> list <|> numLiteral <|> operLiteral <|> list
 
 identifier :: Parser LogoToken
 identifier = do
