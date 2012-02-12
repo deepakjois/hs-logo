@@ -1,13 +1,14 @@
 Logo interpreter written in Haskell, specialized for turtle graphics. Still very
-much a WIP. Lot of the language still needs to be implemented, but it is still
-fairly functional.
+much a WIP. Lot of the language still needs to be implemented, but it is fairly 
+functional already.
 
 For those who like to live dangerously, here is a quickstart:
 
-* Install diagrams and related dependencies. Here is a [gist of instructions](https://gist.github.com/1683922) if you are on OS X.
+* Install [diagrams](http://projects.haskell.org/diagrams/) and related dependencies. Here is a [gist of instructions](https://gist.github.com/1683922) if you are on OS X.
 * Clone the Git repo for hs-logo
 * Run `cabal configure && cabal build`
-* You can now try out some logo programs in the `examples` folder
+
+You can now try out some logo programs in the [examples](https://github.com/deepakjois/hs-logo/tree/master/examples) folder
 
     % dist/build/hs-logo/hs-logo examples/snowflake.logo -o ~/tmp/snowflake.png
 
