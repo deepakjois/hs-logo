@@ -102,6 +102,8 @@ eval (OperLiteral "<")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l < r the
 eval (OperLiteral ">")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l > r then "TRUE" else "FALSE")
 eval (OperLiteral "=")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l == r then "TRUE" else "FALSE")
 eval (OperLiteral "<>") (NumLiteral l) (NumLiteral r) = StrLiteral (if l /= r then "TRUE" else "FALSE")
+eval (OperLiteral "<=") (NumLiteral l) (NumLiteral r) = StrLiteral (if l <= r then "TRUE" else "FALSE")
+eval (OperLiteral ">=") (NumLiteral l) (NumLiteral r) = StrLiteral (if l >= r then "TRUE" else "FALSE")
 
 -- Undefined
 eval op a b  = error $ "Evaluation undefined for " ++ show [op, a, b]

@@ -6,7 +6,7 @@ import Control.Applicative ((<|>), (<$>), many)
 
 import Text.ParserCombinators.Parsec (
   digit, char, letter, alphaNum, string, space,
-  parse, many1, skipMany, skipMany1, sepEndBy1, noneOf,
+  parse, many1, skipMany, skipMany1, sepEndBy1, noneOf, try,
   ParseError, Parser)
 
 tokenize :: String -> Either ParseError [LogoToken]
@@ -53,9 +53,9 @@ operLiteral =  OperLiteral <$>
   <|> string "/"
   <|> string "%"
   <|> string "^"
-  <|> string ">="
-  <|> string "<="
-  <|> string "<>"
+  <|> try (string ">=")
+  <|> try (string "<=")
+  <|> try (string "<>")
   <|> string "="
   <|> string "<"
   <|> string ">"
