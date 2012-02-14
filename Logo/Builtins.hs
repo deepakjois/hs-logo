@@ -16,25 +16,25 @@ import Diagrams.TwoD.Path.Turtle
 fd, bk, rt, lt, repeat_, to, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
 
 fd (NumLiteral d : []) = do
-  updateTurtleState (forward d)
+  updateTurtle (forward d)
   return $ StrLiteral ""
 
 fd _ = error "Invalid arguments to fd"
 
 bk (NumLiteral d : []) = do
-  updateTurtleState (backward d)
+  updateTurtle (backward d)
   return $ StrLiteral ""
 
 bk _ = error "Invalid arguments to fd"
 
 rt (NumLiteral a : []) = do
-  updateTurtleState (right a)
+  updateTurtle (right a)
   return $ StrLiteral ""
 
 rt _ = error "Invalid arguments to rt"
 
 lt (NumLiteral a : []) = do
-  updateTurtleState (left a)
+  updateTurtle (left a)
   return $ StrLiteral ""
 
 lt _ = error "Invalid arguments to lt"
@@ -80,8 +80,8 @@ createLogoFunction vars_ tokens_ = \args -> do
  where
   addArgsToContext a (LogoContext f v) = LogoContext f (M.fromList a `M.union`  v)
 
-updateTurtleState :: Turtle a  ->  LogoEvaluator a
-updateTurtleState = lift
+updateTurtle :: Turtle a  ->  LogoEvaluator a
+updateTurtle = lift
 
 builtins :: M.Map String LogoFunctionDef
 builtins = M.fromList
