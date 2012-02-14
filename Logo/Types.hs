@@ -1,8 +1,8 @@
 module Logo.Types where
 
 import Data.Map (Map)
-import Text.Parsec.Prim (Parsec)
-import Diagrams.Prelude
+import Text.Parsec.Prim (ParsecT)
+import Diagrams.TwoD.Path.Turtle (Turtle)
 
 data LogoToken = Identifier String -- ^ Identifier
                | StrLiteral String -- ^ String Literal, e.g @"word@
@@ -13,7 +13,8 @@ data LogoToken = Identifier String -- ^ Identifier
                deriving (Show, Eq)
 
 
-type LogoEvaluator a = Parsec [LogoToken] LogoContext a
+type LogoEvaluator  = ParsecT [LogoToken] LogoContext Turtle
+
 type LogoFunction = [LogoToken] -> LogoEvaluator LogoToken
 
 data LogoFunctionDef = LogoFunctionDef
@@ -21,14 +22,8 @@ data LogoFunctionDef = LogoFunctionDef
   , runFn :: LogoFunction -- ^ Consumes an argument
   }
 
-data Turtle = Turtle
-  Bool -- ^ Pen up position
-  Deg -- ^ Angle of Turtle
-  (Path R2) -- ^ Segments drawn so far
-
 data LogoContext = LogoContext
-  { turtle :: Turtle -- ^ Turtle graphics context
-  , functions :: Map String LogoFunctionDef -- ^ Functions that can be called, mapped by the identifier
+  { functions :: Map String LogoFunctionDef -- ^ Functions that can be called, mapped by the identifier
   , vars :: Map String LogoToken -- ^ Symbol table mapping the name of a var to a value
   }
 

@@ -6,9 +6,13 @@ import qualified Data.Map as M
 
 import Control.Monad (replicateM)
 import Control.Applicative ((<$>))
+import Control.Monad.Trans (lift)
 
-import Text.Parsec.Prim (runParser, tokenPrim, getState, putState)
+import Text.Parsec.Prim (runParserT, tokenPrim, getState, putState)
 import Text.Parsec.Combinator (many1, option, choice)
+import Text.Parsec.Error (ParseError)
+
+import Diagrams.TwoD.Path.Turtle (Turtle)
 
 -- ----------------------------------------------------------------------
 
@@ -30,21 +34,24 @@ import Text.Parsec.Combinator (many1, option, choice)
 --                            | procedure-call
 --                            | '(' Expression ')'
 
-evaluateWithContext :: [LogoToken] -> LogoContext -> ([LogoToken], LogoContext)
-evaluateWithContext tokens ctx =
-  case runParser expression ctx "(stream)" tokens of
-    Right s -> s
-    Left e  -> error (show e)
+evaluateWithContext :: [LogoToken] -> LogoContext -> Turtle (Either ParseError ([LogoToken], LogoContext))
+evaluateWithContext tokens ctx = runParserT expression ctx "(stream)" tokens
+
+evaluateTokens :: [LogoToken] -> LogoEvaluator LogoToken
+evaluateTokens tokens = do
+  ctx <- getState
+
+  (t,s) <- lift $ do
+      res <- evaluateWithContext tokens ctx
+      case res of
+        Left  e -> error $ show e
+        Right r -> return r
+  putState s
+  return $ LogoList t
 
 evaluateList :: LogoToken ->  LogoEvaluator LogoToken
 evaluateList (LogoList l) = evaluateTokens l
 evaluateList _            = undefined
-
-evaluateTokens :: [LogoToken] -> LogoEvaluator LogoToken
-evaluateTokens tokens = do
-  (t,s) <- evaluateWithContext tokens <$> getState
-  putState s
-  return $ LogoList t
 
 satisfy ::  (LogoToken -> Bool) -> LogoEvaluator LogoToken
 satisfy f =
@@ -59,10 +66,10 @@ anyLogoToken :: LogoEvaluator LogoToken
 anyLogoToken = satisfy (const True)
 
 expression :: LogoEvaluator ([LogoToken], LogoContext)
-expression = do
-  tokens <- many1 relationalExpression
-  state  <- getState
-  return (tokens, state)
+expression =  do
+  t <- many1 relationalExpression
+  s <- getState
+  return (t,s)
 
 relationalExpression :: LogoEvaluator LogoToken
 relationalExpression = parseWithOperators ["<", ">", "=", "<=", ">=", "<>"] additiveExpression

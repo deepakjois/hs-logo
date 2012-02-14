@@ -5,6 +5,7 @@ import Control.Applicative ((<$>))
 
 import Diagrams.Prelude
 import Diagrams.Backend.Cairo.CmdLine
+import Diagrams.TwoD.Path.Turtle
 
 import Logo.Types
 import Logo.TokenParser
@@ -46,7 +47,7 @@ main = do
 renderLogo :: String -> String -> IO ()
 renderLogo s o = do
   tokens <- readSource s
-  let path = evaluateSourceTokens tokens
+  let path = runTurtle $ evaluateSourceTokens tokens
       d = stroke path
   withArgs ["-o", o] $ defaultMain (d # lw (0.005 * (width d)) # centerXY # pad 1.1)
 
@@ -57,9 +58,11 @@ readSource f = do
     Left x -> error $ show x
     Right t -> return t
 
-evaluateSourceTokens :: [LogoToken] -> Path R2
+evaluateSourceTokens :: [LogoToken] -> Turtle ()
 evaluateSourceTokens tokens = do
-  let t                   = Turtle True 0 (Path [(P (0,0), Trail [] False)])
-      initialContext      = LogoContext t builtins M.empty
-  case evaluateWithContext tokens initialContext of
-    (_,LogoContext (Turtle _ _ p) _ _) -> p
+  let initialContext = LogoContext builtins M.empty
+  res <- evaluateWithContext tokens initialContext
+  case res of
+    Left  err -> error $ show err
+    Right _ -> return ()
+

@@ -1,15 +1,17 @@
 module Logo.Builtins where
 
 import Logo.Types
-import Logo.Turtle
 import Logo.Evaluator
 
 import qualified Data.Map as M
 
 import Control.Applicative ((<$>))
+import Control.Monad.Trans (lift)
 
 import Text.Parsec.Prim (getState, putState, modifyState, many)
 import Text.Parsec.Combinator (manyTill)
+
+import Diagrams.TwoD.Path.Turtle
 
 fd, bk, rt, lt, repeat_, to, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
 
@@ -63,7 +65,7 @@ to [] = do
   fromVar (VarLiteral s)      = s
   fromVar _                   = undefined
 
-  addFunction name fn (LogoContext t f v) = LogoContext t (M.insert name fn f) v
+  addFunction name fn (LogoContext f v) = LogoContext (M.insert name fn f) v
 
 to _ = undefined
 
@@ -76,13 +78,10 @@ createLogoFunction vars_ tokens_ = \args -> do
   putState $  final { vars = vars st }
   return tokens
  where
-  addArgsToContext a (LogoContext t f v) = LogoContext t f (M.fromList a `M.union`  v)
+  addArgsToContext a (LogoContext f v) = LogoContext f (M.fromList a `M.union`  v)
 
-updateTurtleState :: (Turtle -> Turtle) -> LogoEvaluator ()
-updateTurtleState f = do
-  s <- getState
-  let t = turtle s
-  putState $ s { turtle = f t }
+updateTurtleState :: Turtle a  ->  LogoEvaluator a
+updateTurtleState = lift
 
 builtins :: M.Map String LogoFunctionDef
 builtins = M.fromList
