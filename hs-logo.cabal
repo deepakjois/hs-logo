@@ -20,4 +20,5 @@ Executable           hs-logo
                      containers  >= 0.3    && <  0.5,
                      parsec      >= 3.0    && <  3.2,
                      cmdargs     >= 0.6    && <= 0.9,
+                     parsec-numbers,
                      diagrams-lib, diagrams-cairo

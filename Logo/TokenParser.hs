@@ -3,11 +3,14 @@ module Logo.TokenParser where
 import Logo.Types
 
 import Control.Applicative ((<|>), (<$>), many)
+import Control.Monad (ap)
 
 import Text.ParserCombinators.Parsec (
-  digit, char, letter, alphaNum, string, space,
+  char, letter, alphaNum, string, space,
   parse, many1, skipMany, skipMany1, sepEndBy1, noneOf, try,
   ParseError, Parser)
+
+import Text.ParserCombinators.Parsec.Number (floating2, int, natFloat, sign)
 
 tokenize :: String -> Either ParseError [LogoToken]
 tokenize = parse logo "(unknown)"
@@ -39,11 +42,13 @@ varLiteral = do
   v <- many alphaNum
   return $ VarLiteral (s:v)
 
--- FIXME this is just lame! Use a *real* number parser. Also fix the unary minus problem
 numLiteral :: Parser LogoToken
 numLiteral = do
-  s <- many1 (digit <|> char '.')
-  return $ NumLiteral $  read s
+  s <- sign
+  n <- natFloat
+  return . NumLiteral . s $ case n of
+             Left i  -> fromInteger i
+             Right f -> f
 
 operLiteral :: Parser LogoToken
 operLiteral =  OperLiteral <$>
