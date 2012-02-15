@@ -13,7 +13,7 @@ import Text.Parsec.Combinator (manyTill)
 
 import Diagrams.TwoD.Path.Turtle
 
-fd, bk, rt, lt, repeat_, to, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
+fd, bk, rt, lt, repeat_, for, dotimes, to, if_, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
 
 fd (NumLiteral d : []) = do
   updateTurtle (forward d)
@@ -45,6 +45,16 @@ repeat_ (NumLiteral n : (t@(LogoList _) : []))
                    repeat_ [NumLiteral (n - 1 :: Double), t]
 
 repeat_ _ = error "Invalid arguments for repeat"
+
+for = undefined
+
+dotimes = undefined
+
+if_ [StrLiteral val, ifList]
+  | val == "TRUE"  = evaluateList ifList
+  | val == "FALSE" = return $ StrLiteral ""
+
+if_ _ = undefined
 
 ifelse [StrLiteral val, ifList, elseList]
   | val == "TRUE"  = evaluateList ifList
@@ -91,5 +101,6 @@ builtins = M.fromList
   , ("lt",     LogoFunctionDef 1 lt)
   , ("repeat", LogoFunctionDef 2 repeat_)
   , ("to",     LogoFunctionDef 0 to)
+  , ("if",     LogoFunctionDef 2 if_)
   , ("ifelse", LogoFunctionDef 3 ifelse)
   ]
