@@ -8,7 +8,7 @@ import Control.Monad (replicateM)
 import Control.Applicative ((<$>))
 import Control.Monad.Trans (lift)
 
-import Text.Parsec.Prim (runParserT, tokenPrim, getState, putState)
+import Text.Parsec.Prim (runParserT, tokenPrim, getState, putState, modifyState)
 import Text.Parsec.Combinator (many1, option, choice)
 import Text.Parsec.Error (ParseError)
 
@@ -114,6 +114,14 @@ eval (OperLiteral ">=") (NumLiteral l) (NumLiteral r) = StrLiteral (if l >= r th
 
 -- Undefined
 eval op a b  = error $ "Evaluation undefined for " ++ show [op, a, b]
+
+-- FIXME for now this sets a global var. Fix this after fixing issue #14
+setLocalVar :: String -> LogoToken -> LogoEvaluator ()
+setLocalVar k v = modifyState $ \s -> s { vars = M.insert k v $ vars s }
+
+
+setGlobalVar :: String -> LogoToken -> LogoEvaluator ()
+setGlobalVar k v = modifyState $ \s -> s { vars = M.insert k v $ vars s }
 
 lookupVar :: String -> LogoEvaluator LogoToken
 lookupVar v = do

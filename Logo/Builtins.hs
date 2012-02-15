@@ -46,9 +46,28 @@ repeat_ (NumLiteral n : (t@(LogoList _) : []))
 
 repeat_ _ = error "Invalid arguments for repeat"
 
-for = undefined
+for [ control@(LogoList _), instructionList@(LogoList _) ] = do
+  mapM_ loop forList
+  return $ StrLiteral ""
+ where LogoList [Identifier v, NumLiteral start, NumLiteral end, NumLiteral step] = control
+       forList = takeWhile withinBounds $ iterate (+ step) start
+       withinBounds x = if step < 0 then x >= end else x <= end
+       loop cur = do
+         setLocalVar v (NumLiteral cur)
+         evaluateList instructionList
 
-dotimes = undefined
+for _ = error "Invalid arguments for function 'for'"
+
+dotimes [ control@(LogoList _), instructionList@(LogoList _) ] = do
+  mapM_ loop forList
+  return $ StrLiteral ""
+ where LogoList [Identifier v, NumLiteral times] = control
+       forList = takeWhile (< times) $ iterate (+ 1) 0
+       loop cur = do
+         setLocalVar v (NumLiteral cur)
+         evaluateList instructionList
+
+dotimes _ = error "Invalid arguments for dotimes"
 
 if_ [StrLiteral val, ifList]
   | val == "TRUE"  = evaluateList ifList
@@ -95,12 +114,14 @@ updateTurtle = lift
 
 builtins :: M.Map String LogoFunctionDef
 builtins = M.fromList
-  [ ("fd",     LogoFunctionDef 1 fd)
-  , ("bk",     LogoFunctionDef 1 bk)
-  , ("rt",     LogoFunctionDef 1 rt)
-  , ("lt",     LogoFunctionDef 1 lt)
-  , ("repeat", LogoFunctionDef 2 repeat_)
-  , ("to",     LogoFunctionDef 0 to)
-  , ("if",     LogoFunctionDef 2 if_)
-  , ("ifelse", LogoFunctionDef 3 ifelse)
+  [ ("fd",      LogoFunctionDef 1 fd)
+  , ("bk",      LogoFunctionDef 1 bk)
+  , ("rt",      LogoFunctionDef 1 rt)
+  , ("lt",      LogoFunctionDef 1 lt)
+  , ("repeat",  LogoFunctionDef 2 repeat_)
+  , ("for",     LogoFunctionDef 2 for)
+  , ("dotimes", LogoFunctionDef 2 dotimes)
+  , ("to",      LogoFunctionDef 0 to)
+  , ("if",      LogoFunctionDef 2 if_)
+  , ("ifelse",  LogoFunctionDef 3 ifelse)
   ]
