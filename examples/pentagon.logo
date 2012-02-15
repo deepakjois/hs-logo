@@ -1,0 +1,1 @@
+for [ i 100 10 -10 ] [ repeat 5 [ repeat 5 [ fd :i lt 72 ] lt 72 ] ]

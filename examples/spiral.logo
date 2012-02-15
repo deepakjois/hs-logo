@@ -1,0 +1,1 @@
+for [ i 0.01 4 0.05 ] [ repeat 180 [ fd :i rt 1 ] ]
