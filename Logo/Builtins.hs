@@ -8,12 +8,12 @@ import qualified Data.Map as M
 import Control.Applicative ((<$>))
 import Control.Monad.Trans (lift)
 
-import Text.Parsec.Prim (getState, putState, modifyState, many)
+import Text.Parsec.Prim (modifyState, many)
 import Text.Parsec.Combinator (manyTill)
 
 import Diagrams.TwoD.Path.Turtle
 
-fd, bk, rt, lt, repeat_, for, dotimes, to, if_, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
+fd, bk, rt, lt, repeat_, repcount, for, dotimes, to, if_, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
 
 fd (NumLiteral d : []) = do
   updateTurtle (forward d)
@@ -39,12 +39,24 @@ lt (NumLiteral a : []) = do
 
 lt _ = error "Invalid arguments to lt"
 
-repeat_ (NumLiteral n : (t@(LogoList _) : []))
-  | n == 0    = return $ StrLiteral ""
-  | otherwise = do evaluateList t
-                   repeat_ [NumLiteral (n - 1 :: Double), t]
+repeat_ (NumLiteral n : (t@(LogoList _) : [])) =
+  repeatWithIterCount 1
+ where
+  repeatWithIterCount x
+    | x > n    = return $ StrLiteral ""
+    | otherwise = evaluateInLocalContext (M.fromList [("repcount", (NumLiteral x))]) $ do
+                    evaluateList t
+                    repeatWithIterCount (x + 1)
 
 repeat_ _ = error "Invalid arguments for repeat"
+
+repcount [] = do
+  rc <- M.lookup "repcount" <$> getLocals
+  case rc of
+    Just c  -> return c
+    Nothing -> error "repcount does not exist"
+
+repcount _ = error "Invalid call to repcount"
 
 for [ control@(LogoList _), instructionList@(LogoList _) ] = do
   mapM_ loop forList
@@ -106,14 +118,15 @@ updateTurtle = lift
 
 builtins :: M.Map String LogoFunctionDef
 builtins = M.fromList
-  [ ("fd",      LogoFunctionDef 1 fd)
-  , ("bk",      LogoFunctionDef 1 bk)
-  , ("rt",      LogoFunctionDef 1 rt)
-  , ("lt",      LogoFunctionDef 1 lt)
-  , ("repeat",  LogoFunctionDef 2 repeat_)
-  , ("for",     LogoFunctionDef 2 for)
-  , ("dotimes", LogoFunctionDef 2 dotimes)
-  , ("to",      LogoFunctionDef 0 to)
-  , ("if",      LogoFunctionDef 2 if_)
-  , ("ifelse",  LogoFunctionDef 3 ifelse)
+  [ ("fd",       LogoFunctionDef 1 fd)
+  , ("bk",       LogoFunctionDef 1 bk)
+  , ("rt",       LogoFunctionDef 1 rt)
+  , ("lt",       LogoFunctionDef 1 lt)
+  , ("repeat",   LogoFunctionDef 2 repeat_)
+  , ("repcount", LogoFunctionDef 0 repcount)
+  , ("for",      LogoFunctionDef 2 for)
+  , ("dotimes",  LogoFunctionDef 2 dotimes)
+  , ("to",       LogoFunctionDef 0 to)
+  , ("if",       LogoFunctionDef 2 if_)
+  , ("ifelse",   LogoFunctionDef 3 ifelse)
   ]
