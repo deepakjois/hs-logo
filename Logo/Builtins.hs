@@ -21,7 +21,7 @@ fd (NumLiteral d : []) = do
   updateTurtle (forward d)
   return $ StrLiteral ""
 
-fd _ = error "Invalid arguments to fd"
+fd args = error $ "Invalid arguments to fd" ++ show args
 
 bk (NumLiteral d : []) = do
   updateTurtle (backward d)

@@ -87,6 +87,8 @@ finalExpression = do
   case token of
     Identifier s   -> dispatchFn s
     VarLiteral v   -> lookupVar v
+    LogoExpr   e   -> do LogoList res <- evaluateTokens e
+                         return $ head res
     _              -> return token
 
 parseWithOperators :: [String] -> LogoEvaluator LogoToken  -> LogoEvaluator LogoToken

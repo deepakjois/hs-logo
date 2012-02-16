@@ -10,6 +10,7 @@ data LogoToken = Identifier String    -- Identifier
                | NumLiteral Double    -- Number
                | OperLiteral String   -- Operator
                | LogoList [LogoToken] -- Input definition/variable reference
+               | LogoExpr [LogoToken] -- Expression inside parentheses
                deriving (Show, Eq)
 
 

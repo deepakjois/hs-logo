@@ -20,7 +20,7 @@ logo = do
   sepEndBy1 atom (skipMany1 space)
 
 atom :: Parser LogoToken
-atom =  identifier <|> stringLiteral <|> varLiteral <|> list <|> try numLiteral <|> try operLiteral <|> list
+atom =  identifier <|> stringLiteral <|> varLiteral <|> list <|> try numLiteral <|> try operLiteral <|> list <|> expression
 
 identifier :: Parser LogoToken
 identifier = do
@@ -63,8 +63,6 @@ operLiteral =  OperLiteral <$>
       <|> string "="
       <|> string "<"
       <|> string ">"
-      <|> string "("
-      <|> string ")"
        )
 
 list :: Parser LogoToken
@@ -73,3 +71,10 @@ list = do
   atoms <- logo
   char ']'
   return $  LogoList atoms
+
+expression :: Parser LogoToken
+expression = do
+  char '('
+  atoms <- logo
+  char ')'
+  return $ LogoExpr atoms
