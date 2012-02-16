@@ -13,7 +13,9 @@ import Text.Parsec.Combinator (manyTill)
 
 import Diagrams.TwoD.Path.Turtle
 
-fd, bk, rt, lt, home, seth, pu, pd, repeat_, repcount, for, dotimes, to, if_, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
+fd, bk, rt, lt, home, seth, pu, pd :: [LogoToken] -> LogoEvaluator LogoToken
+repeat_, repcount, for, dotimes, to, if_, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
+sin_, cos_, tan_, arctan :: [LogoToken] -> LogoEvaluator LogoToken
 
 fd (NumLiteral d : []) = do
   updateTurtle (forward d)
@@ -42,7 +44,6 @@ lt _ = error "Invalid arguments to lt"
 
 home [] = do
   updateTurtle (setPos (0,0))
-  updateTurtle (setHeading 0)
   return $ StrLiteral ""
 
 home _ = error "Invalid arguments to home"
@@ -143,6 +144,22 @@ createLogoFunction vars_ tokens_ = \args -> do
 updateTurtle :: Turtle a  ->  LogoEvaluator a
 updateTurtle = lift
 
+sin_ [NumLiteral n] = return $ NumLiteral (sin $ fromDegrees n)
+sin_ _ = error "Invalid arguments for sin"
+
+cos_ [NumLiteral n] = return $ NumLiteral (cos $ fromDegrees n)
+cos_ _ = error "Invalid arguments for cos"
+
+tan_ [NumLiteral n] = return $ NumLiteral (tan $ fromDegrees n)
+tan_ _ = error "Invalid arguments for cos"
+
+arctan [NumLiteral n] = return $ NumLiteral (atan $ fromDegrees n)
+arctan _ = error "Invalid arguments for cos"
+
+fromDegrees :: Double -> Double
+fromDegrees n = n * (pi/180)
+
+
 builtins :: M.Map String LogoFunctionDef
 builtins = M.fromList
   [ ("fd",       LogoFunctionDef 1 fd)
@@ -160,4 +177,8 @@ builtins = M.fromList
   , ("to",       LogoFunctionDef 0 to)
   , ("if",       LogoFunctionDef 2 if_)
   , ("ifelse",   LogoFunctionDef 3 ifelse)
+  , ("sin",      LogoFunctionDef 1 sin_)
+  , ("cos",      LogoFunctionDef 1 cos_)
+  , ("tan",      LogoFunctionDef 1 tan_)
+  , ("atan",     LogoFunctionDef 1 arctan)
   ]
