@@ -60,7 +60,7 @@ readSource f = do
 
 evaluateSourceTokens :: [LogoToken] -> Turtle ()
 evaluateSourceTokens tokens = do
-  let initialContext = LogoContext builtins M.empty
+  let initialContext = LogoContext builtins M.empty M.empty
   res <- evaluateWithContext tokens initialContext
   case res of
     Left  err -> error $ show err

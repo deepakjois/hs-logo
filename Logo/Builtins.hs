@@ -52,9 +52,8 @@ for [ control@(LogoList _), instructionList@(LogoList _) ] = do
  where LogoList [Identifier v, NumLiteral start, NumLiteral end, NumLiteral step] = control
        forList = takeWhile withinBounds $ iterate (+ step) start
        withinBounds x = if step < 0 then x >= end else x <= end
-       loop cur = do
-         setLocalVar v (NumLiteral cur)
-         evaluateList instructionList
+       loop cur = evaluateInLocalContext (M.fromList [(v, NumLiteral cur)]) $
+                    evaluateList instructionList
 
 for _ = error "Invalid arguments for function 'for'"
 
@@ -63,9 +62,8 @@ dotimes [ control@(LogoList _), instructionList@(LogoList _) ] = do
   return $ StrLiteral ""
  where LogoList [Identifier v, NumLiteral times] = control
        forList = takeWhile (< times) $ iterate (+ 1) 0
-       loop cur = do
-         setLocalVar v (NumLiteral cur)
-         evaluateList instructionList
+       loop cur = evaluateInLocalContext (M.fromList [(v, NumLiteral cur)]) $
+                    evaluateList instructionList
 
 dotimes _ = error "Invalid arguments for dotimes"
 
@@ -94,20 +92,14 @@ to [] = do
   fromVar (VarLiteral s)      = s
   fromVar _                   = undefined
 
-  addFunction name fn (LogoContext f v) = LogoContext (M.insert name fn f) v
+  addFunction name fn ctx = ctx { functions = M.insert name fn (functions ctx) }
 
 to _ = undefined
 
 createLogoFunction ::  [String] -> [LogoToken] -> LogoFunction
 createLogoFunction vars_ tokens_ = \args -> do
-  st <- getState
-  modifyState (addArgsToContext $ zip vars_ args)
-  tokens <- evaluateTokens tokens_
-  final <- getState
-  putState $  final { vars = vars st }
-  return tokens
- where
-  addArgsToContext a (LogoContext f v) = LogoContext f (M.fromList a `M.union`  v)
+  evaluateInLocalContext (M.fromList $ zip vars_ args) $ do
+    evaluateTokens tokens_
 
 updateTurtle :: Turtle a  ->  LogoEvaluator a
 updateTurtle = lift

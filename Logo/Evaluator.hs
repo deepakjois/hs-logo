@@ -5,7 +5,8 @@ import Logo.Types
 import qualified Data.Map as M
 
 import Control.Monad (replicateM)
-import Control.Applicative ((<$>))
+import Control.Applicative ((<$>), (<|>))
+import Control.Arrow ((&&&), (***))
 import Control.Monad.Trans (lift)
 
 import Text.Parsec.Prim (runParserT, tokenPrim, getState, putState, modifyState)
@@ -115,19 +116,21 @@ eval (OperLiteral ">=") (NumLiteral l) (NumLiteral r) = StrLiteral (if l >= r th
 -- Undefined
 eval op a b  = error $ "Evaluation undefined for " ++ show [op, a, b]
 
--- FIXME for now this sets a global var. Fix this after fixing issue #14
-setLocalVar :: String -> LogoToken -> LogoEvaluator ()
-setLocalVar k v = modifyState $ \s -> s { vars = M.insert k v $ vars s }
+setLocals :: LogoSymbolTable -> LogoEvaluator ()
+setLocals l = modifyState $ \s -> s { locals = l }
 
-
-setGlobalVar :: String -> LogoToken -> LogoEvaluator ()
-setGlobalVar k v = modifyState $ \s -> s { vars = M.insert k v $ vars s }
+evaluateInLocalContext :: LogoSymbolTable -> LogoEvaluator a -> LogoEvaluator a
+evaluateInLocalContext localVars computation = do
+  setLocals localVars
+  res <- computation
+  setLocals M.empty
+  return res
 
 lookupVar :: String -> LogoEvaluator LogoToken
 lookupVar v = do
- var <- (M.lookup v . vars) <$> getState
- case var of
-   Just t -> return t
+ (l,g) <-  (M.lookup v *** M.lookup v) . (locals &&& globals) <$> getState
+ case l <|> g of
+   Just x -> return x
    _      -> error $ "variable " ++ v ++ " not in scope"
 
 dispatchFn :: String -> LogoEvaluator LogoToken
