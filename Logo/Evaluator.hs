@@ -119,11 +119,15 @@ eval op a b  = error $ "Evaluation undefined for " ++ show [op, a, b]
 setLocals :: LogoSymbolTable -> LogoEvaluator ()
 setLocals l = modifyState $ \s -> s { locals = l }
 
+getLocals :: LogoEvaluator LogoSymbolTable
+getLocals = locals <$> getState
+
 evaluateInLocalContext :: LogoSymbolTable -> LogoEvaluator a -> LogoEvaluator a
 evaluateInLocalContext localVars computation = do
+  old <- getLocals
   setLocals localVars
   res <- computation
-  setLocals M.empty
+  setLocals old
   return res
 
 lookupVar :: String -> LogoEvaluator LogoToken
