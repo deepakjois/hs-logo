@@ -13,7 +13,7 @@ import Text.Parsec.Combinator (manyTill)
 
 import Diagrams.TwoD.Path.Turtle
 
-fd, bk, rt, lt, repeat_, repcount, for, dotimes, to, if_, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
+fd, bk, rt, lt, home, seth, pu, pd, repeat_, repcount, for, dotimes, to, if_, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
 
 fd (NumLiteral d : []) = do
   updateTurtle (forward d)
@@ -38,6 +38,33 @@ lt (NumLiteral a : []) = do
   return $ StrLiteral ""
 
 lt _ = error "Invalid arguments to lt"
+
+
+home [] = do
+  updateTurtle (setPos (0,0))
+  updateTurtle (setHeading 0)
+  return $ StrLiteral ""
+
+home _ = error "Invalid arguments to home"
+
+seth [NumLiteral n] = do
+  updateTurtle (setHeading n)
+  return $ StrLiteral ""
+
+seth _ = error "Invalid arguments to seth"
+
+
+pu [] = do
+  updateTurtle $ penUp
+  return $ StrLiteral ""
+
+pu _ = error "Invalid arguments to pu"
+
+pd [] = do
+  updateTurtle $ penDown
+  return $ StrLiteral ""
+
+pd _ = error "Invalid arguments to pd"
 
 repeat_ (NumLiteral n : (t@(LogoList _) : [])) =
   repeatWithIterCount 1
@@ -122,6 +149,10 @@ builtins = M.fromList
   , ("bk",       LogoFunctionDef 1 bk)
   , ("rt",       LogoFunctionDef 1 rt)
   , ("lt",       LogoFunctionDef 1 lt)
+  , ("home",     LogoFunctionDef 0 home)
+  , ("seth",     LogoFunctionDef 1 seth)
+  , ("pu",       LogoFunctionDef 0 pu)
+  , ("pd",       LogoFunctionDef 0 pd)
   , ("repeat",   LogoFunctionDef 2 repeat_)
   , ("repcount", LogoFunctionDef 0 repcount)
   , ("for",      LogoFunctionDef 2 for)
