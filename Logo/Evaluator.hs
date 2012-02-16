@@ -125,7 +125,7 @@ getLocals = locals <$> getState
 evaluateInLocalContext :: LogoSymbolTable -> LogoEvaluator a -> LogoEvaluator a
 evaluateInLocalContext localVars computation = do
   old <- getLocals
-  setLocals localVars
+  setLocals $ localVars `M.union` old
   res <- computation
   setLocals old
   return res
