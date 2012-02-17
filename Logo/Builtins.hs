@@ -13,7 +13,7 @@ import Text.Parsec.Combinator (manyTill)
 
 import Diagrams.TwoD.Path.Turtle
 
-fd, bk, rt, lt, home, seth, pu, pd :: [LogoToken] -> LogoEvaluator LogoToken
+fd, bk, rt, lt, home, setxy, seth, pu, pd :: [LogoToken] -> LogoEvaluator LogoToken
 repeat_, repcount, for, dotimes, to, if_, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
 sin_, cos_, tan_, arctan :: [LogoToken] -> LogoEvaluator LogoToken
 
@@ -41,19 +41,23 @@ lt (NumLiteral a : []) = do
 
 lt _ = error "Invalid arguments to lt"
 
-
 home [] = do
   updateTurtle (setPos (0,0))
   return $ StrLiteral ""
 
 home _ = error "Invalid arguments to home"
 
+setxy [NumLiteral x, NumLiteral y] = do
+  updateTurtle (setPos (x,y))
+  return $ StrLiteral ""
+
+setxy _ = error "Invalid arguments to setxy"
+
 seth [NumLiteral n] = do
   updateTurtle (setHeading n)
   return $ StrLiteral ""
 
 seth _ = error "Invalid arguments to seth"
-
 
 pu [] = do
   updateTurtle $ penUp
@@ -167,6 +171,7 @@ builtins = M.fromList
   , ("rt",       LogoFunctionDef 1 rt)
   , ("lt",       LogoFunctionDef 1 lt)
   , ("home",     LogoFunctionDef 0 home)
+  , ("setxy",    LogoFunctionDef 2 setxy)
   , ("seth",     LogoFunctionDef 1 seth)
   , ("pu",       LogoFunctionDef 0 pu)
   , ("pd",       LogoFunctionDef 0 pd)
