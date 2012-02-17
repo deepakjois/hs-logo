@@ -49,7 +49,7 @@ renderLogo s o = do
   tokens <- readSource s
   let path = runTurtle $ evaluateSourceTokens tokens
       d = stroke path
-  withArgs ["-o", o] $ defaultMain (d # lw (0.005 * (width d)) # centerXY # pad 1.1)
+  withArgs ["-o", o] $ defaultMain (d # lw (0.005 * width d) # centerXY # pad 1.1)
 
 readSource :: FilePath -> IO [LogoToken]
 readSource f = do
