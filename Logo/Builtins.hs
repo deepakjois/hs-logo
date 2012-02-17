@@ -15,7 +15,7 @@ import Diagrams.TwoD.Path.Turtle
 
 fd, bk, rt, lt, home, setxy, seth, pu, pd :: [LogoToken] -> LogoEvaluator LogoToken
 repeat_, repcount, for, dotimes, to, if_, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
-sin_, cos_, tan_, arctan :: [LogoToken] -> LogoEvaluator LogoToken
+sin_, cos_, tan_, arctan, sqrt_ :: [LogoToken] -> LogoEvaluator LogoToken
 
 fd (NumLiteral d : []) = do
   updateTurtle (forward d)
@@ -163,6 +163,9 @@ arctan _ = error "Invalid arguments for cos"
 fromDegrees :: Double -> Double
 fromDegrees n = n * (pi/180)
 
+sqrt_ [NumLiteral n] = return . NumLiteral . sqrt $ n
+sqrt_ _ = error "Invalid arguments to sqrt"
+
 builtins :: M.Map String LogoFunctionDef
 builtins = M.fromList
   [ ("fd",       LogoFunctionDef 1 fd)
@@ -184,5 +187,6 @@ builtins = M.fromList
   , ("sin",      LogoFunctionDef 1 sin_)
   , ("cos",      LogoFunctionDef 1 cos_)
   , ("tan",      LogoFunctionDef 1 tan_)
-  , ("atan",     LogoFunctionDef 1 arctan)
+  , ("arctan",   LogoFunctionDef 1 arctan)
+  , ("sqrt",     LogoFunctionDef 1 sqrt_)
   ]
