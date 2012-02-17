@@ -163,7 +163,6 @@ arctan _ = error "Invalid arguments for cos"
 fromDegrees :: Double -> Double
 fromDegrees n = n * (pi/180)
 
-
 builtins :: M.Map String LogoFunctionDef
 builtins = M.fromList
   [ ("fd",       LogoFunctionDef 1 fd)
