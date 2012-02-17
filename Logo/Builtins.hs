@@ -5,6 +5,8 @@ import Logo.Evaluator
 
 import qualified Data.Map as M
 
+import System.Random (randomIO)
+
 import Control.Applicative ((<$>))
 import Control.Monad.Trans (lift, liftIO)
 
@@ -16,7 +18,7 @@ import Diagrams.TwoD.Path.Turtle
 fd, bk, rt, lt, home, setxy, seth, pu, pd :: [LogoToken] -> LogoEvaluator LogoToken
 repeat_, repcount, for, dotimes, to, if_, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
 sin_, cos_, tan_, arctan, sqrt_ :: [LogoToken] -> LogoEvaluator LogoToken
-pr :: [LogoToken] -> LogoEvaluator LogoToken
+pr, random :: [LogoToken] -> LogoEvaluator LogoToken
 
 fd (NumLiteral d : []) = do
   updateTurtle (forward d)
@@ -176,6 +178,10 @@ pr [t] = turtleIO $ do
 
 pr _ = error "Invalid arguments to pr"
 
+random [NumLiteral n] = turtleIO $ (NumLiteral . fromIntegral . (round :: Double -> Integer) . (* n) <$> randomIO)
+
+random _ = error "Invalid arguments to random"
+
 builtins :: M.Map String LogoFunctionDef
 builtins = M.fromList
   [ ("fd",       LogoFunctionDef 1 fd)
@@ -200,4 +206,5 @@ builtins = M.fromList
   , ("arctan",   LogoFunctionDef 1 arctan)
   , ("sqrt",     LogoFunctionDef 1 sqrt_)
   , ("pr",       LogoFunctionDef 1 pr)
+  , ("random",   LogoFunctionDef 1 random)
   ]
