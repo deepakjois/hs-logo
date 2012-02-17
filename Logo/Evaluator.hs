@@ -106,7 +106,7 @@ eval (OperLiteral "+") (NumLiteral l) (NumLiteral r) = NumLiteral (l + r)
 eval (OperLiteral "-") (NumLiteral l) (NumLiteral r) = NumLiteral (l - r)
 eval (OperLiteral "*") (NumLiteral l) (NumLiteral r) = NumLiteral (l * r)
 eval (OperLiteral "/") (NumLiteral l) (NumLiteral r) = NumLiteral (l / r)
-eval (OperLiteral "%") (NumLiteral l) (NumLiteral r) = NumLiteral $ fromIntegral (((truncate l) `rem` (truncate r)) :: Integer )
+eval (OperLiteral "%") (NumLiteral l) (NumLiteral r) = NumLiteral $ fromIntegral ((truncate l `rem` truncate r) :: Integer )
 eval (OperLiteral "^") (NumLiteral l) (NumLiteral r) = NumLiteral (l ** r)
 
 -- Logical

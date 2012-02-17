@@ -60,13 +60,13 @@ seth [NumLiteral n] = do
 seth _ = error "Invalid arguments to seth"
 
 pu [] = do
-  updateTurtle $ penUp
+  updateTurtle penUp
   return $ StrLiteral ""
 
 pu _ = error "Invalid arguments to pu"
 
 pd [] = do
-  updateTurtle $ penDown
+  updateTurtle penDown
   return $ StrLiteral ""
 
 pd _ = error "Invalid arguments to pd"
@@ -76,7 +76,7 @@ repeat_ (NumLiteral n : (t@(LogoList _) : [])) =
  where
   repeatWithIterCount x
     | x > n    = return $ StrLiteral ""
-    | otherwise = evaluateInLocalContext (M.fromList [("repcount", (NumLiteral x))]) $ do
+    | otherwise = evaluateInLocalContext (M.fromList [("repcount", NumLiteral x)]) $ do
                     evaluateList t
                     repeatWithIterCount (x + 1)
 
@@ -141,8 +141,8 @@ to [] = do
 to _ = undefined
 
 createLogoFunction ::  [String] -> [LogoToken] -> LogoFunction
-createLogoFunction vars_ tokens_ = \args -> do
-  evaluateInLocalContext (M.fromList $ zip vars_ args) $ do
+createLogoFunction vars_ tokens_ args =
+  evaluateInLocalContext (M.fromList $ zip vars_ args) $
     evaluateTokens tokens_
 
 updateTurtle :: Turtle a  ->  LogoEvaluator a
