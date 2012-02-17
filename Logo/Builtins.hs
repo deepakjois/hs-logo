@@ -145,7 +145,7 @@ createLogoFunction vars_ tokens_ args =
   evaluateInLocalContext (M.fromList $ zip vars_ args) $
     evaluateTokens tokens_
 
-updateTurtle :: Turtle a  ->  LogoEvaluator a
+updateTurtle :: TurtleIO a  ->  LogoEvaluator a
 updateTurtle = lift
 
 sin_ [NumLiteral n] = return $ NumLiteral (sin $ fromDegrees n)

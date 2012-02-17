@@ -47,9 +47,8 @@ main = do
 renderLogo :: String -> String -> IO ()
 renderLogo s o = do
   tokens <- readSource s
-  let path = runTurtle $ evaluateSourceTokens tokens
-      d = stroke path
-  withArgs ["-o", o] $ defaultMain (d # lw (0.005 * width d) # centerXY # pad 1.1)
+  diag   <- stroke <$>  runTurtleT (evaluateSourceTokens tokens)
+  withArgs ["-o", o] $ defaultMain (diag # lw (0.005 * width diag) # centerXY # pad 1.1)
 
 readSource :: FilePath -> IO [LogoToken]
 readSource f = do
@@ -58,7 +57,7 @@ readSource f = do
     Left x -> error $ show x
     Right t -> return t
 
-evaluateSourceTokens :: [LogoToken] -> Turtle ()
+evaluateSourceTokens :: [LogoToken] -> TurtleIO ()
 evaluateSourceTokens tokens = do
   let initialContext = LogoContext builtins M.empty M.empty
   res <- evaluateWithContext tokens initialContext

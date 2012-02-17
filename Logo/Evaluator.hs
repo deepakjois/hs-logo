@@ -13,8 +13,6 @@ import Text.Parsec.Prim (runParserT, tokenPrim, getState, putState, modifyState)
 import Text.Parsec.Combinator (many1, option, choice)
 import Text.Parsec.Error (ParseError)
 
-import Diagrams.TwoD.Path.Turtle (Turtle)
-
 -- ----------------------------------------------------------------------
 
 --  Expression Evaluation
@@ -35,7 +33,7 @@ import Diagrams.TwoD.Path.Turtle (Turtle)
 --                            | procedure-call
 --                            | '(' Expression ')'
 
-evaluateWithContext :: [LogoToken] -> LogoContext -> Turtle (Either ParseError ([LogoToken], LogoContext))
+evaluateWithContext :: [LogoToken] -> LogoContext -> TurtleIO (Either ParseError ([LogoToken], LogoContext))
 evaluateWithContext tokens ctx = runParserT expression ctx "(stream)" tokens
 
 evaluateTokens :: [LogoToken] -> LogoEvaluator LogoToken
