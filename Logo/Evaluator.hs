@@ -77,7 +77,10 @@ additiveExpression :: LogoEvaluator LogoToken
 additiveExpression = parseWithOperators ["+", "-"] multiplicativeExpression
 
 multiplicativeExpression :: LogoEvaluator LogoToken
-multiplicativeExpression = parseWithOperators ["*", "/", "%"] finalExpression
+multiplicativeExpression = parseWithOperators ["*", "/", "%"] powerExpression
+
+powerExpression :: LogoEvaluator LogoToken
+powerExpression = parseWithOperators ["^"] finalExpression
 
 finalExpression :: LogoEvaluator LogoToken
 finalExpression = do
