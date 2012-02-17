@@ -6,7 +6,7 @@ import Logo.Evaluator
 import qualified Data.Map as M
 
 import Control.Applicative ((<$>))
-import Control.Monad.Trans (lift)
+import Control.Monad.Trans (lift, liftIO)
 
 import Text.Parsec.Prim (modifyState, many)
 import Text.Parsec.Combinator (manyTill)
@@ -16,6 +16,7 @@ import Diagrams.TwoD.Path.Turtle
 fd, bk, rt, lt, home, setxy, seth, pu, pd :: [LogoToken] -> LogoEvaluator LogoToken
 repeat_, repcount, for, dotimes, to, if_, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
 sin_, cos_, tan_, arctan, sqrt_ :: [LogoToken] -> LogoEvaluator LogoToken
+pr :: [LogoToken] -> LogoEvaluator LogoToken
 
 fd (NumLiteral d : []) = do
   updateTurtle (forward d)
@@ -148,6 +149,9 @@ createLogoFunction vars_ tokens_ args =
 updateTurtle :: TurtleIO a  ->  LogoEvaluator a
 updateTurtle = lift
 
+turtleIO :: IO a -> LogoEvaluator a
+turtleIO = lift . liftIO
+
 sin_ [NumLiteral n] = return $ NumLiteral (sin $ fromDegrees n)
 sin_ _ = error "Invalid arguments for sin"
 
@@ -165,6 +169,12 @@ fromDegrees n = n * (pi/180)
 
 sqrt_ [NumLiteral n] = return . NumLiteral . sqrt $ n
 sqrt_ _ = error "Invalid arguments to sqrt"
+
+pr [t] = turtleIO $ do
+  putStrLn (show t)
+  return $ StrLiteral ""
+
+pr _ = error "Invalid arguments to pr"
 
 builtins :: M.Map String LogoFunctionDef
 builtins = M.fromList
@@ -189,4 +199,5 @@ builtins = M.fromList
   , ("tan",      LogoFunctionDef 1 tan_)
   , ("arctan",   LogoFunctionDef 1 arctan)
   , ("sqrt",     LogoFunctionDef 1 sqrt_)
+  , ("pr",       LogoFunctionDef 1 pr)
   ]

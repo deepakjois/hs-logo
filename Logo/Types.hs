@@ -11,7 +11,16 @@ data LogoToken = Identifier String    -- Identifier
                | OperLiteral String   -- Operator
                | LogoList [LogoToken] -- Input definition/variable reference
                | LogoExpr [LogoToken] -- Expression inside parentheses
-               deriving (Show, Eq)
+               deriving (Eq)
+
+instance Show LogoToken where
+  show (Identifier s)  = "@" ++ s ++ "@"
+  show (StrLiteral s)  = s
+  show (VarLiteral s)  = ":" ++ s
+  show (NumLiteral s)  = show s
+  show (OperLiteral s) = s
+  show (LogoList l)    = show l
+  show (LogoExpr e)    = "(" ++ show e ++ ")"
 
 type TurtleIO = TurtleT IO
 
