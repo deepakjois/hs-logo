@@ -1,0 +1,1 @@
+for [t 0 180 1] [seth :t fd 200 * sin :t * 7 home]

@@ -1,0 +1,1 @@
+repeat random 1000 [fd random 1000 rt random 360]

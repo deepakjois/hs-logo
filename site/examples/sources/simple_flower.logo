@@ -1,0 +1,1 @@
+repeat 11 [for [i 0 359 1] [fd 1 rt (sin :i / 2)]]

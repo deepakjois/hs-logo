@@ -1,0 +1,1 @@
+repeat 1000 [fd 3 rt random 20 * (1 + sin (10 * repcount))]

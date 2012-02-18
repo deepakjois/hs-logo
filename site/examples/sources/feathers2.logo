@@ -1,0 +1,1 @@
+repeat 50 [repeat random 100 [fd 300 bk 295 rt 2] rt 180]
