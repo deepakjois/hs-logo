@@ -1,1 +1,0 @@
-for [ l 0 95 3 ] [ repeat 5 [ fd :l rt 144 ] fd :l rt 30 ]

@@ -1,1 +1,0 @@
-repeat 8 [repeat 4 [rt 90 fd 100] bk 100 lt 45]

@@ -1,1 +1,0 @@
-for [ i 100 30 -50 ] [ repeat 6 [ repeat 6 [ fd :i lt 60 ] lt 60 ] ]

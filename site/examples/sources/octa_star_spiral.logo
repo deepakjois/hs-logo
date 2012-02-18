@@ -1,1 +1,0 @@
-for [ l 0 120 4 ] [ repeat 8 [ fd :l rt 135 ] fd :l rt 30 ]

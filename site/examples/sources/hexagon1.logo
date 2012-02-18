@@ -1,1 +1,0 @@
-for [ size 20 80 20 ] [ repeat 6 [ repeat 6 [ fd :size rt 60 ] rt 60 ] ]

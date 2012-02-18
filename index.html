@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>hs-logo – Logo turtle graphics interpreter</title>
+    <meta name="charset" value="utf-8"/>
+  </head>
+<body>
+<h1>hs-logo – Logo turtle graphics interpreter</h1>
+
+<h2>Introduction</h2>
+
+TBD
+
+<h2>Examples</h2>
+
+<h3>dahlia.logo</h3>
+
+<pre>
+repeat 8 [rt 45 repeat 6 [repeat 90 [fd 2 rt 2] rt 90]]
+</pre>
+
+<img src="examples/images/dahlia.png" alt="dahlia.logo"/>
+<h3>design1.logo</h3>
+
+<pre>
+repeat 18 [repeat 5 [rt 40 fd 100 rt 120] rt 20]
+</pre>
+
+<img src="examples/images/design1.png" alt="design1.logo"/>
+<h3>fan_flower.logo</h3>
+
+<pre>
+repeat 12 [repeat 75 [fd 100 bk 100 rt 2] fd 250]
+</pre>
+
+<img src="examples/images/fan_flower.png" alt="fan_flower.logo"/>
+<h3>five_rose.logo</h3>
+
+<pre>
+dotimes [ i 1800 ] [ fd 10 rt :i + 0.1 ]
+</pre>
+
+<img src="examples/images/five_rose.png" alt="five_rose.logo"/>
+<h3>hairy_star.logo</h3>
+
+<pre>
+for [i 0 4700 1] [fd 10 rt (180 * sin (:i * :i))]
+
+</pre>
+
+<img src="examples/images/hairy_star.png" alt="hairy_star.logo"/>
+<h3>hexagon.logo</h3>
+
+<pre>
+for [ i 100 30 -50 ] [ repeat 6 [ repeat 6 [ fd :i lt 60 ] lt 60 ] ]
+</pre>
+
+<img src="examples/images/hexagon.png" alt="hexagon.logo"/>
+<h3>hexagon1.logo</h3>
+
+<pre>
+for [ size 20 80 20 ] [ repeat 6 [ repeat 6 [ fd :size rt 60 ] rt 60 ] ]
+</pre>
+
+<img src="examples/images/hexagon1.png" alt="hexagon1.logo"/>
+<h3>hexagon2.logo</h3>
+
+<pre>
+for [ i 100 10 -5 ] [ repeat 6 [ repeat 6 [ fd :i lt 60 ] lt 60 ] ]
+</pre>
+
+<img src="examples/images/hexagon2.png" alt="hexagon2.logo"/>
+<h3>hypercube.logo</h3>
+
+<pre>
+repeat 8 [repeat 4 [rt 90 fd 100] bk 100 lt 45]
+</pre>
+
+<img src="examples/images/hypercube.png" alt="hypercube.logo"/>
+<h3>jaggy_star.logo</h3>
+
+<pre>
+for [i 0 2200 1] [fd (25 * sin :i) rt (:i * :i)]
+</pre>
+
+<img src="examples/images/jaggy_star.png" alt="jaggy_star.logo"/>
+<h3>moire.logo</h3>
+
+<pre>
+ repeat 180 [fd 500 bk 500 rt 2]
+</pre>
+
+<img src="examples/images/moire.png" alt="moire.logo"/>
+<h3>octa_star_spiral.logo</h3>
+
+<pre>
+for [ l 0 120 4 ] [ repeat 8 [ fd :l rt 135 ] fd :l rt 30 ]
+</pre>
+
+<img src="examples/images/octa_star_spiral.png" alt="octa_star_spiral.logo"/>
+<h3>penta_star_spiral.logo</h3>
+
+<pre>
+for [ l 0 95 3 ] [ repeat 5 [ fd :l rt 144 ] fd :l rt 30 ]
+</pre>
+
+<img src="examples/images/penta_star_spiral.png" alt="penta_star_spiral.logo"/>
+<h3>pentagon.logo</h3>
+
+<pre>
+for [ i 100 10 -10 ] [ repeat 5 [ repeat 5 [ fd :i lt 72 ] lt 72 ] ]
+</pre>
+
+<img src="examples/images/pentagon.png" alt="pentagon.logo"/>
+<h3>pentahexagon.logo</h3>
+
+<pre>
+repeat 5 [ repeat 6 [ fd 100 lt 72 ] lt 144 ]
+</pre>
+
+<img src="examples/images/pentahexagon.png" alt="pentahexagon.logo"/>
+<h3>pentahexagon1.logo</h3>
+
+<pre>
+for [ i 100 10 -5 ] [ repeat 5 [ repeat 6 [ fd :i lt 72 ] lt 144 ] ]
+</pre>
+
+<img src="examples/images/pentahexagon1.png" alt="pentahexagon1.logo"/>
+<h3>polygon1.logo</h3>
+
+<pre>
+repeat 8 [repeat 20 [lt 170 fd 20 rt 170 fd 20] rt 45]
+</pre>
+
+<img src="examples/images/polygon1.png" alt="polygon1.logo"/>
+<h3>polygon2.logo</h3>
+
+<pre>
+for [ l 10 80 5 ] [ repeat 5 [ repeat 8 [ fd :l rt 45 ] rt 72 ] ]
+</pre>
+
+<img src="examples/images/polygon2.png" alt="polygon2.logo"/>
+<h3>rotating_circle.logo</h3>
+
+<pre>
+repeat 400 [repeat 34 [fd 12 rt 10] rt 90]
+</pre>
+
+<img src="examples/images/rotating_circle.png" alt="rotating_circle.logo"/>
+<h3>shell.logo</h3>
+
+<pre>
+for [ scr 0.2 1.75 0.05 ] [ repeat 360 [ fd :scr rt 1 ] ]
+</pre>
+
+<img src="examples/images/shell.png" alt="shell.logo"/>
+<h3>snowflake.logo</h3>
+
+<pre>
+to side :size :level
+ifelse :level = 0
+  [ fd :size ]
+  [ side :size / 3 :level - 1
+    lt 60
+    side :size / 3 :level - 1
+    rt 120
+    side :size / 3 :level - 1
+    lt 60
+    side :size / 3 :level - 1
+  ]
+end
+lt 30
+repeat 3 [side 250 4 rt 120]
+
+</pre>
+
+<img src="examples/images/snowflake.png" alt="snowflake.logo"/>
+<h3>spin_wheel1.logo</h3>
+
+<pre>
+repeat 25 [repeat 15 [fd 100 bk 100 rt 5] fd 100]
+</pre>
+
+<img src="examples/images/spin_wheel1.png" alt="spin_wheel1.logo"/>
+<h3>spin_wheel2.logo</h3>
+
+<pre>
+repeat 12 [repeat 15 [fd 100 bk 95 rt 10] fd 100] 
+</pre>
+
+<img src="examples/images/spin_wheel2.png" alt="spin_wheel2.logo"/>
+<h3>spin_wheel3.logo</h3>
+
+<pre>
+repeat 24 [repeat 25 [fd 100 bk 100 rt 15] fd 100]
+</pre>
+
+<img src="examples/images/spin_wheel3.png" alt="spin_wheel3.logo"/>
+<h3>spiral.logo</h3>
+
+<pre>
+for [ i 0.01 4 0.05 ] [ repeat 180 [ fd :i rt 1 ] ]
+</pre>
+
+<img src="examples/images/spiral.png" alt="spiral.logo"/>
+
+
+  </body>
+</html>

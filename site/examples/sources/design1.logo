@@ -1,1 +1,0 @@
-repeat 18 [repeat 5 [rt 40 fd 100 rt 120] rt 20]

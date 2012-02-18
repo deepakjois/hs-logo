@@ -1,1 +1,0 @@
-repeat 25 [repeat 15 [fd 100 bk 100 rt 5] fd 100]

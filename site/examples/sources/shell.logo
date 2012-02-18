@@ -1,1 +1,0 @@
-for [ scr 0.2 1.75 0.05 ] [ repeat 360 [ fd :scr rt 1 ] ]
