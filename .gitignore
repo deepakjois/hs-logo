@@ -2,3 +2,5 @@ dist
 *.o
 *.hi
 logo.png
+_cache
+_site
