@@ -37,6 +37,7 @@ evaluateWithContext :: [LogoToken] -> LogoContext -> TurtleIO (Either ParseError
 evaluateWithContext tokens ctx = runParserT expression ctx "(stream)" tokens
 
 evaluateTokens :: [LogoToken] -> LogoEvaluator LogoToken
+evaluateTokens [] = return $ StrLiteral ""
 evaluateTokens tokens = do
   ctx <- getState
 

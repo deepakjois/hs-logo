@@ -6,7 +6,7 @@ import Control.Applicative ((<|>), (<$>), many)
 
 import Text.ParserCombinators.Parsec (
   char, letter, alphaNum, string, space,
-  parse, many1, skipMany, skipMany1, sepEndBy1, noneOf, try,
+  parse, many1, skipMany, skipMany1, sepEndBy, noneOf, try,
   ParseError, Parser)
 
 import Text.ParserCombinators.Parsec.Number (natFloat, sign)
@@ -17,7 +17,7 @@ tokenize = parse logo "(unknown)"
 logo :: Parser [LogoToken]
 logo = do
   skipMany space
-  sepEndBy1 atom (skipMany1 space)
+  sepEndBy atom (skipMany1 space)
 
 atom :: Parser LogoToken
 atom =  identifier <|> stringLiteral <|> varLiteral <|> list <|> try numLiteral <|> try operLiteral <|> list <|> expression
@@ -31,7 +31,7 @@ identifier = do
 stringLiteral :: Parser LogoToken
 stringLiteral = do
   char '"'
-  s <- many1 $ noneOf "\t\n "
+  s <- many1 $ noneOf "\t\n []"
   return $ StrLiteral s
 
 varLiteral :: Parser LogoToken
