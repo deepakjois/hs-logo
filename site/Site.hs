@@ -56,4 +56,6 @@ addLogoExamplesList = setFieldA "examples" $
 -- *****************
 
 config :: HakyllConfiguration
-config = defaultHakyllConfiguration
+config = defaultHakyllConfiguration  {
+           deployCommand = "rsync  -avz --delete --exclude \".git\"  --progress _site/  ../../hs-logo-site/"
+         }
