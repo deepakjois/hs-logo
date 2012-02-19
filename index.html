@@ -1,284 +1,130 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>hs-logo – Logo turtle graphics interpreter</title>
-    <meta charset="utf-8"/>
+    <title>Home</title>
+    <meta charset="utf-8">
+    <style>
+      * {
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        margin-left: 16em;
+        margin-right: 10em;
+        font: 100%/1.5 sans-serif;
+      }
+
+      nav {
+        width: 11rem;
+        position: fixed;
+        top: 7rem;
+        left: 3rem;
+        text-align: right;
+      }
+
+      nav a {
+        margin: 0.5rem 0;
+        display: inline-block;
+        text-transform: uppercase;
+        border-bottom: 0;
+        display: block;
+        font-size: 0.8em;
+        line-height: 1.25;
+      }
+
+      a {
+        text-decoration: none;
+        border-bottom: 1px dotted;
+        color: inherit;
+      }
+
+      pre + img {
+        display: block;
+        margin: 0 auto;
+      }
+
+      h2, h3 {
+        margin-bottom: 0;
+      }
+
+      p, pre { 
+		  margin-top: 1rem;
+      }
+
+	  pre, code {
+          background: #000;
+          color: #fff;	  
+	  }
+	  
+      pre {
+        margin: 1rem -0.5em 1rem -0.5em;
+        padding: 0.5em;
+        outline: 1px dotted;
+        outline-offset: 2px;
+        font-size: 0.9rem;
+      }
+	  
+	  p code, li code {
+		  padding: 0.25em 0.5em;
+	  }
+
+      header h1 {
+        font-size: 2em;
+        margin-bottom: 0;
+      }
+
+
+      header h2 {
+        margin-top: 0;
+        font-size: 1em;
+        font-weight: normal;
+        text-transform: uppercase;
+      }
+    </style>
   </head>
 <body>
-<h1>hs-logo – Logo turtle graphics interpreter</h1>
+  <nav>
+  <a href="./">Home</a>
+  <a href="examples.html">Examples</a>
+  <a href="about.html">About</a>
+  </nav>
+  <header>
+    <h1>hs-logo</h1>
+    <h2>Logo turtle graphics interpreter</h2>
+  </header>
+<h2>Overview</h2>
 
-<h2>Introduction</h2>
+<p><em>hs-logo</em> is an interpreter for the <a href="http://www.cs.berkeley.edu/~bh/logo.html">Logo Programming Language</a>, written in <a href="http://haskell.org">Haskell</a>. It is specialised for Turtle graphics, and is not intended to be a full-fledged Logo interpreter.</p>
+<p>You can get the latest version from hackage using <code>cabal install hs-logo</code>, as long as you have Haskell installed. Browse the <a href="examples.html">examples</a> to get started. You can execute your logo files to generate an image like this.</p>
+<pre><code>% hs-logo example.logo -o example.png</code></pre>
+<p>The interpreter is still a work in progress, and more primitives will be added soon. You can find the sources at the <a href="http://github.com/deepakjois/hs-logo">hs-logo project on github</a>.</p>
 
-TBD
-
-<h2>Examples</h2>
-
-<p>Examples are taken from the <a href="http://www.mathcats.com/gallery/15wordcontest.html">Logo 15-word challenge.</a> Some of them have been adapted since the interpreter doesnt support all the primitives yet.</p>
+<h2>Highlights</h2>
 
 <h3>brownian_motion.logo</h3>
 
-<pre>
-repeat 10000 [fd 3 * (-1 + random 2) rt 90 * random 4]
-</pre>
+<pre><code>repeat 10000 [fd 3 * (-1 + random 2) rt 90 * random 4]</code></pre>
 
-<img src="examples/images/brownian_motion.png" alt="brownian_motion.logo"/>
-<h3>bullring.logo</h3>
-
-<pre>
-for [i 0 1002 1] [fd 8 seth (360 * ((:i ^ 3) / 1002))]
-</pre>
-
-<img src="examples/images/bullring.png" alt="bullring.logo"/>
-<h3>dahlia.logo</h3>
-
-<pre>
-repeat 8 [rt 45 repeat 6 [repeat 90 [fd 2 rt 2] rt 90]]
-</pre>
-
-<img src="examples/images/dahlia.png" alt="dahlia.logo"/>
-<h3>design1.logo</h3>
-
-<pre>
-repeat 18 [repeat 5 [rt 40 fd 100 rt 120] rt 20]
-</pre>
-
-<img src="examples/images/design1.png" alt="design1.logo"/>
-<h3>fan_flower.logo</h3>
-
-<pre>
-repeat 12 [repeat 75 [fd 100 bk 100 rt 2] fd 250]
-</pre>
-
-<img src="examples/images/fan_flower.png" alt="fan_flower.logo"/>
-<h3>feathers1.logo</h3>
-
-<pre>
-repeat 12 [repeat random 50 [fd 100 bk 95 rt 2] rt 180]
-</pre>
-
-<img src="examples/images/feathers1.png" alt="feathers1.logo"/>
-<h3>feathers2.logo</h3>
-
-<pre>
-repeat 50 [repeat random 100 [fd 300 bk 295 rt 2] rt 180]
-</pre>
-
-<img src="examples/images/feathers2.png" alt="feathers2.logo"/>
-<h3>five_rose.logo</h3>
-
-<pre>
-dotimes [ i 1800 ] [ fd 10 rt :i + 0.1 ]
-</pre>
-
-<img src="examples/images/five_rose.png" alt="five_rose.logo"/>
-<h3>gillyflower.logo</h3>
-
-<pre>
-repeat 450 [fd (73 * sin repcount) rt 88 * cos (73 * sin repcount)]
-</pre>
-
-<img src="examples/images/gillyflower.png" alt="gillyflower.logo"/>
-<h3>growing_scrolls1.logo</h3>
-
-<pre>
-for [i -1 4 1] [repeat 720 [fd 2 ^ :i rt repcount]]
-</pre>
-
-<img src="examples/images/growing_scrolls1.png" alt="growing_scrolls1.logo"/>
-<h3>growing_scrolls2.logo</h3>
-
-<pre>
-for [i -1 15 1] [repeat 720 [fd 1.2 ^ :i rt repcount] lt 45]
-</pre>
-
-<img src="examples/images/growing_scrolls2.png" alt="growing_scrolls2.logo"/>
-<h3>growing_scrolls3.logo</h3>
-
-<pre>
-for [i 1 14 6] [repeat 720 [fd :i rt repcount]]
-</pre>
-
-<img src="examples/images/growing_scrolls3.png" alt="growing_scrolls3.logo"/>
-<h3>growing_scrolls4.logo</h3>
-
-<pre>
-for [i 1 18 2] [repeat 720 [fd :i rt repcount] lt 45]
-</pre>
-
-<img src="examples/images/growing_scrolls4.png" alt="growing_scrolls4.logo"/>
-<h3>hairy_star.logo</h3>
-
-<pre>
-for [i 0 4700 1] [fd 10 rt (180 * sin (:i * :i))]
-
-</pre>
-
-<img src="examples/images/hairy_star.png" alt="hairy_star.logo"/>
-<h3>hexagon.logo</h3>
-
-<pre>
-for [ i 100 30 -50 ] [ repeat 6 [ repeat 6 [ fd :i lt 60 ] lt 60 ] ]
-</pre>
-
-<img src="examples/images/hexagon.png" alt="hexagon.logo"/>
-<h3>hexagon1.logo</h3>
-
-<pre>
-for [ size 20 80 20 ] [ repeat 6 [ repeat 6 [ fd :size rt 60 ] rt 60 ] ]
-</pre>
-
-<img src="examples/images/hexagon1.png" alt="hexagon1.logo"/>
-<h3>hexagon2.logo</h3>
-
-<pre>
-for [ i 100 10 -5 ] [ repeat 6 [ repeat 6 [ fd :i lt 60 ] lt 60 ] ]
-</pre>
-
-<img src="examples/images/hexagon2.png" alt="hexagon2.logo"/>
-<h3>hypercube.logo</h3>
-
-<pre>
-repeat 8 [repeat 4 [rt 90 fd 100] bk 100 lt 45]
-</pre>
-
-<img src="examples/images/hypercube.png" alt="hypercube.logo"/>
-<h3>jaggy_star.logo</h3>
-
-<pre>
-for [i 0 2200 1] [fd (25 * sin :i) rt (:i * :i)]
-</pre>
-
-<img src="examples/images/jaggy_star.png" alt="jaggy_star.logo"/>
-<h3>low.logo</h3>
-
-<pre>
-for [i 0 32 1] [repeat :i [fd :i rt 358 / :i] bk sqrt :i]
-</pre>
-
-<img src="examples/images/low.png" alt="low.logo"/>
+<img src="examples/images/brownian_motion.png" alt="brownian_motion.logo" width="400" height="400"/>
 <h3>moire.logo</h3>
 
-<pre>
- repeat 180 [fd 500 bk 500 rt 2]
-</pre>
+<pre><code> repeat 180 [fd 500 bk 500 rt 2]</code></pre>
 
-<img src="examples/images/moire.png" alt="moire.logo"/>
-<h3>octa_star_spiral.logo</h3>
-
-<pre>
-for [ l 0 120 4 ] [ repeat 8 [ fd :l rt 135 ] fd :l rt 30 ]
-</pre>
-
-<img src="examples/images/octa_star_spiral.png" alt="octa_star_spiral.logo"/>
-<h3>penta_star_spiral.logo</h3>
-
-<pre>
-for [ l 0 95 3 ] [ repeat 5 [ fd :l rt 144 ] fd :l rt 30 ]
-</pre>
-
-<img src="examples/images/penta_star_spiral.png" alt="penta_star_spiral.logo"/>
-<h3>pentagon.logo</h3>
-
-<pre>
-for [ i 100 10 -10 ] [ repeat 5 [ repeat 5 [ fd :i lt 72 ] lt 72 ] ]
-</pre>
-
-<img src="examples/images/pentagon.png" alt="pentagon.logo"/>
-<h3>pentahexagon.logo</h3>
-
-<pre>
-repeat 5 [ repeat 6 [ fd 100 lt 72 ] lt 144 ]
-</pre>
-
-<img src="examples/images/pentahexagon.png" alt="pentahexagon.logo"/>
-<h3>pentahexagon1.logo</h3>
-
-<pre>
-for [ i 100 10 -5 ] [ repeat 5 [ repeat 6 [ fd :i lt 72 ] lt 144 ] ]
-</pre>
-
-<img src="examples/images/pentahexagon1.png" alt="pentahexagon1.logo"/>
-<h3>polygon1.logo</h3>
-
-<pre>
-repeat 8 [repeat 20 [lt 170 fd 20 rt 170 fd 20] rt 45]
-</pre>
-
-<img src="examples/images/polygon1.png" alt="polygon1.logo"/>
-<h3>polygon2.logo</h3>
-
-<pre>
-for [ l 10 80 5 ] [ repeat 5 [ repeat 8 [ fd :l rt 45 ] rt 72 ] ]
-</pre>
-
-<img src="examples/images/polygon2.png" alt="polygon2.logo"/>
-<h3>random_lines.logo</h3>
-
-<pre>
-repeat random 1000 [fd random 1000 rt random 360]
-</pre>
-
-<img src="examples/images/random_lines.png" alt="random_lines.logo"/>
-<h3>rose1.logo</h3>
-
-<pre>
-for [t 0 180 3] [seth :t fd 200 * sin :t home]
-</pre>
-
-<img src="examples/images/rose1.png" alt="rose1.logo"/>
-<h3>rose2.logo</h3>
-
-<pre>
-for [t 0 180 1] [seth :t fd 200 * sin :t * 7 home]
-</pre>
-
-<img src="examples/images/rose2.png" alt="rose2.logo"/>
-<h3>rose3.logo</h3>
-
-<pre>
-repeat 9 [for [i 10 200 10] [fd :i bk :i rt 2]]
-</pre>
-
-<img src="examples/images/rose3.png" alt="rose3.logo"/>
+<img src="examples/images/moire.png" alt="moire.logo" width="400" height="400"/>
 <h3>rotating_circle.logo</h3>
 
-<pre>
-repeat 400 [repeat 34 [fd 12 rt 10] rt 90]
-</pre>
+<pre><code>repeat 400 [repeat 34 [fd 12 rt 10] rt 90]</code></pre>
 
-<img src="examples/images/rotating_circle.png" alt="rotating_circle.logo"/>
-<h3>scribble.logo</h3>
-
-<pre>
-repeat 1000 [fd 3 rt random 20 * (1 + sin (10 * repcount))]
-</pre>
-
-<img src="examples/images/scribble.png" alt="scribble.logo"/>
-<h3>shell.logo</h3>
-
-<pre>
-for [ scr 0.2 1.75 0.05 ] [ repeat 360 [ fd :scr rt 1 ] ]
-</pre>
-
-<img src="examples/images/shell.png" alt="shell.logo"/>
-<h3>simple_flower.logo</h3>
-
-<pre>
-repeat 11 [for [i 0 359 1] [fd 1 rt (sin :i / 2)]]
-</pre>
-
-<img src="examples/images/simple_flower.png" alt="simple_flower.logo"/>
-<h3>slalom_scroll.logo</h3>
-
-<pre>
-for [i 0 2000 1] [fd 5 rt (90 * sin :i)]
-</pre>
-
-<img src="examples/images/slalom_scroll.png" alt="slalom_scroll.logo"/>
+<img src="examples/images/rotating_circle.png" alt="rotating_circle.logo" width="400" height="400"/>
 <h3>snowflake.logo</h3>
 
-<pre>
-to side :size :level
+<pre><code>to side :size :level
 ifelse :level = 0
   [ fd :size ]
   [ side :size / 3 :level - 1
@@ -292,45 +138,19 @@ ifelse :level = 0
 end
 lt 30
 repeat 3 [side 250 4 rt 120]
+</code></pre>
 
-</pre>
-
-<img src="examples/images/snowflake.png" alt="snowflake.logo"/>
-<h3>spin_wheel1.logo</h3>
-
-<pre>
-repeat 25 [repeat 15 [fd 100 bk 100 rt 5] fd 100]
-</pre>
-
-<img src="examples/images/spin_wheel1.png" alt="spin_wheel1.logo"/>
-<h3>spin_wheel2.logo</h3>
-
-<pre>
-repeat 12 [repeat 15 [fd 100 bk 95 rt 10] fd 100] 
-</pre>
-
-<img src="examples/images/spin_wheel2.png" alt="spin_wheel2.logo"/>
-<h3>spin_wheel3.logo</h3>
-
-<pre>
-repeat 24 [repeat 25 [fd 100 bk 100 rt 15] fd 100]
-</pre>
-
-<img src="examples/images/spin_wheel3.png" alt="spin_wheel3.logo"/>
+<img src="examples/images/snowflake.png" alt="snowflake.logo" width="400" height="400"/>
 <h3>spiral.logo</h3>
 
-<pre>
-for [ i 0.01 4 0.05 ] [ repeat 180 [ fd :i rt 1 ] ]
-</pre>
+<pre><code>for [ i 0.01 4 0.05 ] [ repeat 180 [ fd :i rt 1 ] ]</code></pre>
 
-<img src="examples/images/spiral.png" alt="spiral.logo"/>
+<img src="examples/images/spiral.png" alt="spiral.logo" width="400" height="400"/>
 <h3>sun.logo</h3>
 
-<pre>
-repeat 2000 [pu home seth random 361 fd 40 pd fd random 200]
-</pre>
+<pre><code>repeat 2000 [pu home seth random 361 fd 40 pd fd random 200]</code></pre>
 
-<img src="examples/images/sun.png" alt="sun.logo"/>
+<img src="examples/images/sun.png" alt="sun.logo" width="400" height="400"/>
 
 
   </body>
