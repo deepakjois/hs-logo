@@ -24,14 +24,30 @@ main = hakyllWith config $ do
     route idRoute
     compile copyFileCompiler
 
-  -- Render posts list
+  -- Render index page with select examples
+  match "intro.markdown" $ compile pageCompiler
+
   match "index.html" $ route idRoute
   create "index.html" $ constA mempty
-    >>> arr (setField "title" "Examples")
-    >>> requireAllA "examples/sources/*.logo" addLogoExamplesList
+    >>> arr (setField "title" "Home")
+    >>> setFieldPage "intro" "intro.markdown"
+    >>> requireAllA frontPageExamples addLogoExamplesList
     >>> applyTemplateCompiler "templates/index.html"
     >>> applyTemplateCompiler "templates/site.html"
 
+  -- Render examples page
+  match "examples.html" $ route idRoute
+  create "examples.html" $ constA mempty
+      >>> arr (setField "title" "Examples")
+      >>> requireAllA "examples/sources/*.logo" addLogoExamplesList
+      >>> applyTemplateCompiler "templates/examples.html"
+      >>> applyTemplateCompiler "templates/site.html"
+
+  -- Render about page
+  match "about.markdown" $ do
+    route $ setExtension "html"
+    compile $ pageCompiler
+      >>> applyTemplateCompiler "templates/site.html"
 
 -- *****************
 -- Compilers
@@ -51,8 +67,7 @@ addLogoExampleFields = (getIdentifier &&& C.id >>^ uncurry addFields)
 
 addLogoExamplesList :: Compiler (Page String, [Page String]) (Page String)
 addLogoExamplesList = setFieldA "examples" $
-  arr chronological
-  >>> require "templates/example.html" (\p t -> map (applyTemplate t) p)
+  require "templates/example.html" (\p t -> map (applyTemplate t) p)
   >>> arr mconcat
   >>> arr pageBody
 
@@ -60,6 +75,11 @@ addLogoExamplesList = setFieldA "examples" $
 -- *****************
 -- Configuration
 -- *****************
+
+frontPageExamples :: forall a. Pattern a
+frontPageExamples = list $
+  map (parseIdentifier . ("examples/sources" </>)) $
+  ["moire.logo", "sun.logo", "spiral.logo", "rotating_circle.logo", "snowflake.logo", "brownian_motion.logo"]
 
 config :: HakyllConfiguration
 config = defaultHakyllConfiguration  {

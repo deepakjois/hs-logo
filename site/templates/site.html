@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>hs-logo – Logo turtle graphics interpreter</title>
+    <title>$title$</title>
     <meta charset="utf-8">
     <style>
-      * { 
+      * {
         -moz-box-sizing: border-box;
         box-sizing: border-box;
       }
@@ -13,14 +13,12 @@
         margin: 0;
         padding: 0;
       }
-        
+
       html {
         margin-left: 16em;
         margin-right: 10em;
         font: 100%/1.5 sans-serif;
       }
-
-      
 
       nav {
         width: 11rem;
@@ -30,8 +28,8 @@
         text-align: right;
       }
 
-      nav a { 
-        margin: 0.5rem 0; 
+      nav a {
+        margin: 0.5rem 0;
         display: inline-block;
         text-transform: uppercase;
         border-bottom: 0;
@@ -55,18 +53,26 @@
         margin-bottom: 0;
       }
 
-      p, pre { margin-top: 0;
-      }  
+      p, pre { 
+		  margin-top: 1rem;
+      }
 
+	  pre, code {
+          background: #000;
+          color: #fff;	  
+	  }
+	  
       pre {
-        background: #000;
-        color: #fff;
-        margin: 0.5em -0.5em 0.5em -0.5em;
+        margin: 1rem -0.5em 1rem -0.5em;
         padding: 0.5em;
         outline: 1px dotted;
         outline-offset: 2px;
-        font-size: 0.8em;
+        font-size: 0.9rem;
       }
+	  
+	  p code, li code {
+		  padding: 0.25em 0.5em;
+	  }
 
       header h1 {
         font-size: 2em;
@@ -80,20 +86,18 @@
         font-weight: normal;
         text-transform: uppercase;
       }
-
-
-
-
-
     </style>
   </head>
 <body>
   <nav>
-  <a href="#">Home</a>
-  <a href="#">Examples</a>
-  <a href="#">Docs</a>
-  <a href="#">About</a>
+  <a href="./">Home</a>
+  <a href="examples.html">Examples</a>
+  <a href="about.html">About</a>
   </nav>
+  <header>
+    <h1>hs-logo</h1>
+    <h2>Logo turtle graphics interpreter</h2>
+  </header>
 $body$
   </body>
 </html>
