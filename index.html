@@ -71,6 +71,41 @@ dotimes [ i 1800 ] [ fd 10 rt :i + 0.1 ]
 </pre>
 
 <img src="examples/images/five_rose.png" alt="five_rose.logo"/>
+<h3>gillyflower.logo</h3>
+
+<pre>
+repeat 450 [fd (73 * sin repcount) rt 88 * cos (73 * sin repcount)]
+</pre>
+
+<img src="examples/images/gillyflower.png" alt="gillyflower.logo"/>
+<h3>growing_scrolls1.logo</h3>
+
+<pre>
+for [i -1 4 1] [repeat 720 [fd 2 ^ :i rt repcount]]
+</pre>
+
+<img src="examples/images/growing_scrolls1.png" alt="growing_scrolls1.logo"/>
+<h3>growing_scrolls2.logo</h3>
+
+<pre>
+for [i -1 15 1] [repeat 720 [fd 1.2 ^ :i rt repcount] lt 45]
+</pre>
+
+<img src="examples/images/growing_scrolls2.png" alt="growing_scrolls2.logo"/>
+<h3>growing_scrolls3.logo</h3>
+
+<pre>
+for [i 1 14 6] [repeat 720 [fd :i rt repcount]]
+</pre>
+
+<img src="examples/images/growing_scrolls3.png" alt="growing_scrolls3.logo"/>
+<h3>growing_scrolls4.logo</h3>
+
+<pre>
+for [i 1 18 2] [repeat 720 [fd :i rt repcount] lt 45]
+</pre>
+
+<img src="examples/images/growing_scrolls4.png" alt="growing_scrolls4.logo"/>
 <h3>hairy_star.logo</h3>
 
 <pre>
@@ -114,6 +149,13 @@ for [i 0 2200 1] [fd (25 * sin :i) rt (:i * :i)]
 </pre>
 
 <img src="examples/images/jaggy_star.png" alt="jaggy_star.logo"/>
+<h3>low.logo</h3>
+
+<pre>
+for [i 0 32 1] [repeat :i [fd :i rt 358 / :i] bk sqrt :i]
+</pre>
+
+<img src="examples/images/low.png" alt="low.logo"/>
 <h3>moire.logo</h3>
 
 <pre>
@@ -282,6 +324,13 @@ for [ i 0.01 4 0.05 ] [ repeat 180 [ fd :i rt 1 ] ]
 </pre>
 
 <img src="examples/images/spiral.png" alt="spiral.logo"/>
+<h3>sun.logo</h3>
+
+<pre>
+repeat 2000 [pu home seth random 361 fd 40 pd fd random 200]
+</pre>
+
+<img src="examples/images/sun.png" alt="sun.logo"/>
 
 
   </body>
