@@ -1,0 +1,1 @@
+for [i 1 14 6] [repeat 720 [fd :i rt repcount]]

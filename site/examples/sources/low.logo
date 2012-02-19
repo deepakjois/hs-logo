@@ -1,0 +1,1 @@
+for [i 0 32 1] [repeat :i [fd :i rt 358 / :i] bk sqrt :i]

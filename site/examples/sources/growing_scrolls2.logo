@@ -1,0 +1,1 @@
+for [i -1 15 1] [repeat 720 [fd 1.2 ^ :i rt repcount] lt 45]

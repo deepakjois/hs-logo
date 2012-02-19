@@ -1,0 +1,1 @@
+repeat 450 [fd (73 * sin repcount) rt 88 * cos (73 * sin repcount)]

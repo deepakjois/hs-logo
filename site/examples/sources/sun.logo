@@ -1,0 +1,1 @@
+repeat 2000 [pu home seth random 361 fd 40 pd fd random 200]
