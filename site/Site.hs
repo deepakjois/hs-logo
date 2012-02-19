@@ -11,7 +11,10 @@ main = hakyllWith config $ do
   -- Read templates
   match "templates/*" $ compile templateCompiler
 
-  -- TODO copy static assets like CSS, JS and images (including logo images)
+  -- copy static assets like CSS, JS and images (including logo images)
+  match "static/**" $ do
+    route idRoute
+    compile copyFileCompiler
 
   -- Read the logo example source files
   match "examples/sources/*.logo" $ compile (readPageCompiler >>> addLogoExampleFields)
@@ -28,6 +31,8 @@ main = hakyllWith config $ do
     >>> requireAllA "examples/sources/*.logo" addLogoExamplesList
     >>> applyTemplateCompiler "templates/index.html"
     >>> applyTemplateCompiler "templates/site.html"
+
+
 -- *****************
 -- Compilers
 -- *****************
@@ -50,6 +55,7 @@ addLogoExamplesList = setFieldA "examples" $
   >>> require "templates/example.html" (\p t -> map (applyTemplate t) p)
   >>> arr mconcat
   >>> arr pageBody
+
 
 -- *****************
 -- Configuration
