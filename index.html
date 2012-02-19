@@ -15,6 +15,27 @@ TBD
 
 <p>Examples are taken from the <a href="http://www.mathcats.com/gallery/15wordcontest.html">Logo 15-word challenge.</a> Some of them have been adapted since the interpreter doesnt support all the primitives yet.</p>
 
+<h3>brownian_motion.logo</h3>
+
+<pre>
+repeat 10000 [fd 3 * (-1 + random 2) rt 90 * random 4]
+</pre>
+
+<img src="examples/images/brownian_motion.png" alt="brownian_motion.logo"/>
+<h3>bullring.logo</h3>
+
+<pre>
+for [i 0 1002 1] [fd 8 seth (360 * ((:i ^ 3) / 1002))]
+</pre>
+
+<img src="examples/images/bullring.png" alt="bullring.logo"/>
+<h3>current.logo</h3>
+
+<pre>
+repeat 5100 [fd 10 rt arctan ((repcount % 100) / 100)]
+</pre>
+
+<img src="examples/images/current.png" alt="current.logo"/>
 <h3>dahlia.logo</h3>
 
 <pre>
@@ -36,6 +57,20 @@ repeat 12 [repeat 75 [fd 100 bk 100 rt 2] fd 250]
 </pre>
 
 <img src="examples/images/fan_flower.png" alt="fan_flower.logo"/>
+<h3>feathers1.logo</h3>
+
+<pre>
+repeat 12 [repeat random 50 [fd 100 bk 95 rt 2] rt 180]
+</pre>
+
+<img src="examples/images/feathers1.png" alt="feathers1.logo"/>
+<h3>feathers2.logo</h3>
+
+<pre>
+repeat 50 [repeat random 100 [fd 300 bk 295 rt 2] rt 180]
+</pre>
+
+<img src="examples/images/feathers2.png" alt="feathers2.logo"/>
 <h3>five_rose.logo</h3>
 
 <pre>
@@ -142,6 +177,34 @@ for [ l 10 80 5 ] [ repeat 5 [ repeat 8 [ fd :l rt 45 ] rt 72 ] ]
 </pre>
 
 <img src="examples/images/polygon2.png" alt="polygon2.logo"/>
+<h3>random_lines.logo</h3>
+
+<pre>
+repeat random 1000 [fd random 1000 rt random 360]
+</pre>
+
+<img src="examples/images/random_lines.png" alt="random_lines.logo"/>
+<h3>rose1.logo</h3>
+
+<pre>
+for [t 0 180 3] [seth :t fd 200 * sin :t home]
+</pre>
+
+<img src="examples/images/rose1.png" alt="rose1.logo"/>
+<h3>rose2.logo</h3>
+
+<pre>
+for [t 0 180 1] [seth :t fd 200 * sin :t * 7 home]
+</pre>
+
+<img src="examples/images/rose2.png" alt="rose2.logo"/>
+<h3>rose3.logo</h3>
+
+<pre>
+repeat 9 [for [i 10 200 10] [fd :i bk :i rt 2]]
+</pre>
+
+<img src="examples/images/rose3.png" alt="rose3.logo"/>
 <h3>rotating_circle.logo</h3>
 
 <pre>
@@ -149,6 +212,13 @@ repeat 400 [repeat 34 [fd 12 rt 10] rt 90]
 </pre>
 
 <img src="examples/images/rotating_circle.png" alt="rotating_circle.logo"/>
+<h3>scribble.logo</h3>
+
+<pre>
+repeat 1000 [fd 3 rt random 20 * (1 + sin (10 * repcount))]
+</pre>
+
+<img src="examples/images/scribble.png" alt="scribble.logo"/>
 <h3>shell.logo</h3>
 
 <pre>
@@ -156,6 +226,20 @@ for [ scr 0.2 1.75 0.05 ] [ repeat 360 [ fd :scr rt 1 ] ]
 </pre>
 
 <img src="examples/images/shell.png" alt="shell.logo"/>
+<h3>simple_flower.logo</h3>
+
+<pre>
+repeat 11 [for [i 0 359 1] [fd 1 rt (sin :i / 2)]]
+</pre>
+
+<img src="examples/images/simple_flower.png" alt="simple_flower.logo"/>
+<h3>slalom_scroll.logo</h3>
+
+<pre>
+for [i 0 2000 1] [fd 5 rt (90 * sin :i)]
+</pre>
+
+<img src="examples/images/slalom_scroll.png" alt="slalom_scroll.logo"/>
 <h3>snowflake.logo</h3>
 
 <pre>
