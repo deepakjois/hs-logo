@@ -3,7 +3,7 @@ import Control.Arrow (arr, (>>>), (>>^), (&&&))
 import Data.List (sortBy, elemIndex)
 import Data.Maybe (fromJust)
 import Data.Ord (comparing)
-import Data.Monoid (mempty, mconcat)
+import Data.Monoid (mempty)
 import System.FilePath (takeFileName, takeDirectory, takeBaseName, replaceBaseName, replaceExtension, (</>))
 import qualified Control.Category as C
 import Hakyll
@@ -47,7 +47,7 @@ main = hakyllWith config $ do
     >>> applyTemplateCompiler "templates/site.html"
 
   -- Render about page
-  match "about.markdown" $ do
+  match (list ["about.markdown", "installation.markdown"] ) $ do
     route $ setExtension "html"
     compile $ pageCompiler
       >>> applyTemplateCompiler "templates/site.html"
