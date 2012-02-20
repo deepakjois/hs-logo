@@ -8,7 +8,8 @@
 #   - darcs get --lazy http://patch-tag.com/r/byorgey/diagrams-core
 #   - darcs get --lazy http://patch-tag.com/r/byorgey/diagrams-lib
 #   - darcs get --lazy http://patch-tag.com/r/byorgey/diagrams-cairo
-# * Run `cabal configure` in each of the subfolders under gtk2hs: tools, glib, gio, cairo, pango, gtk
+# * Run `cabal configure && cabal build` in each of the subfolders under gtk2hs: tools, glib, gio, cairo, pango, gtk
+# * Run `cabal configure && cabal build` in each of the other packages above
 # * Run this script
 # * If everything went well, you have a sandboxed development environment with all your dependencies
 
