@@ -53,15 +53,15 @@
         margin-bottom: 0;
       }
 
-      p, pre { 
-		  margin-top: 1rem;
+      p, pre {
+                  margin-top: 1rem;
       }
 
-	  pre, code {
+          pre, code {
           background: #000;
-          color: #fff;	  
-	  }
-	  
+          color: #fff;
+          }
+
       pre {
         margin: 1rem -0.5em 1rem -0.5em;
         padding: 0.5em;
@@ -69,10 +69,10 @@
         outline-offset: 2px;
         font-size: 0.9rem;
       }
-	  
-	  p code, li code {
-		  padding: 0.25em 0.5em;
-	  }
+
+          p code, li code {
+                  padding: 0.25em 0.5em;
+          }
 
       header h1 {
         font-size: 2em;
@@ -92,6 +92,7 @@
   <nav>
   <a href="./">Home</a>
   <a href="examples.html">Examples</a>
+  <a href="installation.html">Install</a>
   <a href="about.html">About</a>
   </nav>
   <header>
@@ -101,22 +102,27 @@
 <h2>Overview</h2>
 
 <p><em>hs-logo</em> is an interpreter for the <a href="http://www.cs.berkeley.edu/~bh/logo.html">Logo Programming Language</a>, written in <a href="http://haskell.org">Haskell</a>. It is specialised for Turtle graphics, and is not intended to be a full-fledged Logo interpreter.</p>
-<p>You can get the latest version from hackage using <code>cabal install hs-logo</code>, as long as you have Haskell installed. Browse the <a href="examples.html">examples</a> to get started. You can execute your logo files to generate an image like this.</p>
+<p>Read the <a href="installation.html">installation guide</a> , and then browse the <a href="examples.html">examples</a> to get started. You can execute your logo files to generate an image like below. A more detailed user guide will be added soon.</p>
 <pre><code>% hs-logo example.logo -o example.png</code></pre>
-<p>The interpreter is still a work in progress, and more primitives will be added soon. You can find the sources at the <a href="http://github.com/deepakjois/hs-logo">hs-logo project on github</a>.</p>
+<p>The interpreter is still a work in progress, and more primitives will be added soon. I also plan to write user guide sometime before the next release. You can find the sources at the <a href="http://github.com/deepakjois/hs-logo">hs-logo project on github</a>.</p>
 
 <h2>Highlights</h2>
 
-<h3>brownian_motion.logo</h3>
-
-<pre><code>repeat 10000 [fd 3 * (-1 + random 2) rt 90 * random 4]</code></pre>
-
-<img src="examples/images/brownian_motion.png" alt="brownian_motion.logo" width="400" height="400"/>
 <h3>moire.logo</h3>
 
 <pre><code> repeat 180 [fd 500 bk 500 rt 2]</code></pre>
 
 <img src="examples/images/moire.png" alt="moire.logo" width="400" height="400"/>
+<h3>sun.logo</h3>
+
+<pre><code>repeat 2000 [pu home seth random 361 fd 40 pd fd random 200]</code></pre>
+
+<img src="examples/images/sun.png" alt="sun.logo" width="400" height="400"/>
+<h3>spiral.logo</h3>
+
+<pre><code>for [ i 0.01 4 0.05 ] [ repeat 180 [ fd :i rt 1 ] ]</code></pre>
+
+<img src="examples/images/spiral.png" alt="spiral.logo" width="400" height="400"/>
 <h3>rotating_circle.logo</h3>
 
 <pre><code>repeat 400 [repeat 34 [fd 12 rt 10] rt 90]</code></pre>
@@ -141,16 +147,11 @@ repeat 3 [side 250 4 rt 120]
 </code></pre>
 
 <img src="examples/images/snowflake.png" alt="snowflake.logo" width="400" height="400"/>
-<h3>spiral.logo</h3>
+<h3>brownian_motion.logo</h3>
 
-<pre><code>for [ i 0.01 4 0.05 ] [ repeat 180 [ fd :i rt 1 ] ]</code></pre>
+<pre><code>repeat 10000 [fd 3 * (-1 + random 2) rt 90 * random 4]</code></pre>
 
-<img src="examples/images/spiral.png" alt="spiral.logo" width="400" height="400"/>
-<h3>sun.logo</h3>
-
-<pre><code>repeat 2000 [pu home seth random 361 fd 40 pd fd random 200]</code></pre>
-
-<img src="examples/images/sun.png" alt="sun.logo" width="400" height="400"/>
+<img src="examples/images/brownian_motion.png" alt="brownian_motion.logo" width="400" height="400"/>
 
 
   </body>

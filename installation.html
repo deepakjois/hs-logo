@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Installation</title>
+    <meta charset="utf-8">
+    <style>
+      * {
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        margin-left: 16em;
+        margin-right: 10em;
+        font: 100%/1.5 sans-serif;
+      }
+
+      nav {
+        width: 11rem;
+        position: fixed;
+        top: 7rem;
+        left: 3rem;
+        text-align: right;
+      }
+
+      nav a {
+        margin: 0.5rem 0;
+        display: inline-block;
+        text-transform: uppercase;
+        border-bottom: 0;
+        display: block;
+        font-size: 0.8em;
+        line-height: 1.25;
+      }
+
+      a {
+        text-decoration: none;
+        border-bottom: 1px dotted;
+        color: inherit;
+      }
+
+      pre + img {
+        display: block;
+        margin: 0 auto;
+      }
+
+      h2, h3 {
+        margin-bottom: 0;
+      }
+
+      p, pre {
+                  margin-top: 1rem;
+      }
+
+          pre, code {
+          background: #000;
+          color: #fff;
+          }
+
+      pre {
+        margin: 1rem -0.5em 1rem -0.5em;
+        padding: 0.5em;
+        outline: 1px dotted;
+        outline-offset: 2px;
+        font-size: 0.9rem;
+      }
+
+          p code, li code {
+                  padding: 0.25em 0.5em;
+          }
+
+      header h1 {
+        font-size: 2em;
+        margin-bottom: 0;
+      }
+
+
+      header h2 {
+        margin-top: 0;
+        font-size: 1em;
+        font-weight: normal;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+<body>
+  <nav>
+  <a href="./">Home</a>
+  <a href="examples.html">Examples</a>
+  <a href="installation.html">Install</a>
+  <a href="about.html">About</a>
+  </nav>
+  <header>
+    <h1>hs-logo</h1>
+    <h2>Logo turtle graphics interpreter</h2>
+  </header>
+<h2 id="standard-installation">Standard installation</h2>
+<p>Ideally, the only installation step required would be <code>cabal install hs-logo</code>. However, <em>hs-logo</em> depends on version 0.5 of the <em>diagrams</em> package, which is not released yet. To add additional complexity, the <em>diagrams-cairo</em> package which is used to render the images, depends on a version of <em>gtkhs</em> which is not yet released either. New releases are scheduled to happen soon, and this will all be resolved in a few days. Till then, you need to follow the steps below to install the latest and the greatest.</p>
+<h3 id="install-ghc-7.4-cabal-and-gtk">Install GHC 7.4, cabal and gtk</h3>
+<p>This is out of scope for this document. On OS X (which I use), you can install gtk using <a href="http://mxcl.github.com/homebrew/">homebrew</a> by following the instructions in this <a href="https://gist.github.com/1683922">gist</a> (ignore instructions about installing GHC 7.2, which has already been superseded by GHC 7.4).</p>
+<h3 id="install-the-latest-versions-of-gtkhs-and-diagrams">Install the latest versions of gtkhs and diagrams</h3>
+<p>Download and install the latest <em>gtkhs</em></p>
+<pre><code>% darcs get --lazy http://code.haskell.org/gtk2hs/
+% cd gtk2hs
+% chmod +x bootstrap.sh
+% ./bootstrap.sh</code></pre>
+<p>Download and install the latest <em>diagrams</em></p>
+<pre><code>% darcs get --lazy http://patch-tag.com/r/byorgey/active
+% cd active &amp;&amp; cabal configure &amp;&amp; cabal install &amp;&amp; cd ..
+% darcs get --lazy http://patch-tag.com/r/byorgey/diagrams-core
+% cd diagrams-core &amp;&amp; cabal configure &amp;&amp; cabal install &amp;&amp; cd ..
+% darcs get --lazy http://patch-tag.com/r/byorgey/diagrams-lib
+% cd diagrams-lib &amp;&amp; cabal configure &amp;&amp; cabal install &amp;&amp; cd ..
+% darcs get --lazy http://patch-tag.com/r/byorgey/diagrams-cairo
+% cd diagrams-cairo &amp;&amp; cabal configure &amp;&amp; cabal install &amp;&amp; cd ..</code></pre>
+<h3 id="install-hs-logo">Install hs-logo</h3>
+<pre><code>% cabal instal hs-logo</code></pre>
+<h2 id="development-setup">Development Setup</h2>
+<p>If you want to do development on <em>hs-logo</em>, I highly recommend using <a href="https://github.com/creswick/cabal-dev">cabal-dev</a> to create a sandbox of dependencies for it. Follow the instructions in the <a href="https://github.com/deepakjois/hs-logo/blob/master/bootstrap_dev.sh">bootstrap_dev.sh</a> file to get setup.</p>
+<h2 id="reporting-problems">Reporting Problems</h2>
+<p>Open an <a href="https://github.com/deepakjois/hs-logo/issues">issue</a> on github.</p>
+  </body>
+</html>
