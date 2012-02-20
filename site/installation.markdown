@@ -11,14 +11,26 @@ which is not yet released either. New releases are scheduled to happen soon, and
 this will all be resolved in a few days. Till then, you need to follow the steps
 below to install the latest and the greatest.
 
-### Install GHC 7.4, cabal and gtk
+### Install GHC 7.4, cabal, libfreetype and gtk
 
 This is out of scope for this document. On OS X (which I use), you can install
-gtk using [homebrew] by following the instructions in this [gist] (ignore instructions about
-installing GHC 7.2, which has already been superseded by GHC 7.4).
+Haskell, libfreetype and gtk using [homebrew]. I haven't tried it, but this might work for you.
+
+~~~
+% brew install haskell-platform --devel --64bit
+% brew install cairo gtk gettext fontconfig
+% brew link cairo gettext fontconfig
+~~~
+
+[Download libfreetype][libfreetype], unpack _libfreetype_, and then run `./configure ; make ; make install`.
+
+Alternatively, try following the instructions in this [gist] (ignore
+instructions about installing GHC 7.2, which has already been superseded by GHC
+7.4).
 
 [gist]: https://gist.github.com/1683922
 [homebrew]: http://mxcl.github.com/homebrew/
+[libfreetype]: http://sourceforge.net/projects/freetype/files/freetype2/2.4.8/freetype-2.4.8.tar.bz2/download?use_mirror=iweb
 
 ### Install the latest versions of gtkhs and diagrams
 
@@ -47,7 +59,7 @@ Download and install the latest _diagrams_
 ### Install hs-logo
 
 ~~~
-% cabal instal hs-logo
+% cabal install hs-logo
 ~~~
 
 ## Development Setup
