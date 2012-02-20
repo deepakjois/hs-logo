@@ -1,5 +1,9 @@
 Name:                hs-logo
 Version:             0.1
+Synopsis:            Logo turtle graphics interpreter
+Description:         Interpreter for the Logo programming language,
+                     specialised for turtle graphics.
+Homepage:            http://deepakjois.github.com/hs-logo
 License:             BSD3
 License-File:        LICENSE
 Author:              Deepak Jois
@@ -11,6 +15,9 @@ Category:            Parser
 Cabal-Version:       >=1.6
 Data-Files:          README.md
 
+Source-Repository head
+  type: git
+  location: https://github.com/deepakjois/hs-logo
 
 Executable           hs-logo
   Ghc-Options:       -Wall -fno-warn-unused-do-bind
