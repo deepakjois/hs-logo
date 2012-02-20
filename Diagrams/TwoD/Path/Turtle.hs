@@ -31,7 +31,6 @@ import Diagrams.Prelude
 
 import qualified Control.Monad.State as ST
 import Control.Monad.Identity
-import Control.Applicative ((<$>))
 
 type TurtleT = ST.StateT TState
 

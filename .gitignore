@@ -4,3 +4,4 @@ dist
 logo.png
 _cache
 _site
+cabal-dev

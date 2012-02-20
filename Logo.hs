@@ -1,8 +1,6 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 module Main where
 
-import Control.Applicative ((<$>))
-
 import Diagrams.Prelude
 import Diagrams.Backend.Cairo.CmdLine
 import Diagrams.TwoD.Path.Turtle
@@ -48,7 +46,7 @@ renderLogo :: String -> String -> IO ()
 renderLogo s o = do
   tokens <- readSource s
   diag   <- stroke <$>  runTurtleT (evaluateSourceTokens tokens)
-  withArgs ["-o", o] $ defaultMain (diag # lw (0.005 * width diag) # centerXY # pad 1.1)
+  withArgs ["-o", o, "-w", "400", "-h", "400"] $ defaultMain (diag # lw (0.005 * width diag) # centerXY # pad 1.1)
 
 readSource :: FilePath -> IO [LogoToken]
 readSource f = do
