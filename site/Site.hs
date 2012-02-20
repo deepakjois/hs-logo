@@ -1,5 +1,8 @@
 {-# LANGUAGE OverloadedStrings, RankNTypes #-}
 import Control.Arrow (arr, (>>>), (>>^), (&&&))
+import Data.List (sortBy, elemIndex)
+import Data.Maybe (fromJust)
+import Data.Ord (comparing)
 import Data.Monoid (mempty, mconcat)
 import System.FilePath (takeFileName, takeDirectory, takeBaseName, replaceBaseName, replaceExtension, (</>))
 import qualified Control.Category as C
@@ -31,23 +34,29 @@ main = hakyllWith config $ do
   create "index.html" $ constA mempty
     >>> arr (setField "title" "Home")
     >>> setFieldPage "intro" "intro.markdown"
-    >>> requireAllA frontPageExamples addLogoExamplesList
+    >>> setFieldPageList sortByIndex "templates/example.html" "examples" frontPageExamples
     >>> applyTemplateCompiler "templates/index.html"
     >>> applyTemplateCompiler "templates/site.html"
 
   -- Render examples page
   match "examples.html" $ route idRoute
   create "examples.html" $ constA mempty
-      >>> arr (setField "title" "Examples")
-      >>> requireAllA "examples/sources/*.logo" addLogoExamplesList
-      >>> applyTemplateCompiler "templates/examples.html"
-      >>> applyTemplateCompiler "templates/site.html"
+    >>> arr (setField "title" "Examples")
+    >>> setFieldPageList id "templates/example.html" "examples" "examples/sources/*.logo"
+    >>> applyTemplateCompiler "templates/examples.html"
+    >>> applyTemplateCompiler "templates/site.html"
 
   -- Render about page
   match "about.markdown" $ do
     route $ setExtension "html"
     compile $ pageCompiler
       >>> applyTemplateCompiler "templates/site.html"
+ where
+  sortByIndex = sortBy $ comparing $
+    fromJust .
+    (flip elemIndex $ frontPageExamplesList ) .
+    getField "title"
+
 
 -- *****************
 -- Compilers
@@ -65,12 +74,6 @@ addLogoExampleFields = (getIdentifier &&& C.id >>^ uncurry addFields)
       replaceDirectoryName = (flip replaceBaseName  $ "images") . takeDirectory
       replaceFileName      = (flip replaceExtension $ "png")    . takeBaseName
 
-addLogoExamplesList :: Compiler (Page String, [Page String]) (Page String)
-addLogoExamplesList = setFieldA "examples" $
-  require "templates/example.html" (\p t -> map (applyTemplate t) p)
-  >>> arr mconcat
-  >>> arr pageBody
-
 
 -- *****************
 -- Configuration
@@ -78,8 +81,10 @@ addLogoExamplesList = setFieldA "examples" $
 
 frontPageExamples :: forall a. Pattern a
 frontPageExamples = list $
-  map (parseIdentifier . ("examples/sources" </>)) $
-  ["moire.logo", "sun.logo", "spiral.logo", "rotating_circle.logo", "snowflake.logo", "brownian_motion.logo"]
+  map (parseIdentifier . ("examples/sources" </>)) $ frontPageExamplesList
+
+frontPageExamplesList :: [FilePath]
+frontPageExamplesList = ["moire.logo", "sun.logo", "spiral.logo", "rotating_circle.logo", "snowflake.logo", "brownian_motion.logo"]
 
 config :: HakyllConfiguration
 config = defaultHakyllConfiguration  {
