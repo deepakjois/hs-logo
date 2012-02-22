@@ -5,8 +5,8 @@ import Logo.Types
 import Control.Applicative ((<|>), (<$>), many)
 
 import Text.ParserCombinators.Parsec (
-  char, letter, alphaNum, string, space,
-  parse, many1, skipMany, skipMany1, sepEndBy, noneOf, try,
+  char, letter, digit, alphaNum, string, space,
+  parse, many1, skipMany, notFollowedBy, noneOf, try, (<?>), eof,
   ParseError, Parser)
 
 import Text.ParserCombinators.Parsec.Number (natFloat, sign)
@@ -17,64 +17,100 @@ tokenize = parse logo "(unknown)"
 logo :: Parser [LogoToken]
 logo = do
   skipMany space
-  sepEndBy atom (skipMany1 space)
+  expressions <- many1 logoExpr
+  skipMany space
+  eof
+  return $ concat expressions
 
-atom :: Parser LogoToken
-atom =  identifier <|> stringLiteral <|> varLiteral <|> list <|> try numLiteral <|> try operLiteral <|> list <|> expression
+logoExpr :: Parser [LogoToken]
+logoExpr =  try list
+        <|> try binaryExpr
+        <|> try parenExpr
+        <|> try word
+        <?> "Logo Expression"
 
-identifier :: Parser LogoToken
+word :: Parser [LogoToken]
+word =  try identifier
+    <|> try stringLiteral
+    <|> try varLiteral
+    <|> try numLiteral
+    <?> "Logo terminal"
+
+identifier :: Parser [LogoToken]
 identifier = do
+  skipMany space
   s <- letter
   i <- many alphaNum
-  return $ Identifier (s:i)
+  return . return $  (Identifier (s:i))
 
-stringLiteral :: Parser LogoToken
+-- FIXME support escaping
+stringLiteral :: Parser [LogoToken]
 stringLiteral = do
+  skipMany space
   char '"'
-  s <- many1 $ noneOf "\t\n []"
-  return $ StrLiteral s
+  s <- many1 $ noneOf "\t\n []()\""
+  return . return $ StrLiteral s
 
-varLiteral :: Parser LogoToken
+varLiteral :: Parser [LogoToken]
 varLiteral = do
+  skipMany space
   char ':'
   s <- letter
   v <- many alphaNum
-  return $ VarLiteral (s:v)
+  return . return $ VarLiteral (s:v)
 
-numLiteral :: Parser LogoToken
+numLiteral :: Parser [LogoToken]
 numLiteral = do
+  skipMany space
   s <- sign
   n <- natFloat
-  return . NumLiteral . s $ case n of
-             Left i  -> fromInteger i
-             Right f -> f
+  return . return . NumLiteral . s $ case n of
+    Left i  -> fromInteger i
+    Right f -> f
 
-operLiteral :: Parser LogoToken
-operLiteral =  OperLiteral <$>
-       (  string "+"
-      <|> string "-"
-      <|> string "*"
-      <|> string "/"
-      <|> string "%"
-      <|> string "^"
-      <|> try (string ">=")
-      <|> try (string "<=")
-      <|> try (string "<>")
-      <|> string "="
-      <|> string "<"
-      <|> string ">"
-       )
+operExpr :: Parser [LogoToken]
+operExpr =  try parenExpr
+        <|> try word
 
-list :: Parser LogoToken
+binaryExpr :: Parser [LogoToken]
+binaryExpr = do
+  lhs <- operExpr
+  op  <- operLiteral
+  rhs <- try binaryExpr <|> operExpr
+  return . concat $ [lhs, op, rhs]
+
+operLiteral :: Parser [LogoToken]
+operLiteral = do
+  s <- many space
+  (return . OperLiteral) <$>
+    (  string "+"
+   <|> if (length s) == 0 then (string "-") else ((string "-") >> notFollowedBy digit >> (return "-"))
+   <|> string "*"
+   <|> string "/"
+   <|> string "%"
+   <|> string "^"
+   <|> try (string ">=")
+   <|> try (string "<=")
+   <|> try (string "<>")
+   <|> string "="
+   <|> string "<"
+   <|> string ">" )
+
+list :: Parser [LogoToken]
 list = do
+  skipMany space
   char '['
-  atoms <- logo
+  expr <- many logoExpr
+  skipMany space
   char ']'
-  return $  LogoList atoms
+  return . return $ LogoList (concat expr)
 
-expression :: Parser LogoToken
-expression = do
+parenExpr :: Parser [LogoToken]
+parenExpr = do
+  skipMany space
   char '('
-  atoms <- logo
+  skipMany space
+  expr <- many logoExpr
+  skipMany space
   char ')'
-  return $ LogoExpr atoms
+  return . return $ LogoExpr (concat expr)
