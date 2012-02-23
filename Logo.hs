@@ -50,7 +50,7 @@ renderLogo s o = do
 
 readSource :: FilePath -> IO [LogoToken]
 readSource f = do
-  tokens <- tokenize <$> readFile f
+  tokens <- tokenize f <$> readFile f
   case tokens of
     Left x -> error $ show x
     Right t -> return t
