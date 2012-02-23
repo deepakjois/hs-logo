@@ -2,6 +2,7 @@ module Logo.Builtins.Turtle where
 
 import Control.Monad.Trans (lift)
 import Diagrams.TwoD.Path.Turtle
+import Diagrams.TwoD.Types (p2)
 
 import Logo.Types
 
@@ -35,13 +36,13 @@ lt (NumLiteral a : []) = do
 lt _ = error "Invalid arguments to lt"
 
 home [] = do
-  updateTurtle (setPos (0,0))
+  updateTurtle (setPos (p2 (0,0)))
   return $ StrLiteral ""
 
 home _ = error "Invalid arguments to home"
 
 setxy [NumLiteral x, NumLiteral y] = do
-  updateTurtle (setPos (x,y))
+  updateTurtle (setPos (p2 (x,y)))
   return $ StrLiteral ""
 
 setxy _ = error "Invalid arguments to setxy"
