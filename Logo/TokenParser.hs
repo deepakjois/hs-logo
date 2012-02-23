@@ -11,8 +11,8 @@ import Text.ParserCombinators.Parsec (
 
 import Text.ParserCombinators.Parsec.Number (natFloat, sign)
 
-tokenize :: String -> Either ParseError [LogoToken]
-tokenize = parse logo "(unknown)"
+tokenize :: String -> String -> Either ParseError [LogoToken]
+tokenize progName = parse logo progName
 
 logo :: Parser [LogoToken]
 logo = do
