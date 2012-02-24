@@ -10,7 +10,7 @@ import Control.Arrow ((&&&), (***))
 import Control.Monad.Trans (lift)
 
 import Text.Parsec.Prim (runParserT, tokenPrim, getState, putState, modifyState)
-import Text.Parsec.Combinator (many1, option, choice, chainl1)
+import Text.Parsec.Combinator (many1, choice, chainl1)
 import Text.Parsec.Error (ParseError)
 
 -- ----------------------------------------------------------------------
