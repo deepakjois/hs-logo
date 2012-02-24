@@ -10,7 +10,7 @@ import Control.Arrow ((&&&), (***))
 import Control.Monad.Trans (lift)
 
 import Text.Parsec.Prim (runParserT, tokenPrim, getState, putState, modifyState)
-import Text.Parsec.Combinator (many1, option, choice)
+import Text.Parsec.Combinator (many1, option, choice, chainl1)
 import Text.Parsec.Error (ParseError)
 
 -- ----------------------------------------------------------------------
@@ -94,12 +94,10 @@ finalExpression = do
     _              -> return token
 
 parseWithOperators :: [String] -> LogoEvaluator LogoToken  -> LogoEvaluator LogoToken
-parseWithOperators operators parser = do
-  lhs <- parser
-  option lhs $ do
-    op <- choice $ map (logoToken . OperLiteral) operators
-    rhs <- parser
-    return $ eval op lhs rhs
+parseWithOperators operators parser = parser `chainl1` func
+ where
+  func  = do op <- choice $ map (logoToken . OperLiteral) operators
+             return $ eval op
 
 eval :: LogoToken -> LogoToken -> LogoToken -> LogoToken
 
