@@ -23,11 +23,20 @@ logo = do
   return $ concat expressions
 
 logoExpr :: Parser [LogoToken]
-logoExpr =  try list
+logoExpr =  try comment
+        <|> try list
         <|> try binaryExpr
         <|> try parenExpr
         <|> try word
         <?> "Logo Expression"
+
+comment :: Parser [LogoToken]
+comment = do
+  skipMany space
+  string ";"
+  skipMany $ noneOf "\n"
+  skipMany space
+  return []
 
 word :: Parser [LogoToken]
 word =  try identifier
