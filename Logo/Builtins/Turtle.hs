@@ -1,4 +1,6 @@
-module Logo.Builtins.Turtle where
+module Logo.Builtins.Turtle (turtleBuiltins) where
+
+import qualified Data.Map as M
 
 import Control.Monad.Trans (lift)
 import Diagrams.TwoD.Path.Turtle
@@ -10,6 +12,19 @@ updateTurtle :: TurtleIO a  ->  LogoEvaluator a
 updateTurtle = lift
 
 fd, bk, rt, lt, home, setxy, seth, pu, pd :: [LogoToken] -> LogoEvaluator LogoToken
+
+turtleBuiltins :: M.Map String LogoFunctionDef
+turtleBuiltins = M.fromList
+  [ ("fd",       LogoFunctionDef 1 fd)
+  , ("bk",       LogoFunctionDef 1 bk)
+  , ("rt",       LogoFunctionDef 1 rt)
+  , ("lt",       LogoFunctionDef 1 lt)
+  , ("home",     LogoFunctionDef 0 home)
+  , ("setxy",    LogoFunctionDef 2 setxy)
+  , ("seth",     LogoFunctionDef 1 seth)
+  , ("pu",       LogoFunctionDef 0 pu)
+  , ("pd",       LogoFunctionDef 0 pd)
+  ]
 
 fd (NumLiteral d : []) = do
   updateTurtle (forward d)

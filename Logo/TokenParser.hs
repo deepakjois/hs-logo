@@ -1,4 +1,4 @@
-module Logo.TokenParser where
+module Logo.TokenParser (tokenize) where
 
 import Logo.Types
 

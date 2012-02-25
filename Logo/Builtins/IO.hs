@@ -1,4 +1,6 @@
-module Logo.Builtins.IO where
+module Logo.Builtins.IO (ioBuiltins) where
+
+import qualified Data.Map as M
 
 import Control.Applicative ((<$>))
 import Control.Monad.Trans (lift, liftIO)
@@ -11,6 +13,12 @@ turtleIO :: IO a -> LogoEvaluator a
 turtleIO = lift . liftIO
 
 pr, random :: [LogoToken] -> LogoEvaluator LogoToken
+
+ioBuiltins :: M.Map String LogoFunctionDef
+ioBuiltins = M.fromList
+  [ ("pr",       LogoFunctionDef 1 pr)
+  , ("random",   LogoFunctionDef 1 random)
+  ]
 
 pr [t] = turtleIO $ do
   putStrLn (show t)

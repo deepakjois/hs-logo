@@ -1,4 +1,4 @@
-module Logo.Builtins.Control where
+module Logo.Builtins.Control (controlBuiltins) where
 
 import qualified Data.Map as M
 
@@ -11,6 +11,17 @@ import Logo.Types
 import Logo.Evaluator
 
 repeat_, repcount, for, dotimes, to, if_, ifelse :: [LogoToken] -> LogoEvaluator LogoToken
+
+controlBuiltins :: M.Map String LogoFunctionDef
+controlBuiltins = M.fromList
+  [ ("repeat",   LogoFunctionDef 2 repeat_)
+  , ("repcount", LogoFunctionDef 0 repcount)
+  , ("for",      LogoFunctionDef 2 for)
+  , ("dotimes",  LogoFunctionDef 2 dotimes)
+  , ("to",       LogoFunctionDef 0 to)
+  , ("if",       LogoFunctionDef 2 if_)
+  , ("ifelse",   LogoFunctionDef 3 ifelse)
+  ]
 
 repeat_ (NumLiteral n : (t@(LogoList _) : [])) =
   repeatWithIterCount 1

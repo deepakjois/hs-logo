@@ -1,8 +1,19 @@
-module Logo.Builtins.Arithmetic where
+module Logo.Builtins.Arithmetic (arithmeticBuiltins) where
+
+import qualified Data.Map as M
 
 import Logo.Types
 
 sin_, cos_, tan_, arctan, sqrt_ :: [LogoToken] -> LogoEvaluator LogoToken
+
+arithmeticBuiltins :: M.Map String LogoFunctionDef
+arithmeticBuiltins = M.fromList
+  [ ("sin",      LogoFunctionDef 1 sin_)
+  , ("cos",      LogoFunctionDef 1 cos_)
+  , ("tan",      LogoFunctionDef 1 tan_)
+  , ("arctan",   LogoFunctionDef 1 arctan)
+  , ("sqrt",     LogoFunctionDef 1 sqrt_)
+  ]
 
 sin_ [NumLiteral n] = return $ NumLiteral (sin $ fromDegrees n)
 sin_ _ = error "Invalid arguments for sin"
