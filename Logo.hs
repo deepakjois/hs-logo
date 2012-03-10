@@ -2,7 +2,7 @@
 module Main where
 
 import Diagrams.Prelude
-import Diagrams.Backend.Cairo.CmdLine
+import Diagrams.Backend.SVG.CmdLine
 import Diagrams.TwoD.Path.Turtle
 
 import Logo.Types
@@ -24,9 +24,9 @@ data LogoOpts = LogoOpts
 
 logoOpts :: String -> LogoOpts
 logoOpts prog = LogoOpts
-  { output =  "logo.png"
+  { output =  "logo.svg"
            &= typFile
-           &= help "Output image file (default=logo.png)"
+           &= help "Output image file (default=logo.svg)"
   , src = def
         &= typFile
         &= args
@@ -62,4 +62,3 @@ evaluateSourceTokens tokens = do
   case res of
     Left  err -> error $ show err
     Right _ -> return ()
-

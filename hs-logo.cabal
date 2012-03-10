@@ -32,4 +32,4 @@ Executable           hs-logo
                      parsec-numbers,
                      diagrams-core >= 0.5 && < 0.6,
                      diagrams-lib >= 0.5 && < 0.6,
-                     diagrams-cairo >= 0.5 && < 0.6
+                     diagrams-svg >= 0.3 && < 0.4
