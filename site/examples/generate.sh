@@ -3,7 +3,7 @@
 set -e
 
 runlogo() {
-  out="images/`basename $1 .logo`.png"
+  out="svgs/`basename $1 .logo`.svg"
   echo "Running $1"
   ../../dist/build/hs-logo/hs-logo $1 -o $out
 }
@@ -17,6 +17,6 @@ fi
 
 for i in `ls sources/*.logo`
 do
-  out="images/`basename $i .logo`.png"
+  out="svgs/`basename $i .logo`.svg"
   runlogo $i
 done

@@ -23,7 +23,7 @@ main = hakyllWith config $ do
   match "examples/sources/*.logo" $ compile (readPageCompiler >>> addLogoExampleFields)
 
   -- Read the logo example image files
-  match "examples/images/*.png" $ do
+  match "examples/svgs/*.svg" $ do
     route idRoute
     compile copyFileCompiler
 
@@ -71,8 +71,8 @@ addLogoExampleFields = (getIdentifier &&& C.id >>^ uncurry addFields)
     p = toFilePath i
     outputFileName = uncurry (</>) . (replaceDirectoryName &&& replaceFileName)
      where
-      replaceDirectoryName = (flip replaceBaseName  $ "images") . takeDirectory
-      replaceFileName      = (flip replaceExtension $ "png")    . takeBaseName
+      replaceDirectoryName = (flip replaceBaseName  $ "svgs") . takeDirectory
+      replaceFileName      = (flip replaceExtension $ "svg")    . takeBaseName
 
 
 -- *****************
