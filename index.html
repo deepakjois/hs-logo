@@ -103,7 +103,7 @@
 
 <p><em>hs-logo</em> is an interpreter for the <a href="http://www.cs.berkeley.edu/~bh/logo.html">Logo Programming Language</a>, written in <a href="http://haskell.org">Haskell</a>. It is specialised for Turtle graphics, and is not intended to be a full-fledged Logo interpreter.</p>
 <p>Read the <a href="installation.html">installation guide</a> , and then browse the <a href="examples.html">examples</a> to get started. You can execute your logo files to generate an image like below. A more detailed user guide will be added soon.</p>
-<pre><code>% hs-logo example.logo -o example.png</code></pre>
+<pre><code>% hs-logo example.logo -o example.svg</code></pre>
 <p>The interpreter is still a work in progress, and more primitives will be added soon. I also plan to write user guide sometime before the next release. You can find the sources at the <a href="http://github.com/deepakjois/hs-logo">hs-logo project on github</a>.</p>
 
 <h2>Highlights</h2>
@@ -112,22 +112,22 @@
 
 <pre><code> repeat 180 [fd 500 bk 500 rt 2]</code></pre>
 
-<img src="examples/images/moire.png" alt="moire.logo" width="400" height="400"/>
+<img src="examples/svgs/moire.svg" alt="moire.logo" width="400" height="400"/>
 <h3>sun.logo</h3>
 
 <pre><code>repeat 2000 [pu home seth random 361 fd 40 pd fd random 200]</code></pre>
 
-<img src="examples/images/sun.png" alt="sun.logo" width="400" height="400"/>
+<img src="examples/svgs/sun.svg" alt="sun.logo" width="400" height="400"/>
 <h3>spiral.logo</h3>
 
 <pre><code>for [ i 0.01 4 0.05 ] [ repeat 180 [ fd :i rt 1 ] ]</code></pre>
 
-<img src="examples/images/spiral.png" alt="spiral.logo" width="400" height="400"/>
+<img src="examples/svgs/spiral.svg" alt="spiral.logo" width="400" height="400"/>
 <h3>rotating_circle.logo</h3>
 
 <pre><code>repeat 400 [repeat 34 [fd 12 rt 10] rt 90]</code></pre>
 
-<img src="examples/images/rotating_circle.png" alt="rotating_circle.logo" width="400" height="400"/>
+<img src="examples/svgs/rotating_circle.svg" alt="rotating_circle.logo" width="400" height="400"/>
 <h3>snowflake.logo</h3>
 
 <pre><code>to side :size :level
@@ -146,12 +146,12 @@ lt 30
 repeat 3 [side 250 4 rt 120]
 </code></pre>
 
-<img src="examples/images/snowflake.png" alt="snowflake.logo" width="400" height="400"/>
+<img src="examples/svgs/snowflake.svg" alt="snowflake.logo" width="400" height="400"/>
 <h3>brownian_motion.logo</h3>
 
 <pre><code>repeat 10000 [fd 3 * (-1 + random 2) rt 90 * random 4]</code></pre>
 
-<img src="examples/images/brownian_motion.png" alt="brownian_motion.logo" width="400" height="400"/>
+<img src="examples/svgs/brownian_motion.svg" alt="brownian_motion.logo" width="400" height="400"/>
 
 
   </body>

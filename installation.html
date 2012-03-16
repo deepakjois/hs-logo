@@ -99,34 +99,13 @@
     <h1>hs-logo</h1>
     <h2>Logo turtle graphics interpreter</h2>
   </header>
-<h2 id="standard-installation">Standard installation</h2>
-<p>Ideally, the only installation step required would be <code>cabal install hs-logo</code>. However, <em>hs-logo</em> depends on version 0.5 of the <em>diagrams</em> package, which is not released yet. To add additional complexity, the <em>diagrams-cairo</em> package which is used to render the images, depends on a version of <em>gtkhs</em> which is not yet released either. New releases are scheduled to happen soon, and this will all be resolved in a few days. Till then, you need to follow the steps below to install the latest and the greatest.</p>
-<h3 id="install-ghc-7.4-cabal-libfreetype-and-gtk">Install GHC 7.4, cabal, libfreetype and gtk</h3>
-<p>This is out of scope for this document. On OS X (which I use), you can install Haskell, libfreetype and gtk using <a href="http://mxcl.github.com/homebrew/">homebrew</a>. I haven’t tried it, but this might work for you.</p>
-<pre><code>% brew install haskell-platform --devel --64bit
-% brew install cairo gtk gettext fontconfig
-% brew link cairo gettext fontconfig</code></pre>
-<p><a href="http://sourceforge.net/projects/freetype/files/freetype2/2.4.8/freetype-2.4.8.tar.bz2/download?use_mirror=iweb">Download libfreetype</a>, unpack <em>libfreetype</em>, and then run <code>./configure ; make ; make install</code>.</p>
-<p>Alternatively, try following the instructions in this <a href="https://gist.github.com/1683922">gist</a> (ignore instructions about installing GHC 7.2, which has already been superseded by GHC 7.4).</p>
-<h3 id="install-the-latest-versions-of-gtkhs-and-diagrams">Install the latest versions of gtkhs and diagrams</h3>
-<p>Download and install the latest <em>gtkhs</em></p>
-<pre><code>% darcs get --lazy http://code.haskell.org/gtk2hs/
-% cd gtk2hs
-% chmod +x bootstrap.sh
-% ./bootstrap.sh</code></pre>
-<p>Download and install the latest <em>diagrams</em></p>
-<pre><code>% darcs get --lazy http://patch-tag.com/r/byorgey/active
-% cd active &amp;&amp; cabal configure &amp;&amp; cabal install &amp;&amp; cd ..
-% darcs get --lazy http://patch-tag.com/r/byorgey/diagrams-core
-% cd diagrams-core &amp;&amp; cabal configure &amp;&amp; cabal install &amp;&amp; cd ..
-% darcs get --lazy http://patch-tag.com/r/byorgey/diagrams-lib
-% cd diagrams-lib &amp;&amp; cabal configure &amp;&amp; cabal install &amp;&amp; cd ..
-% darcs get --lazy http://patch-tag.com/r/byorgey/diagrams-cairo
-% cd diagrams-cairo &amp;&amp; cabal configure &amp;&amp; cabal install &amp;&amp; cd ..</code></pre>
+<h2 id="installation">Installation</h2>
+<h3 id="install-ghc-7.4-and-cabal">Install GHC 7.4 and cabal</h3>
+<p>This is out of scope for this document. On OS X (which I use), you can install Haskell Platform using <a href="http://mxcl.github.com/homebrew/">homebrew</a>. I haven’t tried it, but this might work for you.</p>
+<pre><code>% brew install haskell-platform --devel --64bit</code></pre>
 <h3 id="install-hs-logo">Install hs-logo</h3>
 <pre><code>% cabal install hs-logo</code></pre>
-<h2 id="development-setup">Development Setup</h2>
-<p>If you want to do development on <em>hs-logo</em>, I highly recommend using <a href="https://github.com/creswick/cabal-dev">cabal-dev</a> to create a sandbox of dependencies for it. Follow the instructions in the <a href="https://github.com/deepakjois/hs-logo/blob/master/bootstrap_dev.sh">bootstrap_dev.sh</a> file to get setup.</p>
+<p>This will install <code>hs-logo</code> and related dependencies like <a href="http://projects.haskell.org/diagrams/">diagrams</a> and the <a href="http://hackage.haskell.org/package/diagrams-svg">diagrams-svg</a> backend.</p>
 <h2 id="reporting-problems">Reporting Problems</h2>
 <p>Open an <a href="https://github.com/deepakjois/hs-logo/issues">issue</a> on github.</p>
   </body>
