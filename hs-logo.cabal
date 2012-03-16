@@ -1,5 +1,5 @@
 Name:                hs-logo
-Version:             0.2
+Version:             0.3
 Synopsis:            Logo turtle graphics interpreter
 Description:         Interpreter for the Logo programming language,
                      specialised for turtle graphics.
@@ -23,6 +23,14 @@ Executable           hs-logo
   Ghc-Options:       -Wall -fno-warn-unused-do-bind
   Hs-Source-Dirs:    .
   Main-Is:           Logo.hs
+  Other-Modules:     Logo.Types
+                     Logo.TokenParser
+                     Logo.Evaluator
+                     Logo.Builtins
+                     Logo.Builtins.IO
+                     Logo.Builtins.Turtle
+                     Logo.Builtins.Arithmetic
+                     Logo.Builtins.Control
   Build-Depends:     base        >= 4.2      && <  4.6,
                      containers  >= 0.3    && <  0.5,
                      mtl         >= 1      && < 3.0,
