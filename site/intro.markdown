@@ -10,7 +10,7 @@ started. You can execute your logo files to generate an image like below. A more
 detailed user guide will be added soon.
 
 ~~~
-% hs-logo example.logo -o example.png
+% hs-logo example.logo -o example.svg
 ~~~
 
 [examples]: examples.html

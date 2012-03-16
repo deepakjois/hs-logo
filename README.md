@@ -10,10 +10,10 @@ Follow the [installation instructions](http://deepakjois.github.com/hs-logo/inst
 
 You can now try out some logo programs in the [examples](https://github.com/deepakjois/hs-logo/tree/master/site/examples) folder
 
-    % dist/build/hs-logo/hs-logo site/examples/sources/snowflake.logo -o ~/tmp/snowflake.png
+    % dist/build/hs-logo/hs-logo site/examples/sources/snowflake.logo -o ~/tmp/snowflake.svg
 
-![Snowflake](http://deepakjois.github.com/hs-logo/examples/images/snowflake.png)
+![Snowflake](http://deepakjois.github.com/hs-logo/examples/svgs/snowflake.svg)
 
-    % dist/build/hs-logo/hs-logo site/examples/sources/design1.logo -o ~/tmp/design1.png
+    % dist/build/hs-logo/hs-logo site/examples/sources/design1.logo -o ~/tmp/design1.svg
 
-![Design](http://deepakjois.github.com/hs-logo/examples/images/design1.png)
+![Design](http://deepakjois.github.com/hs-logo/examples/svgs/design1.svg)
