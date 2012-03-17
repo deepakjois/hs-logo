@@ -97,28 +97,28 @@ parseWithOperators :: [String] -> LogoEvaluator LogoToken  -> LogoEvaluator Logo
 parseWithOperators operators parser = parser `chainl1` func
  where
   func  = do op <- choice $ map (logoToken . OperLiteral) operators
-             return $ eval op
+             return $ evalBinOp op
 
-eval :: LogoToken -> LogoToken -> LogoToken -> LogoToken
+evalBinOp :: LogoToken -> LogoToken -> LogoToken -> LogoToken
 
 -- Arithmetic
-eval (OperLiteral "+") (NumLiteral l) (NumLiteral r) = NumLiteral (l + r)
-eval (OperLiteral "-") (NumLiteral l) (NumLiteral r) = NumLiteral (l - r)
-eval (OperLiteral "*") (NumLiteral l) (NumLiteral r) = NumLiteral (l * r)
-eval (OperLiteral "/") (NumLiteral l) (NumLiteral r) = NumLiteral (l / r)
-eval (OperLiteral "%") (NumLiteral l) (NumLiteral r) = NumLiteral $ fromIntegral ((truncate l `rem` truncate r) :: Integer )
-eval (OperLiteral "^") (NumLiteral l) (NumLiteral r) = NumLiteral (l ** r)
+evalBinOp (OperLiteral "+") (NumLiteral l) (NumLiteral r) = NumLiteral (l + r)
+evalBinOp (OperLiteral "-") (NumLiteral l) (NumLiteral r) = NumLiteral (l - r)
+evalBinOp (OperLiteral "*") (NumLiteral l) (NumLiteral r) = NumLiteral (l * r)
+evalBinOp (OperLiteral "/") (NumLiteral l) (NumLiteral r) = NumLiteral (l / r)
+evalBinOp (OperLiteral "%") (NumLiteral l) (NumLiteral r) = NumLiteral $ fromIntegral ((truncate l `rem` truncate r) :: Integer )
+evalBinOp (OperLiteral "^") (NumLiteral l) (NumLiteral r) = NumLiteral (l ** r)
 
 -- Logical
-eval (OperLiteral "<")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l < r then "TRUE" else "FALSE")
-eval (OperLiteral ">")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l > r then "TRUE" else "FALSE")
-eval (OperLiteral "=")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l == r then "TRUE" else "FALSE")
-eval (OperLiteral "<>") (NumLiteral l) (NumLiteral r) = StrLiteral (if l /= r then "TRUE" else "FALSE")
-eval (OperLiteral "<=") (NumLiteral l) (NumLiteral r) = StrLiteral (if l <= r then "TRUE" else "FALSE")
-eval (OperLiteral ">=") (NumLiteral l) (NumLiteral r) = StrLiteral (if l >= r then "TRUE" else "FALSE")
+evalBinOp (OperLiteral "<")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l < r then "TRUE" else "FALSE")
+evalBinOp (OperLiteral ">")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l > r then "TRUE" else "FALSE")
+evalBinOp (OperLiteral "=")  (NumLiteral l) (NumLiteral r) = StrLiteral (if l == r then "TRUE" else "FALSE")
+evalBinOp (OperLiteral "<>") (NumLiteral l) (NumLiteral r) = StrLiteral (if l /= r then "TRUE" else "FALSE")
+evalBinOp (OperLiteral "<=") (NumLiteral l) (NumLiteral r) = StrLiteral (if l <= r then "TRUE" else "FALSE")
+evalBinOp (OperLiteral ">=") (NumLiteral l) (NumLiteral r) = StrLiteral (if l >= r then "TRUE" else "FALSE")
 
 -- Undefined
-eval op a b  = error $ "Evaluation undefined for " ++ show [op, a, b]
+evalBinOp op a b  = error $ "Evaluation undefined for " ++ show [op, a, b]
 
 setLocals :: LogoSymbolTable -> LogoEvaluator ()
 setLocals l = modifyState $ \s -> s { locals = l }
