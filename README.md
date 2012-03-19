@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/deepakjois/hs-logo.png)](http://travis-ci.org/deepakjois/hs-logo)
+
 Logo interpreter written in Haskell, specialized for turtle graphics. Still very
 much a WIP. Lot of the language still needs to be implemented, but it is fairly
 functional already.
