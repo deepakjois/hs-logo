@@ -1,5 +1,5 @@
 Name:                hs-logo
-Version:             0.4
+Version:             0.4.1
 Synopsis:            Logo turtle graphics interpreter
 Description:         Interpreter for the Logo programming language,
                      specialised for turtle graphics.
