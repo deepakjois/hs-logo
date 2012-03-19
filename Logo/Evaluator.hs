@@ -49,10 +49,6 @@ evaluateTokens tokens = do
   putState s
   return $ LogoList t
 
-evaluateList :: LogoToken ->  LogoEvaluator LogoToken
-evaluateList (LogoList l) = evaluateTokens l
-evaluateList _            = undefined
-
 satisfy ::  (LogoToken -> Bool) -> LogoEvaluator LogoToken
 satisfy f =
   tokenPrim (\c -> show [c])
@@ -84,14 +80,27 @@ powerExpression :: LogoEvaluator LogoToken
 powerExpression = parseWithOperators ["^"] finalExpression
 
 finalExpression :: LogoEvaluator LogoToken
-finalExpression = do
-  token <- anyLogoToken
-  case token of
-    Identifier s   -> dispatchFn s
-    VarLiteral v   -> lookupVar v
-    LogoExpr   e   -> do LogoList res <- evaluateTokens e
-                         return $ head res
-    _              -> return token
+finalExpression =  anyLogoToken >>= evalFinal
+
+evalFinal, evalList, eval :: LogoToken -> LogoEvaluator LogoToken
+
+evalFinal (Identifier s) = dispatchFn s
+
+evalFinal (VarLiteral v) = lookupVar v
+
+evalFinal (LogoExpr e) = do
+  LogoList res <- evaluateTokens e
+  return $ head res
+
+evalFinal token = return token
+
+evalList (LogoList l) = evaluateTokens l
+evalList _ = undefined
+
+-- Forces evaluation of a token, even if it is a list
+eval token = case token of
+  LogoList _ -> evalList token
+  _          -> evalFinal token
 
 parseWithOperators :: [String] -> LogoEvaluator LogoToken  -> LogoEvaluator LogoToken
 parseWithOperators operators parser = parser `chainl1` func

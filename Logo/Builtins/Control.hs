@@ -29,7 +29,7 @@ repeat_ (NumLiteral n : (t@(LogoList _) : [])) =
   repeatWithIterCount x
     | x > n    = return $ StrLiteral ""
     | otherwise = evaluateInLocalContext (M.fromList [("repcount", NumLiteral x)]) $ do
-                    evaluateList t
+                    evalList t
                     repeatWithIterCount (x + 1)
 
 repeat_ _ = error "Invalid arguments for repeat"
@@ -49,7 +49,7 @@ for [ control@(LogoList _), instructionList@(LogoList _) ] = do
        forList = takeWhile withinBounds $ iterate (+ step) start
        withinBounds x = if step < 0 then x >= end else x <= end
        loop cur = evaluateInLocalContext (M.fromList [(v, NumLiteral cur)]) $
-                    evaluateList instructionList
+                    evalList instructionList
 
 for _ = error "Invalid arguments for function 'for'"
 
@@ -59,19 +59,19 @@ dotimes [ control@(LogoList _), instructionList@(LogoList _) ] = do
  where LogoList [Identifier v, NumLiteral times] = control
        forList = takeWhile (< times) $ iterate (+ 1) 0
        loop cur = evaluateInLocalContext (M.fromList [(v, NumLiteral cur)]) $
-                    evaluateList instructionList
+                    evalList instructionList
 
 dotimes _ = error "Invalid arguments for dotimes"
 
 if_ [StrLiteral val, ifList]
-  | val == "TRUE"  = evaluateList ifList
+  | val == "TRUE"  = evalList ifList
   | val == "FALSE" = return $ StrLiteral ""
 
 if_ _ = undefined
 
 ifelse [StrLiteral val, ifList, elseList]
-  | val == "TRUE"  = evaluateList ifList
-  | val == "FALSE" = evaluateList elseList
+  | val == "TRUE"  = evalList ifList
+  | val == "FALSE" = evalList elseList
 
 ifelse _ = error "Invalid arguments for if"
 
