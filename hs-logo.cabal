@@ -12,16 +12,12 @@ Build-Type:          Simple
 Synopsis:            Logo interpreter written in Haskell
 
 Category:            Parser
-Cabal-Version:       >=1.6
+Cabal-Version:       >=1.8
 Data-Files:          README.md
-
-Source-Repository head
-  type: git
-  location: https://github.com/deepakjois/hs-logo
 
 Executable           hs-logo
   Ghc-Options:       -Wall -fno-warn-unused-do-bind
-  Hs-Source-Dirs:    .
+  Hs-Source-Dirs:    src
   Main-Is:           Logo.hs
   Other-Modules:     Logo.Types
                      Logo.TokenParser
@@ -31,6 +27,7 @@ Executable           hs-logo
                      Logo.Builtins.Turtle
                      Logo.Builtins.Arithmetic
                      Logo.Builtins.Control
+                     Diagrams.TwoD.Path.Turtle
   Build-Depends:     base        >= 4.2      && <  4.6,
                      containers  >= 0.3    && <  0.5,
                      mtl         >= 1      && < 3.0,
@@ -38,7 +35,27 @@ Executable           hs-logo
                      cmdargs     >= 0.6    && <= 0.9,
                      random      >= 1.0,
                      parsec-numbers,
+                     colour,
                      diagrams-core >= 0.5 && < 0.6,
                      diagrams-lib >= 0.5 && < 0.6,
-                     diagrams-contrib >= 0.1 && < 0.2,
                      diagrams-svg >= 0.3 && < 0.4
+
+Test-suite turtle-tests
+  Type:           exitcode-stdio-1.0
+  Hs-source-dirs: src tests
+  Main-is:        TestSuite.hs
+  Ghc-options:    -Wall
+
+  Other-modules: Diagrams.TwoD.Path.Turtle.Tests
+
+  Build-depends:
+    HUnit                      >= 1.2 && < 1.3,
+    QuickCheck                 >= 2.4 && < 2.5,
+    containers                 >= 0.3 && < 0.5,
+    test-framework             >= 0.4 && < 0.7,
+    test-framework-hunit       >= 0.2 && < 0.3,
+    test-framework-quickcheck2 >= 0.2 && < 0.3
+
+Source-Repository head
+  type: git
+  location: https://github.com/deepakjois/hs-logo
