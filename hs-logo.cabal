@@ -54,7 +54,7 @@ Test-suite turtle-tests
     containers                 >= 0.3 && < 0.5,
     test-framework             >= 0.4 && < 0.7,
     test-framework-hunit       >= 0.2 && < 0.3,
-    test-framework-quickcheck2 >= 0.2 && < 0.3
+    test-framework-quickcheck2 >= 0.2 && < 0.3,
     -- Copied from regular dependencies
     base        >= 4.2      && <  4.6,
     containers  >= 0.3    && <  0.5,
