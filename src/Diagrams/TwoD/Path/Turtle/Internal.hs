@@ -192,11 +192,11 @@ setPenPos newPos t = if isPenDown t
 
 -- | Creates a diagram from a TurtlePath using the provided styles
 turtlePathToStroke :: (Renderable (Path R2) b) => TurtlePath
-                   -> Diagram b R2
-turtlePathToStroke (TurtlePath (PenStyle lineWidth_  lineColor_) (p,t)) =
-  lc lineColor_ .
-  lw lineWidth_ .
-  stroke $ pathFromTrailAt (reverseTrail t) p
+                   -> (P2, Diagram b R2)
+turtlePathToStroke (TurtlePath (PenStyle lineWidth_  lineColor_) (p,Trail xs _)) = (p,d)
+ where d = lc lineColor_ .
+           lw lineWidth_ .
+           stroke $ pathFromTrail (Trail (reverse xs) False)
 
 -- | Creates a diagram from a turtle
 --
@@ -205,6 +205,6 @@ turtlePathToStroke (TurtlePath (PenStyle lineWidth_  lineColor_) (p,t)) =
 getTurtleDiagram :: (Renderable (Path R2) b) => Turtle
                  -> Diagram b R2
 getTurtleDiagram t =
-  mconcat .
+  position .
   map turtlePathToStroke .
   paths $ t # penUp -- Do a penUp to add @currTrail@ to @paths@
