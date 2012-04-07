@@ -5,13 +5,9 @@ import Diagrams.Backend.SVG
 import Diagrams.Backend.SVG.CmdLine (defaultMain)
 
 
-
-instance Show Turtle where
-  show t@(Turtle a b c _ _ _) = show (a,b,c)
-
 squareTurtle :: Diagram SVG R2
 squareTurtle = getTurtleDiagram $
- startTurtleState #
+ startTurtle #
   forward x # right turn # setPenWidth 2.0 # setPenColour blue  #
   forward x # right turn # setPenWidth 3.0 # setPenColour red   #
   forward x # right turn # setPenWidth 0.5 # setPenColour green #

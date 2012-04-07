@@ -42,7 +42,7 @@ type Turtle = TurtleT Identity
 -- underlying monad @m@ yielding a path consisting of the traced trails
 runTurtleT :: (Monad m, Functor m, (Renderable (Path R2) b)) => TurtleT m a -> m (Diagram b R2)
 runTurtleT t = T.getTurtleDiagram . snd
-           <$> ST.runStateT t T.startTurtleState
+           <$> ST.runStateT t T.startTurtle
 
 -- | Run the turtle, yielding a path consisting of the traced trails.
 runTurtle :: (Renderable (Path R2) b) => Turtle a -> Diagram b R2
