@@ -7,3 +7,4 @@ _site
 cabal-dev
 logo.svg
 tests/TestSuite
+examples/Turtles
