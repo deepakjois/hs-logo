@@ -15,7 +15,8 @@ module Diagrams.TwoD.Path.Turtle.Internal
     -- * Motion commands
   , forward, backward, left, right
 
-    -- TODO style control commands
+    -- * Pen style commands
+  , setPenColor, setPenColour, setPenWidth
 
     -- * State setters
   , startTurtleState, setHeading, towards
@@ -29,7 +30,7 @@ module Diagrams.TwoD.Path.Turtle.Internal
   ) where
 
 import Diagrams.Prelude
-import Data.Colour
+import Data.Colour hiding (atop)
 
 -- | Style attributes associated with the turtle pen
 data PenStyle = PenStyle
@@ -67,7 +68,7 @@ data Turtle = Turtle
      -- attributes changing
   , currTrail  :: (P2, Trail R2)
      -- | Current style of the pen
-  , currStyle  :: PenStyle
+  , currPenStyle  :: PenStyle
      -- | List of paths along with style information, traversed by the turtle
      -- previously
   , paths      :: [TurtlePath]
@@ -145,7 +146,7 @@ towards p  = setHeading =<< (360 *) . (/ tau) . uncurry atan2 . unr2 . (p .-.) .
 -- Makes a "TurtlePath" from a "Turtle"’s @currTrail@ field
 makeTurtlePath :: Turtle
                -> TurtlePath
-makeTurtlePath t = TurtlePath (currStyle t) (currTrail t)
+makeTurtlePath t = TurtlePath (currPenStyle t) (currTrail t)
 
 -- Returns a list of paths, with current trail added to a "Turtle"’s @paths@ field
 addCurrTrailToPath :: Turtle
@@ -189,6 +190,43 @@ setPenPos newPos t = if isPenDown t
   else t { penPos = newPos, currTrail = newTrail, paths = newPaths }
  where newTrail = (newPos, mempty)
        newPaths = addCurrTrailToPath t
+
+
+-- | Set a new pen width for turtle.
+--
+-- If pen is down, this adds the current trail to @paths@ and starts a new empty
+-- trail.
+setPenWidth :: Double -- ^ Width of Pen
+            -> Turtle -- ^ Turtle to change
+            -> Turtle -- ^ Resulting Turtle
+setPenWidth d t = if isPenDown t
+  then t { currPenStyle = newPenStyle, currTrail = newTrail, paths = newPaths }
+  else t { currPenStyle = newPenStyle }
+ where oldPenStyle = currPenStyle t
+       newPenStyle = oldPenStyle { penWidth = d  }
+       newTrail = (penPos t, mempty)
+       newPaths = addCurrTrailToPath t
+
+-- | Set a new pen color for turtle.
+--
+-- If pen is down, this adds the current trail to @paths@ and starts a new empty
+-- trail.
+setPenColour :: Colour Double -- ^ Width of Pen
+             -> Turtle        -- ^ Turtle to change
+             -> Turtle        -- ^ Resulting Turtle
+setPenColour c t = if isPenDown t
+  then t { currPenStyle = newPenStyle, currTrail = newTrail, paths = newPaths }
+  else t { currPenStyle = newPenStyle }
+ where oldPenStyle = currPenStyle t
+       newPenStyle = oldPenStyle { penColor = c  }
+       newTrail = (penPos t, mempty)
+       newPaths = addCurrTrailToPath t
+
+-- | alias of @setPenColour@
+setPenColor :: Colour Double -- ^ Width of Pen
+             -> Turtle        -- ^ Turtle to change
+             -> Turtle        -- ^ Resulting Turtle
+setPenColor = setPenColour
 
 -- | Creates a diagram from a TurtlePath using the provided styles
 turtlePathToStroke :: (Renderable (Path R2) b) => TurtlePath
