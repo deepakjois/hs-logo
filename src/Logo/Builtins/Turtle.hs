@@ -112,5 +112,6 @@ setpencolor [NumLiteral d] = do
   numToColor 13 = purple
   numToColor 14 = orange
   numToColor 15 = grey
+  numToColor _  = error "Color values greater than 15 are not supported"
 
 setpencolor _ = error "Invalid arguments to setpencolor"
