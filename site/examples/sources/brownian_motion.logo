@@ -1,1 +1,1 @@
-repeat 10000 [fd 3 * (-1 + random 2) rt 90 * random 4]
+repeat 10000 [setpencolor random 15 fd 3 * (-1 + random 2) rt 90 * random 4]

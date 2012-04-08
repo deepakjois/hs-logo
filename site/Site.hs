@@ -65,8 +65,9 @@ main = hakyllWith config $ do
 addLogoExampleFields :: Compiler (Page a) (Page a)
 addLogoExampleFields = (getIdentifier &&& C.id >>^ uncurry addFields)
  where
-  addFields i = trySetField "title" (takeFileName p)
-              . trySetField "image" (outputFileName p)
+  addFields i = trySetField "title"      (takeFileName p)
+              . trySetField "image"      (outputFileName p)
+              . trySetField "exampleid" (takeBaseName p)
    where
     p = toFilePath i
     outputFileName = uncurry (</>) . (replaceDirectoryName &&& replaceFileName)
@@ -84,7 +85,7 @@ frontPageExamples = list $
   map (parseIdentifier . ("examples/sources" </>)) $ frontPageExamplesList
 
 frontPageExamplesList :: [FilePath]
-frontPageExamplesList = ["moire.logo", "sun.logo", "spiral.logo", "rotating_circle.logo", "snowflake.logo", "brownian_motion.logo"]
+frontPageExamplesList = ["sun.logo", "moire.logo", "spiral.logo", "rotating_circle.logo", "snowflake.logo", "brownian_motion.logo"]
 
 config :: HakyllConfiguration
 config = defaultHakyllConfiguration  {
