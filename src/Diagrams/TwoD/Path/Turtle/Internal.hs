@@ -173,7 +173,7 @@ penDown t
 setPenPos :: P2      -- ^ Position to place true
           -> Turtle  -- ^ Turtle to position
           -> Turtle  -- ^ Resulting turtle
-setPenPos newPos t = t # makeNewTrail # \t' -> t' {penPos = newPos }
+setPenPos newPos t = t {penPos = newPos } # makeNewTrail
 
 -- | Set a new pen width for turtle.
 --
@@ -225,9 +225,7 @@ addCurrTrailToPath t = if emptyTrail then paths t else makeTurtlePath t : paths 
 -- Starts a new trail and adds current trail to path
 makeNewTrail :: Turtle
              -> Turtle
-makeNewTrail t
-  | isPenDown t = t { currTrail = (penPos t, mempty), paths = addCurrTrailToPath t  }
-  | otherwise   = t
+makeNewTrail t = t { currTrail = (penPos t, mempty), paths = addCurrTrailToPath t  }
 
 -- Modifies the current style after starting a new trail
 modifyCurrStyle :: (PenStyle -> PenStyle)

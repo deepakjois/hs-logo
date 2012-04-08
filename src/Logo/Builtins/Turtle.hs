@@ -1,29 +1,34 @@
 module Logo.Builtins.Turtle (turtleBuiltins) where
 
+import Prelude hiding (tan)
 import qualified Data.Map as M
 
 import Control.Monad.Trans (lift)
 import Diagrams.TwoD.Path.Turtle
 import Diagrams.TwoD.Types (p2)
+import Data.Colour (Colour)
+import Data.Colour.Names
 
 import Logo.Types
 
 updateTurtle :: TurtleIO a  ->  LogoEvaluator a
 updateTurtle = lift
 
-fd, bk, rt, lt, home, setxy, seth, pu, pd :: [LogoToken] -> LogoEvaluator LogoToken
+fd, bk, rt, lt, home, setxy, seth, pu, pd, setpensize, setpencolor :: [LogoToken] -> LogoEvaluator LogoToken
 
 turtleBuiltins :: M.Map String LogoFunctionDef
 turtleBuiltins = M.fromList
-  [ ("fd",       LogoFunctionDef 1 fd)
-  , ("bk",       LogoFunctionDef 1 bk)
-  , ("rt",       LogoFunctionDef 1 rt)
-  , ("lt",       LogoFunctionDef 1 lt)
-  , ("home",     LogoFunctionDef 0 home)
-  , ("setxy",    LogoFunctionDef 2 setxy)
-  , ("seth",     LogoFunctionDef 1 seth)
-  , ("pu",       LogoFunctionDef 0 pu)
-  , ("pd",       LogoFunctionDef 0 pd)
+  [ ("fd",          LogoFunctionDef 1 fd)
+  , ("bk",          LogoFunctionDef 1 bk)
+  , ("rt",          LogoFunctionDef 1 rt)
+  , ("lt",          LogoFunctionDef 1 lt)
+  , ("home",        LogoFunctionDef 0 home)
+  , ("setxy",       LogoFunctionDef 2 setxy)
+  , ("seth",        LogoFunctionDef 1 seth)
+  , ("pu",          LogoFunctionDef 0 pu)
+  , ("pd",          LogoFunctionDef 0 pd)
+  , ("setpensize",  LogoFunctionDef 1 setpensize)
+  , ("setpencolor", LogoFunctionDef 1 setpencolor)
   ]
 
 fd (NumLiteral d : []) = do
@@ -79,3 +84,33 @@ pd [] = do
   return $ StrLiteral ""
 
 pd _ = error "Invalid arguments to pd"
+
+setpensize [NumLiteral d] = do
+  updateTurtle (setPenWidth d)
+  return $ StrLiteral ""
+
+setpensize _ = error  "Invalid arguments to setpensize"
+
+setpencolor [NumLiteral d] = do
+  updateTurtle (setPenColor (numToColor . round $ d))
+  return $ StrLiteral ""
+ where
+  numToColor :: Int -> Colour Double
+  numToColor 0  = black
+  numToColor 1  = blue
+  numToColor 2  = green
+  numToColor 3  = cyan
+  numToColor 4  = red
+  numToColor 5  = magenta
+  numToColor 6  = yellow
+  numToColor 7  = white
+  numToColor 8  = brown
+  numToColor 9  = tan
+  numToColor 10 = forestgreen
+  numToColor 11 = aqua
+  numToColor 12 = salmon
+  numToColor 13 = purple
+  numToColor 14 = orange
+  numToColor 15 = grey
+
+setpencolor _ = error "Invalid arguments to setpencolor"

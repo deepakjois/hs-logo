@@ -21,7 +21,7 @@ module Diagrams.TwoD.Path.Turtle
 
     -- * State accessors / setters
   , heading, setHeading, towards
-  , pos, setPos
+  , pos, setPos, setPenWidth, setPenColor
 
     -- * Drawing control
   , penUp, penDown, isDown
@@ -30,6 +30,7 @@ module Diagrams.TwoD.Path.Turtle
 import qualified Control.Monad.State as ST
 import Control.Monad.Identity (Identity(..))
 
+import Data.Colour(Colour)
 import Diagrams.Prelude
 import qualified Diagrams.TwoD.Path.Turtle.Internal as T
 
@@ -101,3 +102,11 @@ penDown = ST.modify T.penDown
 -- | Queries whether the pen is currently drawing a path or not.
 isDown :: Monad m => TurtleT m Bool
 isDown = ST.gets T.isPenDown
+
+-- | Sets the pen color
+setPenColor :: Monad m => Colour Double -> TurtleT m ()
+setPenColor c = ST.modify $ T.setPenColor c
+
+-- | Sets the pen size
+setPenWidth  :: Monad m =>  Double -> TurtleT m ()
+setPenWidth s = ST.modify $ T.setPenWidth s
