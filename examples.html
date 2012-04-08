@@ -294,7 +294,8 @@ support all the primitives yet.</p>
 <img src="examples/svgs/slalom_scroll.svg" alt="slalom_scroll.logo" width="400" height="400"/>
 <h3 id="snowflake">snowflake.logo</h3>
 
-<pre><code>to side :size :level
+<pre><code>setpensize 4
+to side :size :level
 ifelse :level = 0
   [ fd :size ]
   [ side :size / 3 :level - 1

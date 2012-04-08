@@ -130,7 +130,8 @@
 <img src="examples/svgs/rotating_circle.svg" alt="rotating_circle.logo" width="400" height="400"/>
 <h3 id="snowflake">snowflake.logo</h3>
 
-<pre><code>to side :size :level
+<pre><code>setpensize 4
+to side :size :level
 ifelse :level = 0
   [ fd :size ]
   [ side :size / 3 :level - 1
