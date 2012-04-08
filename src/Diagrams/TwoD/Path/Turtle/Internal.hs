@@ -29,7 +29,7 @@ module Diagrams.TwoD.Path.Turtle.Internal
   , getTurtleDiagram
   ) where
 
-import Debug.Trace (traceShow)
+-- import Debug.Trace (traceShow)
 
 import Diagrams.Prelude
 import Data.Colour hiding (atop)
@@ -100,7 +100,7 @@ moveTurtle s t@(Turtle pd pos h (o, Trail xs _) _ _) =
    rotatedSeg  =  rotate h s
    newTrail    =  rotatedSeg : xs
    -- Calculate the new position along the segment
-   newPenPos   =  flip fAtParam 1 . mkFixedSeg pos $ rotatedSeg
+   newPenPos   =  pos .+^ segOffset rotatedSeg
 
 -- | Move the turtle forward by @x@ units
 forward :: Double  -- ^ Distance to move
