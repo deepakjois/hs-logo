@@ -1,3 +1,4 @@
+setpensize 4
 to side :size :level
 ifelse :level = 0
   [ fd :size ]
