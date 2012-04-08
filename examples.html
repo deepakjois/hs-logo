@@ -106,193 +106,193 @@ the <a href="http://www.mathcats.com/gallery/15wordcontest.html">Logo 15-word
 challenge.</a> Some of them have been adapted because the interpreter doesnt
 support all the primitives yet.</p>
 
-<h3>brownian_motion.logo</h3>
+<h3 id="brownian_motion">brownian_motion.logo</h3>
 
-<pre><code>repeat 10000 [fd 3 * (-1 + random 2) rt 90 * random 4]</code></pre>
+<pre><code>repeat 10000 [setpencolor random 15 fd 3 * (-1 + random 2) rt 90 * random 4]</code></pre>
 
 <img src="examples/svgs/brownian_motion.svg" alt="brownian_motion.logo" width="400" height="400"/>
-<h3>bullring.logo</h3>
+<h3 id="bullring">bullring.logo</h3>
 
 <pre><code>for [i 0 1002 1] [fd 8 seth (360 * ((:i ^ 3) / 1002))]</code></pre>
 
 <img src="examples/svgs/bullring.svg" alt="bullring.logo" width="400" height="400"/>
-<h3>dahlia.logo</h3>
+<h3 id="dahlia">dahlia.logo</h3>
 
 <pre><code>repeat 8 [rt 45 repeat 6 [repeat 90 [fd 2 rt 2] rt 90]]</code></pre>
 
 <img src="examples/svgs/dahlia.svg" alt="dahlia.logo" width="400" height="400"/>
-<h3>design1.logo</h3>
+<h3 id="design1">design1.logo</h3>
 
 <pre><code>repeat 18 [repeat 5 [rt 40 fd 100 rt 120] rt 20]</code></pre>
 
 <img src="examples/svgs/design1.svg" alt="design1.logo" width="400" height="400"/>
-<h3>fan_flower.logo</h3>
+<h3 id="fan_flower">fan_flower.logo</h3>
 
 <pre><code>repeat 12 [repeat 75 [fd 100 bk 100 rt 2] fd 250]</code></pre>
 
 <img src="examples/svgs/fan_flower.svg" alt="fan_flower.logo" width="400" height="400"/>
-<h3>feathers1.logo</h3>
+<h3 id="feathers1">feathers1.logo</h3>
 
-<pre><code>repeat 12 [repeat random 50 [fd 100 bk 95 rt 2] rt 180]</code></pre>
+<pre><code>repeat 12 [setpencolor repcount repeat random 50 [fd 100 bk 95 rt 2] rt 180]</code></pre>
 
 <img src="examples/svgs/feathers1.svg" alt="feathers1.logo" width="400" height="400"/>
-<h3>feathers2.logo</h3>
+<h3 id="feathers2">feathers2.logo</h3>
 
 <pre><code>repeat 50 [repeat random 100 [fd 300 bk 295 rt 2] rt 180]</code></pre>
 
 <img src="examples/svgs/feathers2.svg" alt="feathers2.logo" width="400" height="400"/>
-<h3>five_rose.logo</h3>
+<h3 id="five_rose">five_rose.logo</h3>
 
 <pre><code>dotimes [ i 1800 ] [ fd 10 rt :i + 0.1 ]</code></pre>
 
 <img src="examples/svgs/five_rose.svg" alt="five_rose.logo" width="400" height="400"/>
-<h3>gillyflower.logo</h3>
+<h3 id="gillyflower">gillyflower.logo</h3>
 
 <pre><code>repeat 450 [fd (73 * sin repcount) rt 88 * cos (73 * sin repcount)]</code></pre>
 
 <img src="examples/svgs/gillyflower.svg" alt="gillyflower.logo" width="400" height="400"/>
-<h3>growing_scrolls1.logo</h3>
+<h3 id="growing_scrolls1">growing_scrolls1.logo</h3>
 
 <pre><code>for [i -1 4 1] [repeat 720 [fd 2 ^ :i rt repcount]]</code></pre>
 
 <img src="examples/svgs/growing_scrolls1.svg" alt="growing_scrolls1.logo" width="400" height="400"/>
-<h3>growing_scrolls2.logo</h3>
+<h3 id="growing_scrolls2">growing_scrolls2.logo</h3>
 
 <pre><code>for [i -1 15 1] [repeat 720 [fd 1.2 ^ :i rt repcount] lt 45]</code></pre>
 
 <img src="examples/svgs/growing_scrolls2.svg" alt="growing_scrolls2.logo" width="400" height="400"/>
-<h3>growing_scrolls3.logo</h3>
+<h3 id="growing_scrolls3">growing_scrolls3.logo</h3>
 
 <pre><code>for [i 1 14 6] [repeat 720 [fd :i rt repcount]]</code></pre>
 
 <img src="examples/svgs/growing_scrolls3.svg" alt="growing_scrolls3.logo" width="400" height="400"/>
-<h3>growing_scrolls4.logo</h3>
+<h3 id="growing_scrolls4">growing_scrolls4.logo</h3>
 
 <pre><code>for [i 1 18 2] [repeat 720 [fd :i rt repcount] lt 45]</code></pre>
 
 <img src="examples/svgs/growing_scrolls4.svg" alt="growing_scrolls4.logo" width="400" height="400"/>
-<h3>hairy_star.logo</h3>
+<h3 id="hairy_star">hairy_star.logo</h3>
 
 <pre><code>for [i 0 4700 1] [fd 10 rt (180 * sin (:i * :i))]
 </code></pre>
 
 <img src="examples/svgs/hairy_star.svg" alt="hairy_star.logo" width="400" height="400"/>
-<h3>hexagon.logo</h3>
+<h3 id="hexagon">hexagon.logo</h3>
 
 <pre><code>for [ i 100 30 -50 ] [ repeat 6 [ repeat 6 [ fd :i lt 60 ] lt 60 ] ]</code></pre>
 
 <img src="examples/svgs/hexagon.svg" alt="hexagon.logo" width="400" height="400"/>
-<h3>hexagon1.logo</h3>
+<h3 id="hexagon1">hexagon1.logo</h3>
 
 <pre><code>for [ size 20 80 20 ] [ repeat 6 [ repeat 6 [ fd :size rt 60 ] rt 60 ] ]</code></pre>
 
 <img src="examples/svgs/hexagon1.svg" alt="hexagon1.logo" width="400" height="400"/>
-<h3>hexagon2.logo</h3>
+<h3 id="hexagon2">hexagon2.logo</h3>
 
 <pre><code>for [ i 100 10 -5 ] [ repeat 6 [ repeat 6 [ fd :i lt 60 ] lt 60 ] ]</code></pre>
 
 <img src="examples/svgs/hexagon2.svg" alt="hexagon2.logo" width="400" height="400"/>
-<h3>hypercube.logo</h3>
+<h3 id="hypercube">hypercube.logo</h3>
 
 <pre><code>repeat 8 [repeat 4 [rt 90 fd 100] bk 100 lt 45]</code></pre>
 
 <img src="examples/svgs/hypercube.svg" alt="hypercube.logo" width="400" height="400"/>
-<h3>jaggy_star.logo</h3>
+<h3 id="jaggy_star">jaggy_star.logo</h3>
 
 <pre><code>for [i 0 2200 1] [fd (25 * sin :i) rt (:i * :i)]</code></pre>
 
 <img src="examples/svgs/jaggy_star.svg" alt="jaggy_star.logo" width="400" height="400"/>
-<h3>low.logo</h3>
+<h3 id="low">low.logo</h3>
 
 <pre><code>for [i 0 32 1] [repeat :i [fd :i rt 358 / :i] bk sqrt :i]</code></pre>
 
 <img src="examples/svgs/low.svg" alt="low.logo" width="400" height="400"/>
-<h3>moire.logo</h3>
+<h3 id="moire">moire.logo</h3>
 
-<pre><code> repeat 180 [fd 500 bk 500 rt 2]</code></pre>
+<pre><code>setpencolor 1 repeat 180 [fd 500 bk 500 rt 2]</code></pre>
 
 <img src="examples/svgs/moire.svg" alt="moire.logo" width="400" height="400"/>
-<h3>octa_star_spiral.logo</h3>
+<h3 id="octa_star_spiral">octa_star_spiral.logo</h3>
 
 <pre><code>for [ l 0 120 4 ] [ repeat 8 [ fd :l rt 135 ] fd :l rt 30 ]</code></pre>
 
 <img src="examples/svgs/octa_star_spiral.svg" alt="octa_star_spiral.logo" width="400" height="400"/>
-<h3>penta_star_spiral.logo</h3>
+<h3 id="penta_star_spiral">penta_star_spiral.logo</h3>
 
 <pre><code>for [ l 0 95 3 ] [ repeat 5 [ fd :l rt 144 ] fd :l rt 30 ]</code></pre>
 
 <img src="examples/svgs/penta_star_spiral.svg" alt="penta_star_spiral.logo" width="400" height="400"/>
-<h3>pentagon.logo</h3>
+<h3 id="pentagon">pentagon.logo</h3>
 
 <pre><code>for [ i 100 10 -10 ] [ repeat 5 [ repeat 5 [ fd :i lt 72 ] lt 72 ] ]</code></pre>
 
 <img src="examples/svgs/pentagon.svg" alt="pentagon.logo" width="400" height="400"/>
-<h3>pentahexagon.logo</h3>
+<h3 id="pentahexagon">pentahexagon.logo</h3>
 
 <pre><code>repeat 5 [ repeat 6 [ fd 100 lt 72 ] lt 144 ]</code></pre>
 
 <img src="examples/svgs/pentahexagon.svg" alt="pentahexagon.logo" width="400" height="400"/>
-<h3>pentahexagon1.logo</h3>
+<h3 id="pentahexagon1">pentahexagon1.logo</h3>
 
 <pre><code>for [ i 100 10 -5 ] [ repeat 5 [ repeat 6 [ fd :i lt 72 ] lt 144 ] ]</code></pre>
 
 <img src="examples/svgs/pentahexagon1.svg" alt="pentahexagon1.logo" width="400" height="400"/>
-<h3>polygon1.logo</h3>
+<h3 id="polygon1">polygon1.logo</h3>
 
 <pre><code>repeat 8 [repeat 20 [lt 170 fd 20 rt 170 fd 20] rt 45]</code></pre>
 
 <img src="examples/svgs/polygon1.svg" alt="polygon1.logo" width="400" height="400"/>
-<h3>polygon2.logo</h3>
+<h3 id="polygon2">polygon2.logo</h3>
 
 <pre><code>for [ l 10 80 5 ] [ repeat 5 [ repeat 8 [ fd :l rt 45 ] rt 72 ] ]</code></pre>
 
 <img src="examples/svgs/polygon2.svg" alt="polygon2.logo" width="400" height="400"/>
-<h3>random_lines.logo</h3>
+<h3 id="random_lines">random_lines.logo</h3>
 
 <pre><code>repeat random 1000 [fd random 1000 rt random 360]</code></pre>
 
 <img src="examples/svgs/random_lines.svg" alt="random_lines.logo" width="400" height="400"/>
-<h3>rose1.logo</h3>
+<h3 id="rose1">rose1.logo</h3>
 
 <pre><code>for [t 0 180 3] [seth :t fd 200 * sin :t home]</code></pre>
 
 <img src="examples/svgs/rose1.svg" alt="rose1.logo" width="400" height="400"/>
-<h3>rose2.logo</h3>
+<h3 id="rose2">rose2.logo</h3>
 
 <pre><code>for [t 0 180 1] [seth :t fd 200 * sin :t * 7 home]</code></pre>
 
 <img src="examples/svgs/rose2.svg" alt="rose2.logo" width="400" height="400"/>
-<h3>rose3.logo</h3>
+<h3 id="rose3">rose3.logo</h3>
 
 <pre><code>repeat 9 [for [i 10 200 10] [fd :i bk :i rt 2]]</code></pre>
 
 <img src="examples/svgs/rose3.svg" alt="rose3.logo" width="400" height="400"/>
-<h3>rotating_circle.logo</h3>
+<h3 id="rotating_circle">rotating_circle.logo</h3>
 
 <pre><code>repeat 400 [repeat 34 [fd 12 rt 10] rt 90]</code></pre>
 
 <img src="examples/svgs/rotating_circle.svg" alt="rotating_circle.logo" width="400" height="400"/>
-<h3>scribble.logo</h3>
+<h3 id="scribble">scribble.logo</h3>
 
 <pre><code>repeat 1000 [fd 3 rt random 20 * (1 + sin (10 * repcount))]</code></pre>
 
 <img src="examples/svgs/scribble.svg" alt="scribble.logo" width="400" height="400"/>
-<h3>shell.logo</h3>
+<h3 id="shell">shell.logo</h3>
 
 <pre><code>for [ scr 0.2 1.75 0.05 ] [ repeat 360 [ fd :scr rt 1 ] ]</code></pre>
 
 <img src="examples/svgs/shell.svg" alt="shell.logo" width="400" height="400"/>
-<h3>simple_flower.logo</h3>
+<h3 id="simple_flower">simple_flower.logo</h3>
 
 <pre><code>repeat 11 [for [i 0 359 1] [fd 1 rt (sin :i / 2)]]</code></pre>
 
 <img src="examples/svgs/simple_flower.svg" alt="simple_flower.logo" width="400" height="400"/>
-<h3>slalom_scroll.logo</h3>
+<h3 id="slalom_scroll">slalom_scroll.logo</h3>
 
 <pre><code>for [i 0 2000 1] [fd 5 rt (90 * sin :i)]</code></pre>
 
 <img src="examples/svgs/slalom_scroll.svg" alt="slalom_scroll.logo" width="400" height="400"/>
-<h3>snowflake.logo</h3>
+<h3 id="snowflake">snowflake.logo</h3>
 
 <pre><code>to side :size :level
 ifelse :level = 0
@@ -311,29 +311,29 @@ repeat 3 [side 250 4 rt 120]
 </code></pre>
 
 <img src="examples/svgs/snowflake.svg" alt="snowflake.logo" width="400" height="400"/>
-<h3>spin_wheel1.logo</h3>
+<h3 id="spin_wheel1">spin_wheel1.logo</h3>
 
 <pre><code>repeat 25 [repeat 15 [fd 100 bk 100 rt 5] fd 100]</code></pre>
 
 <img src="examples/svgs/spin_wheel1.svg" alt="spin_wheel1.logo" width="400" height="400"/>
-<h3>spin_wheel2.logo</h3>
+<h3 id="spin_wheel2">spin_wheel2.logo</h3>
 
 <pre><code>repeat 12 [repeat 15 [fd 100 bk 95 rt 10] fd 100] </code></pre>
 
 <img src="examples/svgs/spin_wheel2.svg" alt="spin_wheel2.logo" width="400" height="400"/>
-<h3>spin_wheel3.logo</h3>
+<h3 id="spin_wheel3">spin_wheel3.logo</h3>
 
 <pre><code>repeat 24 [repeat 25 [fd 100 bk 100 rt 15] fd 100]</code></pre>
 
 <img src="examples/svgs/spin_wheel3.svg" alt="spin_wheel3.logo" width="400" height="400"/>
-<h3>spiral.logo</h3>
+<h3 id="spiral">spiral.logo</h3>
 
 <pre><code>for [ i 0.01 4 0.05 ] [ repeat 180 [ fd :i rt 1 ] ]</code></pre>
 
 <img src="examples/svgs/spiral.svg" alt="spiral.logo" width="400" height="400"/>
-<h3>sun.logo</h3>
+<h3 id="sun">sun.logo</h3>
 
-<pre><code>repeat 2000 [pu home seth random 361 fd 40 pd fd random 200]</code></pre>
+<pre><code>repeat 2000 [pu home seth random 361 setpencolor random 15 fd 40 pd fd random 200]</code></pre>
 
 <img src="examples/svgs/sun.svg" alt="sun.logo" width="400" height="400"/>
 

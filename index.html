@@ -108,27 +108,27 @@
 
 <h2>Highlights</h2>
 
-<h3>moire.logo</h3>
+<h3 id="sun">sun.logo</h3>
 
-<pre><code> repeat 180 [fd 500 bk 500 rt 2]</code></pre>
-
-<img src="examples/svgs/moire.svg" alt="moire.logo" width="400" height="400"/>
-<h3>sun.logo</h3>
-
-<pre><code>repeat 2000 [pu home seth random 361 fd 40 pd fd random 200]</code></pre>
+<pre><code>repeat 2000 [pu home seth random 361 setpencolor random 15 fd 40 pd fd random 200]</code></pre>
 
 <img src="examples/svgs/sun.svg" alt="sun.logo" width="400" height="400"/>
-<h3>spiral.logo</h3>
+<h3 id="moire">moire.logo</h3>
+
+<pre><code>setpencolor 1 repeat 180 [fd 500 bk 500 rt 2]</code></pre>
+
+<img src="examples/svgs/moire.svg" alt="moire.logo" width="400" height="400"/>
+<h3 id="spiral">spiral.logo</h3>
 
 <pre><code>for [ i 0.01 4 0.05 ] [ repeat 180 [ fd :i rt 1 ] ]</code></pre>
 
 <img src="examples/svgs/spiral.svg" alt="spiral.logo" width="400" height="400"/>
-<h3>rotating_circle.logo</h3>
+<h3 id="rotating_circle">rotating_circle.logo</h3>
 
 <pre><code>repeat 400 [repeat 34 [fd 12 rt 10] rt 90]</code></pre>
 
 <img src="examples/svgs/rotating_circle.svg" alt="rotating_circle.logo" width="400" height="400"/>
-<h3>snowflake.logo</h3>
+<h3 id="snowflake">snowflake.logo</h3>
 
 <pre><code>to side :size :level
 ifelse :level = 0
@@ -147,9 +147,9 @@ repeat 3 [side 250 4 rt 120]
 </code></pre>
 
 <img src="examples/svgs/snowflake.svg" alt="snowflake.logo" width="400" height="400"/>
-<h3>brownian_motion.logo</h3>
+<h3 id="brownian_motion">brownian_motion.logo</h3>
 
-<pre><code>repeat 10000 [fd 3 * (-1 + random 2) rt 90 * random 4]</code></pre>
+<pre><code>repeat 10000 [setpencolor random 15 fd 3 * (-1 + random 2) rt 90 * random 4]</code></pre>
 
 <img src="examples/svgs/brownian_motion.svg" alt="brownian_motion.logo" width="400" height="400"/>
 
