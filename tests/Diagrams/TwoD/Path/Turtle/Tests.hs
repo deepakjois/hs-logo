@@ -1,4 +1,5 @@
 {-# LANGUAGE TypeSynonymInstances, FlexibleInstances, ViewPatterns  #-}
+{-# OPTIONS_GHC -fno-warn-orphans #-}
 module Diagrams.TwoD.Path.Turtle.Tests
   ( tests
   ) where
@@ -12,8 +13,7 @@ import Test.QuickCheck
 import Diagrams.Prelude
 import Diagrams.TwoD.Path.Turtle.Internal
 
-import Debug.Trace
-
+tests :: [Test]
 tests =
   [ testProperty "Moves forward correctly" movesForward
   , testProperty "Moves backward correctly" movesBackward
@@ -27,25 +27,29 @@ tests =
 movesForward :: Turtle
              -> Property
 movesForward t =  isPenDown t ==>
-     round diffPos      == round x  -- position is set correctly
-  && round lenCurrTrail == round x  -- most recent trail has the right length
+     diffPos      == round x  -- position is set correctly
+  && lenCurrTrail == round x  -- most recent trail has the right length
  where
   x            = 2.0
   t'           = t  # forward x
-  diffPos      = magnitude $ penPos t' .-. penPos t
-  lenCurrTrail = flip arcLength 0.0001 . head . trailSegments . snd . currTrail $ t'
+  diffPos :: Int
+  diffPos      = round $ magnitude $ penPos t' .-. penPos t
+  lenCurrTrail :: Int
+  lenCurrTrail = round $ flip arcLength 0.0001 . head . trailSegments . snd . currTrail $ t'
 
 -- | The turtle moves forward by the right distance
 movesBackward :: Turtle
              -> Property
 movesBackward t =  isPenDown t ==>
-     round diffPos      == round x  -- position is set correctly
-  && round lenCurrTrail == round x  -- most recent trail has the right length
+     diffPos      == round x  -- position is set correctly
+  && lenCurrTrail == round x  -- most recent trail has the right length
  where
   x            = 2.0
   t'           = t  # backward x
-  diffPos      = magnitude $ penPos t' .-. penPos t
-  lenCurrTrail = flip arcLength 0.0001 . head . trailSegments . snd . currTrail $ t'
+  diffPos :: Int
+  diffPos      = round $ magnitude $ penPos t' .-. penPos t
+  lenCurrTrail :: Int
+  lenCurrTrail = round $ flip arcLength 0.0001 . head . trailSegments . snd . currTrail $ t'
 
 -- | The turtle moves forward and backward by the same distance and returns to
 -- the same position
@@ -104,10 +108,6 @@ trailEmptyWhenPenUp t = isPenDown t ==> trailIsEmpty
   t'           = t # penUp # forward 4 # backward 3
   trailIsEmpty = null . trailSegments . snd . currTrail $ t'
 
-instance Show Turtle where
-  show t@(Turtle a b c _ _ _) = show (a,b,c)
-
-
 -- | Arbitrary instance for the Turtle type.
 instance Arbitrary Turtle where
    arbitrary =
@@ -137,6 +137,7 @@ instance Arbitrary PenStyle where
       1 -> return $ PenStyle penWidth_  black
       2 -> return $ PenStyle penWidth_  blue
       3 -> return $ PenStyle penWidth_  brown
+      _ -> error "Should not get here"
 
 -- | Arbitrary instance of Segment
 --

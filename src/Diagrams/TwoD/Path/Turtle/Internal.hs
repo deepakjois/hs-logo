@@ -1,12 +1,20 @@
-{-# LANGUAGE FlexibleContexts #-}
--- | A module consisting of core types and functions to represent and operate on
+{-# LANGUAGE FlexibleContexts, TypeSynonymInstances, FlexibleInstances #-}
+-----------------------------------------------------------------------------
+-- |
+-- Module      :  Diagrams.TwoD.Path.Turtle
+-- Copyright   :  (c) 2011 Michael Sloan
+-- License     :  BSD-style (see LICENSE)
+-- Maintainer  :  Michael Sloan <mgsloan at gmail>,  Deepak Jois <deepak.jois@gmail.com>
+-- Authors     :  Michael Sloan <mgsloan at gmail>, Deepak Jois <deepak.jois@gmail.com>
+--
+-- A module consisting of core types and functions to represent and operate on
 -- a \"turtle\".
 --
 -- More info about turtle graphics:
 -- <http://en.wikipedia.org/wiki/Turtle_graphics>
 --
--- The underlying graphics primitives are provided by the diagrams library
---
+-----------------------------------------------------------------------------
+
 module Diagrams.TwoD.Path.Turtle.Internal
   (
     -- * Turtle data types and accessors
@@ -45,7 +53,7 @@ data PenStyle = PenStyle
 data TurtlePath = TurtlePath
   { penStyle    :: PenStyle        -- ^ Style
   , turtleTrail :: (P2, Trail R2)  -- ^ Path
-  }
+  } deriving Show
 
 -- | Core turtle data type. A turtle needs to keep track of its current
 -- position, like its position, heading etc., and all the paths that it has
@@ -70,7 +78,7 @@ data Turtle = Turtle
      -- | List of paths along with style information, traversed by the turtle
      -- previously
   , paths      :: [TurtlePath]
-  }
+  } deriving Show
 
 -- | Default pen style, with @penWidth@ set to 1.0 and @penColor@ set to black
 defaultPenStyle :: PenStyle
