@@ -21,7 +21,10 @@ tests =
   , testProperty "Moves left correctly" movesLeft
   , testProperty "Moves right correctly" movesRight
   , testProperty "Current trail is empty when pen is up" trailEmptyWhenPenUp
+  , testProperty "penHop creates a new path when pen is down" verifyPenHopWhenPenDown
+  , testProperty "penHop does not create new path when pen is up" verifyPenHopWhenPenUp 
   ]
+
 
 -- | The turtle moves forward by the right distance
 movesForward :: Turtle
@@ -108,7 +111,27 @@ trailEmptyWhenPenUp t = isPenDown t ==> trailIsEmpty
   t'           = t # penUp # forward 4 # backward 3
   trailIsEmpty = null . trailSegments . snd . currTrail $ t'
 
+verifyPenHopWhenPenDown :: Turtle
+                        -> Property
+verifyPenHopWhenPenDown t = isPenDown t ==> (numPaths t') - (numPaths t) == 1
+ where 
+  t' = t # forward 2.0 # penHop
+  numPaths = length . paths
+
+verifyPenHopWhenPenUp :: Turtle
+                      -> Property
+verifyPenHopWhenPenUp t = not (isPenDown t) && (null . trailSegments . snd . currTrail $ t) ==>  (numPaths t') == (numPaths t)
+ where 
+  t' = t # forward 2.0 # penHop
+  numPaths = length . paths
+
 -- | Arbitrary instance for the Turtle type.
+--
+-- FIXME this arbitrary instance can generate
+-- invalid turtle. For e.g. when pen is up, and
+-- the current trail is not empty.
+--
+-- Currently we filter these out in the tests
 instance Arbitrary Turtle where
    arbitrary =
      Turtle <$> arbitrary

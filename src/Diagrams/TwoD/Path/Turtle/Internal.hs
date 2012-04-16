@@ -31,13 +31,16 @@ module Diagrams.TwoD.Path.Turtle.Internal
   , setPenPos
 
     -- * Drawing control
-  , penUp, penDown
+  , penUp, penDown, penHop 
+
+    -- * Debugging
+  , traceTurtle
 
     -- * Diagram related
   , getTurtleDiagram
   ) where
 
--- import Debug.Trace (traceShow)
+import Debug.Trace (traceShow)
 
 import Diagrams.Prelude
 import Data.Colour hiding (atop)
@@ -174,6 +177,18 @@ penDown t
   | isPenDown t = t
   | otherwise   = t # makeNewTrail #  \t' -> t' { isPenDown = True }
 
+-- Start a new trail at current position
+penHop :: Turtle
+         -> Turtle
+penHop t = t # makeNewTrail
+
+-- Closes the current path , to the starting position of the current
+-- trail. Has no effect when the pen position is up
+-- closeCurrent t :: Turtle
+--                -> Turtle
+-- closeCurrent t = t # closeTrail # makeNewTrail
+--  where closeTrail t =  
+
 -- | Set the turtle X/Y position.
 --
 -- If pen is down and the current trail is non-empty, this will also add the
@@ -248,3 +263,8 @@ turtlePathToStroke (TurtlePath (PenStyle lineWidth_  lineColor_) (p,Trail xs _))
  where d = lc lineColor_ .
            lw lineWidth_ .
            stroke $ pathFromTrail (Trail (reverse xs) False)
+
+-- | Prints out turtle representation and returns it. Use for debugging
+traceTurtle :: Turtle
+            -> Turtle
+traceTurtle t = traceShow t t
