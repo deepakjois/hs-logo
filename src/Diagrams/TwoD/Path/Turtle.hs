@@ -20,11 +20,11 @@ module Diagrams.TwoD.Path.Turtle
   , forward, backward, left, right
 
     -- * State accessors / setters
-  , heading, setHeading, towards
+  , heading, setHeading, towards, isDown
   , pos, setPos, setPenWidth, setPenColor
 
     -- * Drawing control
-  , penUp, penDown, isDown
+  , penUp, penDown, penHop, closeCurrent
   ) where
 
 import qualified Control.Monad.State as ST
@@ -99,9 +99,18 @@ penUp   = ST.modify T.penUp
 penDown :: Monad m => TurtleT m ()
 penDown = ST.modify T.penDown
 
+-- | Start a new trail at current position
+penHop :: Monad m => TurtleT m ()
+penHop = ST.modify T.penHop
+
 -- | Queries whether the pen is currently drawing a path or not.
 isDown :: Monad m => TurtleT m Bool
 isDown = ST.gets T.isPenDown
+
+-- | Closes the current path , to the starting position of the current
+-- trail. Has no effect when the pen position is up.
+closeCurrent :: Monad m => TurtleT m ()
+closeCurrent = ST.modify T.closeCurrent
 
 -- | Sets the pen color
 setPenColor :: Monad m => Colour Double -> TurtleT m ()
