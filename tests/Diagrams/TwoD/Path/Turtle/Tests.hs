@@ -23,6 +23,7 @@ tests =
   , testProperty "Current trail is empty when pen is up" trailEmptyWhenPenUp
   , testProperty "penHop creates a new path when pen is down" verifyPenHopWhenPenDown
   , testProperty "penHop does not create new path when pen is up" verifyPenHopWhenPenUp 
+  , testProperty "closeCurrent works correctly when no trail has started and pen is down" verifyCloseCurrent
   ]
 
 
@@ -111,6 +112,8 @@ trailEmptyWhenPenUp t = isPenDown t ==> trailIsEmpty
   t'           = t # penUp # forward 4 # backward 3
   trailIsEmpty = null . trailSegments . snd . currTrail $ t'
 
+-- | Verify that the turtle adds a trail to @paths@ when pen is down
+-- and @penHop@ is called.
 verifyPenHopWhenPenDown :: Turtle
                         -> Property
 verifyPenHopWhenPenDown t = isPenDown t ==> (numPaths t') - (numPaths t) == 1
@@ -118,6 +121,8 @@ verifyPenHopWhenPenDown t = isPenDown t ==> (numPaths t') - (numPaths t) == 1
   t' = t # forward 2.0 # penHop
   numPaths = length . paths
 
+-- | Verify that the turtle does not add a trail to @paths@ when pen is up
+-- and @penHop@ is called.
 verifyPenHopWhenPenUp :: Turtle
                       -> Property
 verifyPenHopWhenPenUp t = not (isPenDown t) && (null . trailSegments . snd . currTrail $ t) ==>  (numPaths t') == (numPaths t)
@@ -125,6 +130,12 @@ verifyPenHopWhenPenUp t = not (isPenDown t) && (null . trailSegments . snd . cur
   t' = t # forward 2.0 # penHop
   numPaths = length . paths
 
+-- | Verify that calling @closeCurrent@ updates the turtle position to the beginning to the trail
+verifyCloseCurrent :: Turtle
+                   -> Property
+verifyCloseCurrent t = (isPenDown t)  && (null . trailSegments . snd . currTrail $ t) ==> (penPos t') == origin
+ where
+  t' = t # setPenPos origin # forward 2.0 # right 90 # forward 3.0 # closeCurrent
 -- | Arbitrary instance for the Turtle type.
 --
 -- FIXME this arbitrary instance can generate

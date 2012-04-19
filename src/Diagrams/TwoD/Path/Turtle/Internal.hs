@@ -31,7 +31,7 @@ module Diagrams.TwoD.Path.Turtle.Internal
   , setPenPos
 
     -- * Drawing control
-  , penUp, penDown, penHop 
+  , penUp, penDown, penHop, closeCurrent 
 
     -- * Debugging
   , traceTurtle
@@ -41,6 +41,7 @@ module Diagrams.TwoD.Path.Turtle.Internal
   ) where
 
 import Debug.Trace (traceShow)
+import Control.Arrow (second)
 
 import Diagrams.Prelude
 import Data.Colour hiding (atop)
@@ -184,10 +185,13 @@ penHop t = t # makeNewTrail
 
 -- Closes the current path , to the starting position of the current
 -- trail. Has no effect when the pen position is up
--- closeCurrent t :: Turtle
---                -> Turtle
--- closeCurrent t = t # closeTrail # makeNewTrail
---  where closeTrail t =  
+closeCurrent :: Turtle
+             -> Turtle
+closeCurrent t
+  | isPenDown t = t # setPenPos startPos # closeTrail # makeNewTrail
+  | otherwise   = t 
+ where startPos = fst . currTrail $ t 
+       closeTrail t'  = t' { currTrail = second close $ currTrail t }
 
 -- | Set the turtle X/Y position.
 --
@@ -259,10 +263,10 @@ modifyCurrStyle f t =  t # makeNewTrail # \t' -> t' { currPenStyle = (f . currPe
 -- Creates a diagram from a TurtlePath using the provided styles
 turtlePathToStroke :: (Renderable (Path R2) b) => TurtlePath
                    -> (P2, Diagram b R2)
-turtlePathToStroke (TurtlePath (PenStyle lineWidth_  lineColor_) (p,Trail xs _)) = (p,d)
+turtlePathToStroke (TurtlePath (PenStyle lineWidth_  lineColor_) (p,Trail xs c)) = (p,d)
  where d = lc lineColor_ .
            lw lineWidth_ .
-           stroke $ pathFromTrail (Trail (reverse xs) False)
+           stroke $ pathFromTrail (Trail (reverse xs) c)
 
 -- | Prints out turtle representation and returns it. Use for debugging
 traceTurtle :: Turtle
