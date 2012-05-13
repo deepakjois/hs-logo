@@ -1,5 +1,5 @@
 Name:                hs-logo
-Version:             0.5
+Version:             0.5.1
 Synopsis:            Logo turtle graphics interpreter
 Description:         Interpreter for the Logo programming language,
                      specialised for turtle graphics.
@@ -27,6 +27,7 @@ Executable           hs-logo
                      Logo.Builtins.Turtle
                      Logo.Builtins.Arithmetic
                      Logo.Builtins.Control
+                     Diagrams.TwoD.Path.Turtle.Internal
                      Diagrams.TwoD.Path.Turtle
   Build-Depends:     base        >= 4.2    && <  4.6,
                      containers  >= 0.3    && <  0.5,
