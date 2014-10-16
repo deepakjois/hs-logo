@@ -33,13 +33,13 @@ type LogoSymbolTable = Map String LogoToken
 data LogoFunctionDef = LogoFunctionDef
   { arity :: Int          -- Number of arguments
   , runFn :: LogoFunction -- Consumes an argument
-  } deriving Show
+  }
 
 data LogoContext = LogoContext
   { functions :: Map String LogoFunctionDef -- Functions that can be called, mapped by the identifier
   , locals  :: LogoSymbolTable -- Vars in local context
   , globals :: LogoSymbolTable -- Vars in global context
-  } deriving Show
+  }
 
 
 

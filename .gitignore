@@ -9,3 +9,5 @@ logo.svg
 tests/TestSuite
 examples/Turtles
 examples/Temp*
+cabal.sandbox.config
+.cabal-sandbox
