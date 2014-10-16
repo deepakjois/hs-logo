@@ -45,8 +45,8 @@ main = do
 renderLogo :: String -> String -> IO ()
 renderLogo s o = do
   tokens <- readSource s
-  diag   <- runTurtleT (evaluateSourceTokens tokens)
-  withArgs ["-o", o, "-w", "400", "-h", "400"] $ defaultMain (diag # lw (0.005 * width diag) # centerXY # pad 1.1)
+  diag   <- drawTurtleT (evaluateSourceTokens tokens)
+  withArgs ["-o", o, "-w", "400", "-h", "400"] $ defaultMain (diag # lwG (0.005 * width diag) # centerXY # pad 1.1)
 
 readSource :: FilePath -> IO [LogoToken]
 readSource f = do
