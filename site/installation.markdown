@@ -3,16 +3,11 @@ title: Installation
 ---
 ## Installation
 
-### Install GHC 7.4 and cabal
+### Install GHC and cabal
 
-This is out of scope for this document. On OS X (which I use), you can install
-Haskell Platform using [homebrew]. I haven't tried it, but this might work for you.
+The easiest way to get GHC and cabal is to install the [The Haskell Platform[thp].
 
-[homebrew]: http://mxcl.github.com/homebrew/
-
-~~~
-% brew install haskell-platform --devel --64bit
-~~~
+[thp]: https://www.haskell.org/platform/
 
 ### Install hs-logo
 

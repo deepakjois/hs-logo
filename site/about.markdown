@@ -23,7 +23,6 @@ the to the [github repository for hs-logo][hs-logo] to download the sources.
 * [turtle code] from Michael Sloan which I adapted slightly to work with the interpreter.
 * `#diagrams` and `#haskell` IRC channels.
 * [Hakyll] by Jasper Van der Jeugt, which makes it a breeze to manage this site.
-* [Divya Manian] for helping out with the design of this site.
 
 [calormen]: http://calormen.com/logo/
 [manual]: http://www.cs.berkeley.edu/~bh/v2ch14/manual.html
@@ -31,4 +30,3 @@ the to the [github repository for hs-logo][hs-logo] to download the sources.
 [turtle code]: https://github.com/deepakjois/hs-logo/blob/master/Diagrams/TwoD/Path/Turtle.hs
 [jasper]: http://jaspervdj.be/
 [Hakyll]: http://jaspervdj.be/hakyll/
-[Divya Manian]: http://nimbupani.com
